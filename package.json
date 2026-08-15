@@ -1,0 +1,81 @@
+{
+  "name": "oi-dsh-desktop-bundle",
+  "version": "0.1.0",
+  "description": "Electron IPC profile bundle for DeepSeek Harness",
+  "license": "Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle.git"
+  },
+  "homepage": "https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle#readme",
+  "bugs": {
+    "url": "https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle/issues"
+  },
+  "type": "module",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./connection": {
+      "types": "./lib/connection.d.ts",
+      "default": "./lib/connection.js"
+    },
+    "./modules": {
+      "types": "./lib/modules.d.ts",
+      "default": "./lib/modules.js"
+    },
+    "./directory-picker": {
+      "types": "./lib/directory-picker.d.ts",
+      "default": "./lib/directory-picker.js"
+    },
+    "./client": {
+      "default": "./lib/client.js"
+    },
+    "./cordis.patch.yml": "./cordis.patch.yml",
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "README.zh.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    }
+  },
+  "scripts": {
+    "build": "tsdown",
+    "typecheck": "tsc --noEmit -p tsconfig.json",
+    "test": "vitest run",
+    "check": "npm run typecheck && npm test && npm run build",
+    "prepare": "npm run build"
+  },
+  "engines": {
+    "node": "^22.19.0 || >=24.0.0"
+  },
+  "dependencies": {
+    "@deepseek-ai/cordis": "^4.0.1",
+    "@deepseek-ai/cordis-plugin-loader": "^1.0.2",
+    "@deepseek-ai/dsh-client-modules": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-client-ui-directory-picker-native": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-host-apiproxy": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-host-directory-picker": "0.1.0-rc.6",
+    "@deepseek-ai/dsh-web-app": "0.1.0-rc.6"
+  },
+  "devDependencies": {
+    "@deepseek-ai/dsh": "0.1.0-rc.6",
+    "@types/node": "^22.19.0",
+    "tsdown": "^0.15.7",
+    "typescript": "^5.9.2",
+    "vitest": "^3.2.4"
+  },
+  "peerDependencies": {
+    "@deepseek-ai/dsh": ">=0.1.0-rc.6 <0.2.0"
+  },
+  "packageManager": "npm@10.9.3"
+}
