@@ -1,0 +1,2 @@
+import { i as inject, n as apply, r as createPackageResolvers, t as DesktopClientModuleRegistry } from "./modules-6SHFDRkN.js";
+export { DesktopClientModuleRegistry, apply, apply as default, createPackageResolvers, inject };

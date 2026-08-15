@@ -11,18 +11,19 @@
 
 ## 从 GitHub 安装
 
-其他应用可以在 `package.json` 中直接引用带版本标签的源码：
+其他应用可以在 `package.json` 中直接引用固定版本的 GitHub HTTPS 归档：
 
 ```json
 {
   "dependencies": {
-    "oi-dsh-desktop-bundle": "git+https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle.git#v0.1.0"
+    "oi-dsh-desktop-bundle": "https://codeload.github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle/tar.gz/refs/tags/v0.1.1"
   }
 }
 ```
 
-npm 从 GitHub 安装时会自动执行本包的 `prepare` 脚本并生成 `lib/`，因此不需要提交
-编译产物。
+发布标签包含已经验证的 `lib/` 构建产物，因此通过归档安装不需要 GitHub 账号、SSH
+密钥或现场构建。直接克隆源码执行 `npm install` 时，`prepare` 脚本仍会重新构建
+`lib/`。
 
 ## 开发
 

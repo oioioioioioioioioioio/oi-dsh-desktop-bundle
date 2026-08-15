@@ -13,18 +13,20 @@ window, HTTP server, or WebSocket listener by itself.
 
 ## Install from GitHub
 
-Applications can reference a tagged release directly in `package.json`:
+Applications can reference an immutable tagged HTTPS archive directly in
+`package.json`:
 
 ```json
 {
   "dependencies": {
-    "oi-dsh-desktop-bundle": "git+https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle.git#v0.1.0"
+    "oi-dsh-desktop-bundle": "https://codeload.github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle/tar.gz/refs/tags/v0.1.1"
   }
 }
 ```
 
-The package's `prepare` script builds `lib/` automatically when npm installs it
-from GitHub.
+Release tags include the verified `lib/` output so archive installation does
+not require a GitHub account, SSH key, or package build step. A source checkout
+still rebuilds `lib/` through its `prepare` script during `npm install`.
 
 ## Develop
 

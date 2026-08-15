@@ -1,0 +1,2 @@
+import { a as DesktopHostConnection, i as DesktopConnectionService, n as ConnectionRpcHandler, o as apply, r as ConnectionRpcHandlerOptions, s as inject, t as ConnectionRpcEndpointMatcher } from "./connection-Dh7e353L.js";
+export { ConnectionRpcEndpointMatcher, ConnectionRpcHandler, ConnectionRpcHandlerOptions, DesktopConnectionService, DesktopHostConnection, apply, apply as default, inject };
