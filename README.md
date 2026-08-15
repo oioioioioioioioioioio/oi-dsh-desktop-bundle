@@ -2,43 +2,22 @@
 
 [中文说明](./README.zh.md)
 
-The standalone DeepSeek Harness profile integration used by
-[`oi-dsh-desktop`](https://github.com/oioioioioioioioioio/oi-dsh-desktop).
-It provides the process-local connection, client module registry, and adapters
-that map Electron-native capabilities into Harness services.
+DeepSeek Harness source extension consumed by [`oi-dsh-desktop`](https://github.com/oioioioioioioioioioio/oi-dsh-desktop).
 
-This repository is an independently versioned npm package. It is not an
-Electron executable, contains no copy of Harness source, and does not start a
-window, HTTP server, or WebSocket listener by itself.
+The package ships:
 
-## Install from GitHub
+- `harness.patch`, the complete Electron IPC, three-column workbench, project explorer, code editor, Markdown preview, native title bar, and Windows directory picker extension based on official Harness revision `47f943859bef60e4160492346772ded9b24f765a`.
+- `cordis.patch.yml` and the process-local IPC modules retained for the Harness profile composition boundary.
 
-Applications can reference an immutable tagged HTTPS archive directly in
-`package.json`:
+End users do not run this package directly. Clone `oi-dsh-desktop` inside a Harness source root and run its `install.cmd`; the installer retrieves this bundle, verifies that the patch applies cleanly to the current source, builds the runtime, and packages the EXE. The baseline commit is development metadata, not an installation requirement.
 
-```json
-{
-  "dependencies": {
-    "oi-dsh-desktop-bundle": "https://codeload.github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle/tar.gz/refs/tags/v0.1.1"
-  }
-}
-```
-
-Release tags include the verified `lib/` output so archive installation does
-not require a GitHub account, SSH key, or package build step. A source checkout
-still rebuilds `lib/` through its `prepare` script during `npm install`.
-
-## Develop
-
-Requires Node.js 22.19.0 or newer with npm.
+## Development
 
 ```powershell
-git clone https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle.git
-cd oi-dsh-desktop-bundle
 npm install
 npm run check
 ```
 
 ## License
 
-Apache-2.0
+Apache-2.0. The patched DeepSeek Harness source remains under its MIT license.

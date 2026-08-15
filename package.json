@@ -1,7 +1,7 @@
 {
   "name": "oi-dsh-desktop-bundle",
-  "version": "0.1.1",
-  "description": "Electron IPC profile bundle for DeepSeek Harness",
+  "version": "0.2.0",
+  "description": "Source extension bundle for the DeepSeek Harness Electron desktop client",
   "license": "Apache-2.0",
   "repository": {
     "type": "git",
@@ -31,6 +31,10 @@
       "types": "./lib/directory-picker.d.ts",
       "default": "./lib/directory-picker.js"
     },
+    "./harness-extension": {
+      "types": "./lib/harness-extension.d.ts",
+      "default": "./lib/harness-extension.js"
+    },
     "./client": {
       "default": "./lib/client.js"
     },
@@ -39,6 +43,7 @@
   },
   "files": [
     "lib",
+    "harness.patch",
     "cordis.patch.yml",
     "README.md",
     "README.zh.md"

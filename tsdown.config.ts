@@ -21,6 +21,7 @@ export default defineConfig([
       connection: 'src/host/connection.ts',
       modules: 'src/host/modules.ts',
       'directory-picker': 'src/host/directory-picker.ts',
+      'harness-extension': 'src/harness-extension.ts',
     },
     outDir: 'lib',
     format: 'esm',
