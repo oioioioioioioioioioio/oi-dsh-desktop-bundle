@@ -16,7 +16,7 @@
 ```json
 {
   "dependencies": {
-    "oi-dsh-desktop-bundle": "github:oioioioioioioioioioio/oi-dsh-desktop-bundle#v0.1.0"
+    "oi-dsh-desktop-bundle": "git+https://github.com/oioioioioioioioioioio/oi-dsh-desktop-bundle.git#v0.1.0"
   }
 }
 ```
