@@ -1,6 +1,6 @@
 {
   "name": "oi-dsh-desktop-bundle",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Source extension bundle for the DeepSeek Harness Electron desktop client",
   "license": "Apache-2.0",
   "repository": {
@@ -44,6 +44,7 @@
   "files": [
     "lib",
     "harness.patch",
+    "legacy",
     "cordis.patch.yml",
     "README.md",
     "README.zh.md"
