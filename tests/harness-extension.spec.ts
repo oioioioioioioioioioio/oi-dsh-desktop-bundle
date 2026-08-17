@@ -12,7 +12,7 @@ describe('Harness source extension', () => {
     const patch = await readFile(harnessPatchPath(), 'utf8')
 
     expect(HARNESS_PATCH_BASE_COMMIT).toMatch(/^[0-9a-f]{40}$/u)
-    expect(HARNESS_EXTENSION_VERSION).toBe('0.2.1')
+    expect(HARNESS_EXTENSION_VERSION).toBe('0.2.2')
     expect(patch).toContain('diff --git a/apps/electron/src/main.ts b/apps/electron/src/main.ts')
     expect(patch).toContain('diff --git a/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.tsx')
     expect(patch).toContain('diff --git a/packages/client/ui-conversation/src/client/skeleton/ProjectExplorer.tsx')
@@ -20,6 +20,8 @@ describe('Harness source extension', () => {
     expect(patch).toContain('diff --git a/scripts/build-electron-runtime.ts')
     expect(patch).toContain("'--config.node-linker=hoisted'")
     expect(patch).toContain('return koffi.decode.string16(address)')
-    expect(legacyHarnessPatchPaths()).toHaveLength(1)
+    expect(patch).toContain("clipboardWrite: 'dsh:clipboard-write'")
+    expect(patch).toContain('normalizeToolCallFlood')
+    expect(legacyHarnessPatchPaths()).toHaveLength(2)
   })
 })

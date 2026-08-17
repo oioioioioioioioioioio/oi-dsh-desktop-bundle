@@ -1,6 +1,6 @@
 diff --git a/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.i18n.yaml b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.i18n.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..bfa4f3eb6f4f0d35557ba35ea867ff773d371342
+index 0000000..bfa4f3e
 --- /dev/null
 +++ b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.i18n.yaml
 @@ -0,0 +1,6 @@
@@ -12,7 +12,7 @@ index 0000000000000000000000000000000000000000..bfa4f3eb6f4f0d35557ba35ea867ff77
 +2026-08-13-electron-ipc-desktop-client.zh.md: 868f1129f8fec1e0aa920fc887f16adb077d2f49
 diff --git a/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.md b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..fbc07e27f2ca95bf1532d4415e2717df4d0c66ae
+index 0000000..fbc07e2
 --- /dev/null
 +++ b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.md
 @@ -0,0 +1,47 @@
@@ -65,7 +65,7 @@ index 0000000000000000000000000000000000000000..fbc07e27f2ca95bf1532d4415e2717df
 +The main process is now both platform shell and Host failure domain. IPC validation, cancellation, and disposal are security and correctness boundaries that must evolve with the shared Connection protocol. Client HMR is intentionally absent, so desktop development consumes rebuilt artifacts. Distribution still needs platform packaging, signing, and update policy, and a deployed Electron version must have compatible `node-pty` and `koffi` binaries before the runtime can be published.
 diff --git a/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.zh.md b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.zh.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..868f1129f8fec1e0aa920fc887f16adb077d2f49
+index 0000000..868f112
 --- /dev/null
 +++ b/.agents/notes/implemented/architecture/2026-08-13-electron-ipc-desktop-client.zh.md
 @@ -0,0 +1,47 @@
@@ -118,7 +118,7 @@ index 0000000000000000000000000000000000000000..868f1129f8fec1e0aa920fc887f16adb
 +主进程现在同时是平台外壳与 Host 故障域。IPC 校验、取消和 dispose 是安全与正确性边界，必须随共享 Connection 协议一起演进。客户端 HMR 被刻意移除，因此桌面开发消费重新构建的工件。发行仍需平台打包、签名与更新策略；runtime 发布前，所部署 Electron 版本还必须具备兼容的 `node-pty` 与 `koffi` binary。
 diff --git a/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.i18n.yaml b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.i18n.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..3265527503efc8c261b3856dab1df32ece5a882e
+index 0000000..3265527
 --- /dev/null
 +++ b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.i18n.yaml
 @@ -0,0 +1,6 @@
@@ -130,7 +130,7 @@ index 0000000000000000000000000000000000000000..3265527503efc8c261b3856dab1df32e
 +2026-08-14-workspace-file-workbench.zh.md: 4bd212e993ccf34c66b92f3ba4faea8c10c8ca71
 diff --git a/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.md b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..c734fc364db5ae929b9dbb0738ebd41a763af1a6
+index 0000000..c734fc3
 --- /dev/null
 +++ b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.md
 @@ -0,0 +1,41 @@
@@ -177,7 +177,7 @@ index 0000000000000000000000000000000000000000..c734fc364db5ae929b9dbb0738ebd41a
 +The workbench intentionally edits only existing, bounded text files; it does not create, rename, delete, merge, or format files. Binary and larger artifacts still require an external application. Unsaved drafts survive in-app navigation but not a process restart, conflict resolution is reload-based rather than a merge UI, and CodeMirror language support increases the Client bundle and Electron runtime size.
 diff --git a/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.zh.md b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.zh.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..4bd212e993ccf34c66b92f3ba4faea8c10c8ca71
+index 0000000..4bd212e
 --- /dev/null
 +++ b/.agents/notes/implemented/feature/2026-08-14-workspace-file-workbench.zh.md
 @@ -0,0 +1,41 @@
@@ -223,7 +223,7 @@ index 0000000000000000000000000000000000000000..4bd212e993ccf34c66b92f3ba4faea8c
 +
 +工作台刻意只编辑已有的有界文本文件，不创建、重命名、删除、合并或格式化文件。二进制和更大的产物仍需外部应用。未保存草稿可跨客户端内导航保留，但不能跨进程重启保留；冲突解决采用重新加载而非合并 UI；CodeMirror 语言支持也会增加客户端 bundle 与 Electron 运行时体积。
 diff --git a/apps/cli/README.i18n.yaml b/apps/cli/README.i18n.yaml
-index f270fdf88247b2af3c013f4df2c3659980737c10..dea55e5a162055db2761d3dc44ea540d0c52df33 100644
+index f270fdf..dea55e5 100644
 --- a/apps/cli/README.i18n.yaml
 +++ b/apps/cli/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -235,7 +235,7 @@ index f270fdf88247b2af3c013f4df2c3659980737c10..dea55e5a162055db2761d3dc44ea540d
 +README.md: 88a8fc8e9be511a38e84fd0b6c3e27874592ad7e
 +README.zh.md: 39cb58f69ecec47f520ccd9803dc3a0f57b680b6
 diff --git a/apps/cli/README.md b/apps/cli/README.md
-index 9a8d722b044ed5d8e31e3c27e54f8c9ef0839f82..88a8fc8e9be511a38e84fd0b6c3e27874592ad7e 100644
+index 9a8d722..88a8fc8 100644
 --- a/apps/cli/README.md
 +++ b/apps/cli/README.md
 @@ -13,7 +13,7 @@ The `dsh` command is the product launcher for profiles: ordered stacks of plugin
@@ -257,7 +257,7 @@ index 9a8d722b044ed5d8e31e3c27e54f8c9ef0839f82..88a8fc8e9be511a38e84fd0b6c3e2787
  Use `--dump-default-config` and `--dump-config` to inspect the composed tree without booting it.
  
 diff --git a/apps/cli/README.zh.md b/apps/cli/README.zh.md
-index 7889b4180b5ce2f65550f98708d498f324ac349d..39cb58f69ecec47f520ccd9803dc3a0f57b680b6 100644
+index 7889b41..39cb58f 100644
 --- a/apps/cli/README.zh.md
 +++ b/apps/cli/README.zh.md
 @@ -13,7 +13,7 @@
@@ -279,7 +279,7 @@ index 7889b4180b5ce2f65550f98708d498f324ac349d..39cb58f69ecec47f520ccd9803dc3a0f
  使用 `--dump-default-config` 和 `--dump-config` 可在不启动的情况下检查组合后的配置树。
  
 diff --git a/apps/cli/package.json b/apps/cli/package.json
-index fdd4740b3cccea7abfb42a8252c6a10705bdb3be..df0adaf0f4856fa1f660c42a3bd526493a7ed3a4 100644
+index fdd4740..df0adaf 100644
 --- a/apps/cli/package.json
 +++ b/apps/cli/package.json
 @@ -14,8 +14,16 @@
@@ -308,7 +308,7 @@ index fdd4740b3cccea7abfb42a8252c6a10705bdb3be..df0adaf0f4856fa1f660c42a3bd52649
      "@deepseek-ai/dsh-client-ui-cordis": "workspace:^",
      "@deepseek-ai/dsh-command-compact": "workspace:^",
 diff --git a/apps/cli/src/profile-boot.ts b/apps/cli/src/profile-boot.ts
-index 19c4abb245789531aeacb8ef17cfc0aa3181ce4e..d5c987ed927ba43c9f2930908bc881e6df69c751 100644
+index 19c4abb..d5c987e 100644
 --- a/apps/cli/src/profile-boot.ts
 +++ b/apps/cli/src/profile-boot.ts
 @@ -180,6 +180,10 @@ export interface RunProfileOptions {
@@ -342,7 +342,7 @@ index 19c4abb245789531aeacb8ef17cfc0aa3181ce4e..d5c987ed927ba43c9f2930908bc881e6
      && ctx.get('loader') !== undefined) {
      try {
 diff --git a/apps/cli/tsconfig.json b/apps/cli/tsconfig.json
-index 439d26eca8dd9c3c99f3c07c94b7bb578c58a69e..9d44f9e2ea716cf8eab812ce25625253f4b8ddf6 100644
+index 439d26e..9d44f9e 100644
 --- a/apps/cli/tsconfig.json
 +++ b/apps/cli/tsconfig.json
 @@ -32,6 +32,9 @@
@@ -356,7 +356,7 @@ index 439d26eca8dd9c3c99f3c07c94b7bb578c58a69e..9d44f9e2ea716cf8eab812ce25625253
        "path": "../../packages/host/apiproxy"
      },
 diff --git a/apps/cli/tsdown.config.ts b/apps/cli/tsdown.config.ts
-index 51dec0dc6c09de1367faa43f962a29ad403ebdcd..33f132516246dbdc5afc118bb0f78b5a3390907b 100644
+index 51dec0d..33f1325 100644
 --- a/apps/cli/tsdown.config.ts
 +++ b/apps/cli/tsdown.config.ts
 @@ -1,13 +1,12 @@
@@ -378,7 +378,7 @@ index 51dec0dc6c09de1367faa43f962a29ad403ebdcd..33f132516246dbdc5afc118bb0f78b5a
    platform: 'node',
 diff --git a/apps/electron/README.i18n.yaml b/apps/electron/README.i18n.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..4c76b6927872dda9f690b9c861c57aeb584c621f
+index 0000000..4c76b69
 --- /dev/null
 +++ b/apps/electron/README.i18n.yaml
 @@ -0,0 +1,6 @@
@@ -390,7 +390,7 @@ index 0000000000000000000000000000000000000000..4c76b6927872dda9f690b9c861c57aeb
 +README.zh.md: 42d3913a57f95dd5e0591992d1ac35329e02b09c
 diff --git a/apps/electron/README.md b/apps/electron/README.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..4980632b47aeaae62db6404e8dd1f909dfa17d05
+index 0000000..4980632
 --- /dev/null
 +++ b/apps/electron/README.md
 @@ -0,0 +1,49 @@
@@ -445,7 +445,7 @@ index 0000000000000000000000000000000000000000..4980632b47aeaae62db6404e8dd1f909
 +- **Native prebuilds must support the deployed Electron ABI** — the builder verifies `node-pty` and `koffi` but does not compile a fallback toolchain on the user's machine.
 diff --git a/apps/electron/README.zh.md b/apps/electron/README.zh.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..42d3913a57f95dd5e0591992d1ac35329e02b09c
+index 0000000..42d3913
 --- /dev/null
 +++ b/apps/electron/README.zh.md
 @@ -0,0 +1,49 @@
@@ -500,7 +500,7 @@ index 0000000000000000000000000000000000000000..42d3913a57f95dd5e0591992d1ac3532
 +- **原生预构建必须支持所部署的 Electron ABI**：构建器会验证 `node-pty` 与 `koffi`，但不会在用户机器上编译回退工具链。
 diff --git a/apps/electron/package.json b/apps/electron/package.json
 new file mode 100644
-index 0000000000000000000000000000000000000000..501907a9c7a17791388d978e438c42d3899e95eb
+index 0000000..501907a
 --- /dev/null
 +++ b/apps/electron/package.json
 @@ -0,0 +1,126 @@
@@ -632,10 +632,10 @@ index 0000000000000000000000000000000000000000..501907a9c7a17791388d978e438c42d3
 +}
 diff --git a/apps/electron/src/channels.ts b/apps/electron/src/channels.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..003a58ef9833a817309d483c3a22e81947aaf848
+index 0000000..e20b648
 --- /dev/null
 +++ b/apps/electron/src/channels.ts
-@@ -0,0 +1,16 @@
+@@ -0,0 +1,15 @@
 +/** IPC channel names shared by the Electron main process and preload bundle. */
 +
 +export const DESKTOP_CHANNELS = {
@@ -646,7 +646,6 @@ index 0000000000000000000000000000000000000000..003a58ef9833a817309d483c3a22e819
 +  closeStream: 'dsh:stream-close',
 +  streamMessage: 'dsh:stream-message',
 +  exportSession: 'dsh:session-export',
-+  clipboardWrite: 'dsh:clipboard-write',
 +  windowState: 'dsh:window-state',
 +  windowMinimize: 'dsh:window-minimize',
 +  windowToggleMaximize: 'dsh:window-toggle-maximize',
@@ -654,10 +653,10 @@ index 0000000000000000000000000000000000000000..003a58ef9833a817309d483c3a22e819
 +} as const
 diff --git a/apps/electron/src/ipc.ts b/apps/electron/src/ipc.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308f939e5c6
+index 0000000..8f50e8e
 --- /dev/null
 +++ b/apps/electron/src/ipc.ts
-@@ -0,0 +1,376 @@
+@@ -0,0 +1,355 @@
 +/** Process-local request and event-stream carrier for the hardened Electron renderer. */
 +
 +import { randomUUID } from 'node:crypto'
@@ -685,7 +684,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +const MAX_PATH_CODE_UNITS = 16 * 1024
 +const MAX_HEADER_COUNT = 256
 +const MAX_ID_CODE_UNITS = 256
-+const MAX_CLIPBOARD_TEXT_CODE_UNITS = 64 * 1024 * 1024
 +
 +interface StreamRecord {
 +  readonly abort: AbortController
@@ -694,9 +692,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +
 +/** External native operation supplied by the desktop application shell. */
 +export type SessionExporter = (sessionId: unknown, signal: AbortSignal) => Promise<{ canceled: boolean }>
-+
-+/** Native clipboard operation supplied by Electron's main process. */
-+export type ClipboardWriter = (text: string) => void
 +
 +/** Electron IPC owner. Removal precedes cancellation during disposal. */
 +export class DesktopIpcController {
@@ -746,7 +741,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +    private readonly api: ApiProxy,
 +    private readonly clientModules: Pick<ClientModuleRegistry, 'graph'>,
 +    private readonly exportSession: SessionExporter,
-+    private readonly writeClipboard: ClipboardWriter,
 +  ) {
 +    ipc.handle(DESKTOP_CHANNELS.boot, (event) => {
 +      this.assertTrustedSender(event)
@@ -768,12 +762,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +      this.assertTrustedSender(event)
 +      this.assertActive()
 +      return this.handleExport(sessionId)
-+    })
-+    ipc.handle(DESKTOP_CHANNELS.clipboardWrite, (event, rawText) => {
-+      this.assertTrustedSender(event)
-+      this.assertActive()
-+      this.writeClipboard(parseDesktopClipboardText(rawText))
-+      return undefined
 +    })
 +    ipc.handle(DESKTOP_CHANNELS.windowState, (event) => {
 +      this.assertTrustedSender(event)
@@ -800,7 +788,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +      DESKTOP_CHANNELS.request,
 +      DESKTOP_CHANNELS.openStream,
 +      DESKTOP_CHANNELS.exportSession,
-+      DESKTOP_CHANNELS.clipboardWrite,
 +      DESKTOP_CHANNELS.windowState,
 +    ]) this.ipc.removeHandler(channel)
 +    this.ipc.removeListener(DESKTOP_CHANNELS.cancelRequest, this.cancelRequestListener)
@@ -997,15 +984,6 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +  }
 +}
 +
-+/** Runtime IPC validation for text sent to Electron's system clipboard. */
-+export function parseDesktopClipboardText(value: unknown): string {
-+  if (typeof value !== 'string') throw new TypeError('desktop clipboard text must be a string')
-+  if (value.length > MAX_CLIPBOARD_TEXT_CODE_UNITS) {
-+    throw new RangeError('desktop clipboard text exceeds the carrier limit')
-+  }
-+  return value
-+}
-+
 +function internalUrl(path: string): URL {
 +  if (!path.startsWith('/') || path.startsWith('//') || path.includes('\\') || path.includes('#')) {
 +    throw new TypeError('desktop request path must be an absolute internal path without a fragment')
@@ -1036,16 +1014,15 @@ index 0000000000000000000000000000000000000000..5f713da8d365069f6ddec48fafd02308
 +}
 diff --git a/apps/electron/src/main.ts b/apps/electron/src/main.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..fee5a3bf846f7374bad3110f7e72c15ed30a8dd8
+index 0000000..e4addb7
 --- /dev/null
 +++ b/apps/electron/src/main.ts
-@@ -0,0 +1,171 @@
+@@ -0,0 +1,169 @@
 +/** Electron main process: boot the desktop profile, then expose its Host through IPC. */
 +
 +import { createRequire } from 'node:module'
 +import { join } from 'node:path'
 +import { fileURLToPath, pathToFileURL } from 'node:url'
-+import { clipboard } from 'electron'
 +import { app, BrowserWindow, ipcMain, protocol } from 'electron/main'
 +import type { Context } from '@deepseek-ai/cordis'
 +import { loadLayeredEnv, resolveProfileDir } from '@deepseek-ai/dsh-app-boot'
@@ -1132,7 +1109,6 @@ index 0000000000000000000000000000000000000000..fee5a3bf846f7374bad3110f7e72c15e
 +    api,
 +    clientModules,
 +    (sessionId, signal) => exportSessionToFile(window, api, sessionId, signal),
-+    (text) => { clipboard.writeText(text) },
 +  )
 +
 +  const ses = window.webContents.session
@@ -1213,10 +1189,10 @@ index 0000000000000000000000000000000000000000..fee5a3bf846f7374bad3110f7e72c15e
 +})
 diff --git a/apps/electron/src/preload.ts b/apps/electron/src/preload.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..3512386a89b9f067c1e6a0f3c3a007bf5edfaa8f
+index 0000000..09dd369
 --- /dev/null
 +++ b/apps/electron/src/preload.ts
-@@ -0,0 +1,43 @@
+@@ -0,0 +1,41 @@
 +/** Sandboxed preload exposing only the typed DeepSeek Harness desktop bridge. */
 +
 +import { contextBridge, ipcRenderer } from 'electron'
@@ -1239,8 +1215,6 @@ index 0000000000000000000000000000000000000000..3512386a89b9f067c1e6a0f3c3a007bf
 +      return () => { ipcRenderer.removeListener(DESKTOP_CHANNELS.windowState, receive) }
 +    },
 +  },
-+  writeClipboard: (text: string) =>
-+    ipcRenderer.invoke(DESKTOP_CHANNELS.clipboardWrite, text) as Promise<void>,
 +  boot: () => ipcRenderer.invoke(DESKTOP_CHANNELS.boot) as Promise<unknown>,
 +  request: (id: string, request: DesktopRequest) =>
 +    ipcRenderer.invoke(DESKTOP_CHANNELS.request, id, request) as Promise<DesktopResponse>,
@@ -1262,7 +1236,7 @@ index 0000000000000000000000000000000000000000..3512386a89b9f067c1e6a0f3c3a007bf
 +contextBridge.exposeInMainWorld('dshDesktop', bridge)
 diff --git a/apps/electron/src/protocol.ts b/apps/electron/src/protocol.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..885a643f5b7b0cb1dd8cb705605eac683507ea1c
+index 0000000..885a643
 --- /dev/null
 +++ b/apps/electron/src/protocol.ts
 @@ -0,0 +1,124 @@
@@ -1392,7 +1366,7 @@ index 0000000000000000000000000000000000000000..885a643f5b7b0cb1dd8cb705605eac68
 +}
 diff --git a/apps/electron/src/session-export.ts b/apps/electron/src/session-export.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..788bf1f355d15b928328ae82a50e57776120b9c3
+index 0000000..788bf1f
 --- /dev/null
 +++ b/apps/electron/src/session-export.ts
 @@ -0,0 +1,70 @@
@@ -1468,7 +1442,7 @@ index 0000000000000000000000000000000000000000..788bf1f355d15b928328ae82a50e5777
 +}
 diff --git a/apps/electron/tests/acl-runner.spec.ts b/apps/electron/tests/acl-runner.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..48fd17c5626ac1d4feb02d0533cbf96f2804a80b
+index 0000000..48fd17c
 --- /dev/null
 +++ b/apps/electron/tests/acl-runner.spec.ts
 @@ -0,0 +1,49 @@
@@ -1523,10 +1497,10 @@ index 0000000000000000000000000000000000000000..48fd17c5626ac1d4feb02d0533cbf96f
 +})
 diff --git a/apps/electron/tests/ipc.spec.ts b/apps/electron/tests/ipc.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a2d676484
+index 0000000..52bef68
 --- /dev/null
 +++ b/apps/electron/tests/ipc.spec.ts
-@@ -0,0 +1,281 @@
+@@ -0,0 +1,261 @@
 +import { describe, expect, it, vi } from 'vitest'
 +import { RpcId } from '@deepseek-ai/dsh-host-apiproxy/api'
 +import { DESKTOP_CHANNELS } from '../src/channels.ts'
@@ -1570,7 +1544,6 @@ index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a
 +  fetch?: (request: Request) => Promise<Response>
 +  host?: (signal: AbortSignal) => AsyncIterable<unknown>
 +  exportSession?: (sessionId: unknown, signal: AbortSignal) => Promise<{ canceled: boolean }>
-+  writeClipboard?: (text: string) => void
 +} = {}) {
 +  const ipc = new FakeIpc()
 +  const messages: unknown[] = []
@@ -1619,7 +1592,6 @@ index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a
 +    },
 +  }
 +  const exportSession = options.exportSession ?? (async () => ({ canceled: false }))
-+  const writeClipboard = options.writeClipboard ?? vi.fn()
 +  const controller = new DesktopIpcController(
 +    ipc as never,
 +    window as never,
@@ -1627,10 +1599,9 @@ index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a
 +    api as never,
 +    { graph: () => ({ entries: [{ id: 'client' }] }) } as never,
 +    exportSession,
-+    writeClipboard,
 +  )
 +  return {
-+    controller, event, frame, contents, ipc, messages, sent, window, windowListeners, writeClipboard,
++    controller, event, frame, contents, ipc, messages, sent, window, windowListeners,
 +    setFullScreen(value: boolean) {
 +      fullScreen = value
 +      emitWindow(value ? 'enter-full-screen' : 'leave-full-screen')
@@ -1717,23 +1688,6 @@ index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a
 +    expect(h.windowListeners.size).toBe(0)
 +  })
 +
-+  it('writes exact text to the native clipboard only for its trusted renderer', async () => {
-+    const writeClipboard = vi.fn()
-+    const h = harness({ writeClipboard })
-+
-+    expect(h.ipc.invoke(DESKTOP_CHANNELS.clipboardWrite, h.event, 'exact\r\ntext')).toBeUndefined()
-+    expect(writeClipboard).toHaveBeenCalledWith('exact\r\ntext')
-+    expect(() => h.ipc.invoke(
-+      DESKTOP_CHANNELS.clipboardWrite, { sender: {}, senderFrame: h.frame }, 'blocked',
-+    )).toThrow('rejected an untrusted sender')
-+    expect(() => h.ipc.invoke(DESKTOP_CHANNELS.clipboardWrite, h.event, 42))
-+      .toThrow('desktop clipboard text must be a string')
-+    expect(writeClipboard).toHaveBeenCalledTimes(1)
-+
-+    await h.controller.dispose()
-+    expect(h.ipc.handlers.has(DESKTOP_CHANNELS.clipboardWrite)).toBe(false)
-+  })
-+
 +  it('cancels unary requests and emits stream open, frame, and end messages', async () => {
 +    let requestSignal: AbortSignal | undefined
 +    const fetch = (request: Request): Promise<Response> => {
@@ -1810,7 +1764,7 @@ index 0000000000000000000000000000000000000000..6e9a6c2fd1238c1fec0d0a41039abc7a
 +})
 diff --git a/apps/electron/tests/protocol.spec.ts b/apps/electron/tests/protocol.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..c2236fa48e50a72f1869f4e42b2c5d3c0a899b25
+index 0000000..c2236fa
 --- /dev/null
 +++ b/apps/electron/tests/protocol.spec.ts
 @@ -0,0 +1,90 @@
@@ -1906,7 +1860,7 @@ index 0000000000000000000000000000000000000000..c2236fa48e50a72f1869f4e42b2c5d3c
 +})
 diff --git a/apps/electron/tests/session-export.spec.ts b/apps/electron/tests/session-export.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..3d92922039aaf5a86eb1c0b1b42dab68db5cfc8d
+index 0000000..3d92922
 --- /dev/null
 +++ b/apps/electron/tests/session-export.spec.ts
 @@ -0,0 +1,93 @@
@@ -2005,7 +1959,7 @@ index 0000000000000000000000000000000000000000..3d92922039aaf5a86eb1c0b1b42dab68
 +})
 diff --git a/apps/electron/tsconfig.json b/apps/electron/tsconfig.json
 new file mode 100644
-index 0000000000000000000000000000000000000000..342a90bc8260575a0003e2263b4e6672416d0d46
+index 0000000..342a90b
 --- /dev/null
 +++ b/apps/electron/tsconfig.json
 @@ -0,0 +1,37 @@
@@ -2048,7 +2002,7 @@ index 0000000000000000000000000000000000000000..342a90bc8260575a0003e2263b4e6672
 +}
 diff --git a/apps/electron/tsconfig.test.json b/apps/electron/tsconfig.test.json
 new file mode 100644
-index 0000000000000000000000000000000000000000..a3a19b5a85f8ed881d5066c4ffc968d6b0b7effd
+index 0000000..a3a19b5
 --- /dev/null
 +++ b/apps/electron/tsconfig.test.json
 @@ -0,0 +1,39 @@
@@ -2093,7 +2047,7 @@ index 0000000000000000000000000000000000000000..a3a19b5a85f8ed881d5066c4ffc968d6
 +}
 diff --git a/apps/electron/tsdown.config.ts b/apps/electron/tsdown.config.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..1b761abfa49c433742591a9908e2d8e13357f84d
+index 0000000..1b761ab
 --- /dev/null
 +++ b/apps/electron/tsdown.config.ts
 @@ -0,0 +1,29 @@
@@ -2371,7 +2325,7 @@ literal 0
 HcmV?d00001
 
 diff --git a/apps/web/tests/produced-files.e2e.ts b/apps/web/tests/produced-files.e2e.ts
-index 2dcc92f65ec1b1fc3426598610891f5560f0bb55..b882dd32911a9d2c0c9e4ca00080d18f8268e241 100644
+index 2dcc92f..b882dd3 100644
 --- a/apps/web/tests/produced-files.e2e.ts
 +++ b/apps/web/tests/produced-files.e2e.ts
 @@ -4,6 +4,8 @@
@@ -2475,7 +2429,7 @@ index 2dcc92f65ec1b1fc3426598610891f5560f0bb55..b882dd32911a9d2c0c9e4ca00080d18f
        openPath.mockRestore()
      }
 diff --git a/apps/web/tests/scaffold.ts b/apps/web/tests/scaffold.ts
-index f1ba62d8816e2db940b62abbf9645101fe233889..26ea5df4797bc946f5d48713f8fecf9c9e86f336 100644
+index f1ba62d..26ea5df 100644
 --- a/apps/web/tests/scaffold.ts
 +++ b/apps/web/tests/scaffold.ts
 @@ -701,13 +701,16 @@ export function fixtureUserPrompts(fixtureText: string): string[] {
@@ -2498,7 +2452,7 @@ index f1ba62d8816e2db940b62abbf9645101fe233889..26ea5df4797bc946f5d48713f8fecf9c
  
  export async function seedSession(
 diff --git a/docs/architecture.i18n.yaml b/docs/architecture.i18n.yaml
-index d1556bb542ce1adf369f1bf7b2c260b5028ac763..ae13825accc3432afed67897f8cba7a239789875 100644
+index d1556bb..ae13825 100644
 --- a/docs/architecture.i18n.yaml
 +++ b/docs/architecture.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2510,7 +2464,7 @@ index d1556bb542ce1adf369f1bf7b2c260b5028ac763..ae13825accc3432afed67897f8cba7a2
 +architecture.md: f77bb9dc46410a923a479a1b316220758ba36499
 +architecture.zh.md: 57d8b12ebb20e31133c317cb2a3c426ef855bc74
 diff --git a/docs/architecture.md b/docs/architecture.md
-index 77000ce9d4608d440e1d903eb80a42f2ed6435ef..f77bb9dc46410a923a479a1b316220758ba36499 100644
+index 77000ce..f77bb9d 100644
 --- a/docs/architecture.md
 +++ b/docs/architecture.md
 @@ -16,13 +16,15 @@ There is no privileged core to patch: you extend dsh by mounting a plugin beside
@@ -2532,7 +2486,7 @@ index 77000ce9d4608d440e1d903eb80a42f2ed6435ef..f77bb9dc46410a923a479a1b31622075
  Layers apply to an empty entry list in this order: each bundle in the profile's listed order, then the profile's `cordis.patch.yml`, then the home-level one, then any `--patch` overlay. A patch targets a row by id and replaces its whole config, or inserts new rows.
  
 diff --git a/docs/architecture.zh.md b/docs/architecture.zh.md
-index f2f5310f665b86b86587307e7ce31c5841b96317..57d8b12ebb20e31133c317cb2a3c426ef855bc74 100644
+index f2f5310..57d8b12 100644
 --- a/docs/architecture.zh.md
 +++ b/docs/architecture.zh.md
 @@ -16,13 +16,15 @@
@@ -2554,7 +2508,7 @@ index f2f5310f665b86b86587307e7ce31c5841b96317..57d8b12ebb20e31133c317cb2a3c426e
  各层按此顺序应用在空条目列表之上：先按 profile 列出的顺序应用每个组合包，然后是 profile 的 `cordis.patch.yml`，然后是 home 级的那份，最后是任意 `--patch` overlay。一条 patch 按 id 定位某个条目并替换其整个 config，或插入新条目。
  
 diff --git a/docs/config-catalog.i18n.yaml b/docs/config-catalog.i18n.yaml
-index f5a845ad5f7377170702887d41726f44bab4346b..6643396e9c90235c644956d06f3e9dae96f2759c 100644
+index f5a845a..6643396 100644
 --- a/docs/config-catalog.i18n.yaml
 +++ b/docs/config-catalog.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2566,7 +2520,7 @@ index f5a845ad5f7377170702887d41726f44bab4346b..6643396e9c90235c644956d06f3e9dae
 +config-catalog.md: da9439de043adda5602d7f9852e337232171471e
 +config-catalog.zh.md: e4d351235c42aae6614c80a72089e364d2886626
 diff --git a/docs/config-catalog.md b/docs/config-catalog.md
-index 20919b3fdc5ab26255465949d72bdce8d356a529..9098fea6c4f4da361d898c3b7535e0fef8e01113 100644
+index 20919b3..9098fea 100644
 --- a/docs/config-catalog.md
 +++ b/docs/config-catalog.md
 @@ -391,11 +391,11 @@ Source: [`packages/shell/bash-sandbox/src/index.ts:35`](../packages/shell/bash-s
@@ -2619,7 +2573,7 @@ index 20919b3fdc5ab26255465949d72bdce8d356a529..9098fea6c4f4da361d898c3b7535e0fe
  - `@deepseek-ai/dsh-fs-observation-policy` ([`packages/fs/fs-observation-policy/src/index.ts`](../packages/fs/fs-observation-policy/src/index.ts))
  - `@deepseek-ai/dsh-goal-round-driver` — requires `agents` · `goals` · `sessions` ([`packages/goal/goal-round-driver/src/index.ts`](../packages/goal/goal-round-driver/src/index.ts))
 diff --git a/docs/config-catalog.zh.md b/docs/config-catalog.zh.md
-index 8dfb49df5e3f5906af859a4de83ebc44f315a0bd..e4d351235c42aae6614c80a72089e364d2886626 100644
+index 8dfb49d..e4d3512 100644
 --- a/docs/config-catalog.zh.md
 +++ b/docs/config-catalog.zh.md
 @@ -393,11 +393,11 @@ export type Config = LocalConfig
@@ -2663,7 +2617,7 @@ index 8dfb49df5e3f5906af859a4de83ebc44f315a0bd..e4d351235c42aae6614c80a72089e364
  - `@deepseek-ai/dsh-fs-observation-policy`（[`packages/fs/fs-observation-policy/src/index.ts`](../packages/fs/fs-observation-policy/src/index.ts)）
  - `@deepseek-ai/dsh-goal-round-driver` — 需要 `agents` · `goals` · `sessions`（[`packages/goal/goal-round-driver/src/index.ts`](../packages/goal/goal-round-driver/src/index.ts)）
 diff --git a/docs/event-producer-consumer.i18n.yaml b/docs/event-producer-consumer.i18n.yaml
-index 7e67006a409d91fa0bcbe567e1560e474908506b..205c9f44db13db9a9bf3b0cbfec5d1028acf6a90 100644
+index 7e67006..205c9f4 100644
 --- a/docs/event-producer-consumer.i18n.yaml
 +++ b/docs/event-producer-consumer.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2675,7 +2629,7 @@ index 7e67006a409d91fa0bcbe567e1560e474908506b..205c9f44db13db9a9bf3b0cbfec5d102
 +event-producer-consumer.md: 0a733c644c94a99287b77c44167acbb8c89ff85b
 +event-producer-consumer.zh.md: 841f108a7cdb84ecc4489195b5c5da624fc4b0ac
 diff --git a/docs/event-producer-consumer.md b/docs/event-producer-consumer.md
-index 6a79e6f7ce5addc64b10efa8da7a886dcfb36dc2..0a733c644c94a99287b77c44167acbb8c89ff85b 100644
+index 6a79e6f..0a733c6 100644
 --- a/docs/event-producer-consumer.md
 +++ b/docs/event-producer-consumer.md
 @@ -69,7 +69,7 @@ This matrix shows which packages dispatch each harness-owned event and which pac
@@ -2688,7 +2642,7 @@ index 6a79e6f7ce5addc64b10efa8da7a886dcfb36dc2..0a733c644c94a99287b77c44167acbb8
  | `internal/status` | - | [`agent`](../packages/core/agent) |
  
 diff --git a/docs/event-producer-consumer.zh.md b/docs/event-producer-consumer.zh.md
-index f7576a8e28e4f1db2c65c324595c05c98b8fe488..841f108a7cdb84ecc4489195b5c5da624fc4b0ac 100644
+index f7576a8..841f108 100644
 --- a/docs/event-producer-consumer.zh.md
 +++ b/docs/event-producer-consumer.zh.md
 @@ -71,7 +71,7 @@
@@ -2701,7 +2655,7 @@ index f7576a8e28e4f1db2c65c324595c05c98b8fe488..841f108a7cdb84ecc4489195b5c5da62
  | `internal/status` | - | [`agent`](../packages/core/agent) |
  
 diff --git a/docs/subsystems/client-modules.i18n.yaml b/docs/subsystems/client-modules.i18n.yaml
-index 7c76d399f472c80d08afc79517e8982980e6cc74..9866b2db779b870bb53d6c361429e2e31f8f67bb 100644
+index 7c76d39..9866b2d 100644
 --- a/docs/subsystems/client-modules.i18n.yaml
 +++ b/docs/subsystems/client-modules.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2713,7 +2667,7 @@ index 7c76d399f472c80d08afc79517e8982980e6cc74..9866b2db779b870bb53d6c361429e2e3
 +client-modules.md: 8a7962c5a6f17bff3b82650e374b1d16d9b13695
 +client-modules.zh.md: 831062ad2696cc3c05e869b36fe35bda75529f39
 diff --git a/docs/subsystems/client-modules.md b/docs/subsystems/client-modules.md
-index c2002b847cd15560ca4493ce6e8623667c395360..8a7962c5a6f17bff3b82650e374b1d16d9b13695 100644
+index c2002b8..8a7962c 100644
 --- a/docs/subsystems/client-modules.md
 +++ b/docs/subsystems/client-modules.md
 @@ -74,7 +74,7 @@ Generated from source by `scripts/gen-cordis-catalog.ts` (verified fresh by `pnp
@@ -2726,7 +2680,7 @@ index c2002b847cd15560ca4493ce6e8623667c395360..8a7962c5a6f17bff3b82650e374b1d16
  ```ts cordis-catalog
  /**
 diff --git a/docs/subsystems/client-modules.zh.md b/docs/subsystems/client-modules.zh.md
-index 88be252a7fdff6bca7e2d8eb4e37b9e1a75dda98..831062ad2696cc3c05e869b36fe35bda75529f39 100644
+index 88be252..831062a 100644
 --- a/docs/subsystems/client-modules.zh.md
 +++ b/docs/subsystems/client-modules.zh.md
 @@ -74,7 +74,7 @@ Generated from source by `scripts/gen-cordis-catalog.ts` (verified fresh by `pnp
@@ -2739,7 +2693,7 @@ index 88be252a7fdff6bca7e2d8eb4e37b9e1a75dda98..831062ad2696cc3c05e869b36fe35bda
  ```ts cordis-catalog
  /**
 diff --git a/docs/subsystems/sandbox.i18n.yaml b/docs/subsystems/sandbox.i18n.yaml
-index 400bf54df3269566e9ef06bb4d52074234578a5c..cb2ef5270992298da9d82791a80fa102ab78ed14 100644
+index 400bf54..cb2ef52 100644
 --- a/docs/subsystems/sandbox.i18n.yaml
 +++ b/docs/subsystems/sandbox.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2751,7 +2705,7 @@ index 400bf54df3269566e9ef06bb4d52074234578a5c..cb2ef5270992298da9d82791a80fa102
 +sandbox.md: 24f20a9f604514a38067a0272724614937c7ca8c
 +sandbox.zh.md: ed24a75d406e5e812f467030ef39d37944487110
 diff --git a/docs/subsystems/sandbox.md b/docs/subsystems/sandbox.md
-index 19f1807cf4fc7fa5e7ae0843daeee818a7e2bdde..24f20a9f604514a38067a0272724614937c7ca8c 100644
+index 19f1807..24f20a9 100644
 --- a/docs/subsystems/sandbox.md
 +++ b/docs/subsystems/sandbox.md
 @@ -126,6 +126,8 @@ interface RunnerFailureRule {
@@ -2781,7 +2735,7 @@ index 19f1807cf4fc7fa5e7ae0843daeee818a7e2bdde..24f20a9f604514a38067a02727246149
  <a id="ctxsandboxpolicy--sandboxpolicyservice"></a>
  
 diff --git a/docs/subsystems/sandbox.zh.md b/docs/subsystems/sandbox.zh.md
-index 78ee0f162d1179abea723465bfd462ef9b9e255e..ed24a75d406e5e812f467030ef39d37944487110 100644
+index 78ee0f1..ed24a75 100644
 --- a/docs/subsystems/sandbox.zh.md
 +++ b/docs/subsystems/sandbox.zh.md
 @@ -126,6 +126,8 @@ interface RunnerFailureRule {
@@ -2811,7 +2765,7 @@ index 78ee0f162d1179abea723465bfd462ef9b9e255e..ed24a75d406e5e812f467030ef39d379
  <a id="ctxsandboxpolicy--sandboxpolicyservice"></a>
  
 diff --git a/docs/subsystems/web-server.i18n.yaml b/docs/subsystems/web-server.i18n.yaml
-index 8ed53c1fa74f5e04cec984a6b6954e5c757cdc9e..5e079f317ee3ae78f382a2af53052c47c3c6b0b6 100644
+index 8ed53c1..5e079f3 100644
 --- a/docs/subsystems/web-server.i18n.yaml
 +++ b/docs/subsystems/web-server.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2823,7 +2777,7 @@ index 8ed53c1fa74f5e04cec984a6b6954e5c757cdc9e..5e079f317ee3ae78f382a2af53052c47
 +web-server.md: 266950c93cbf8ce2a540e069875392611f77184f
 +web-server.zh.md: e7f511dc27f18b6a3d3028de01c74b324165b080
 diff --git a/docs/subsystems/web-server.md b/docs/subsystems/web-server.md
-index 414863d88cdc34163882cdc3dfe8dc7c1471ac77..266950c93cbf8ce2a540e069875392611f77184f 100644
+index 414863d..266950c 100644
 --- a/docs/subsystems/web-server.md
 +++ b/docs/subsystems/web-server.md
 @@ -2,7 +2,7 @@
@@ -2836,7 +2790,7 @@ index 414863d88cdc34163882cdc3dfe8dc7c1471ac77..266950c93cbf8ce2a540e06987539261
  Source: [`packages/host/webserver/src/index.ts`](../../packages/host/webserver/src/index.ts)
  
 diff --git a/docs/subsystems/web-server.zh.md b/docs/subsystems/web-server.zh.md
-index d756192ce733a3fe79c9eaf44e5d556c4bac90a8..e7f511dc27f18b6a3d3028de01c74b324165b080 100644
+index d756192..e7f511d 100644
 --- a/docs/subsystems/web-server.zh.md
 +++ b/docs/subsystems/web-server.zh.md
 @@ -2,7 +2,7 @@
@@ -2849,7 +2803,7 @@ index d756192ce733a3fe79c9eaf44e5d556c4bac90a8..e7f511dc27f18b6a3d3028de01c74b32
  源码：[`packages/host/webserver/src/index.ts`](../../packages/host/webserver/src/index.ts)
  
 diff --git a/knip.json b/knip.json
-index 3017292382472a9e56e472ec44b90210320e941c..b1abd248e9bcd447cf118ba37d0eb120821d4279 100644
+index 3017292..b1abd24 100644
 --- a/knip.json
 +++ b/knip.json
 @@ -33,6 +33,15 @@
@@ -2883,7 +2837,7 @@ index 3017292382472a9e56e472ec44b90210320e941c..b1abd248e9bcd447cf118ba37d0eb120
        "entry": [
          "tests/**/*.spec.ts"
 diff --git a/package.json b/package.json
-index 81cedbbb420e824b6d41312c5a7abb8720861e54..44924e59e363139be3afbce7f5f381b164c7fc1c 100644
+index 81cedbb..44924e5 100644
 --- a/package.json
 +++ b/package.json
 @@ -22,6 +22,8 @@
@@ -2896,7 +2850,7 @@ index 81cedbbb420e824b6d41312c5a7abb8720861e54..44924e59e363139be3afbce7f5f381b1
      "change-scope": "tsx scripts/change-scope.ts",
      "typecheck": "npm run build:lib:host && npm run typecheck:contracts-ready",
 diff --git a/packages/api/remotes/src/client/index.ts b/packages/api/remotes/src/client/index.ts
-index 210ec0bf8046ba73dc6483e5b6192d0cf8b54d77..fdb9ec42944da05c812e9801f4a1ebc84c1e2c81 100644
+index 210ec0b..fdb9ec4 100644
 --- a/packages/api/remotes/src/client/index.ts
 +++ b/packages/api/remotes/src/client/index.ts
 @@ -40,7 +40,8 @@ export type {
@@ -2910,7 +2864,7 @@ index 210ec0bf8046ba73dc6483e5b6192d0cf8b54d77..fdb9ec42944da05c812e9801f4a1ebc8
  export type {} from '@deepseek-ai/dsh-api-gateway/client'
  export type {} from '@deepseek-ai/dsh-cordis-host-runner/remote'
 diff --git a/packages/boot/app-boot/src/index.ts b/packages/boot/app-boot/src/index.ts
-index 9be66947bb5fab60e6e28c6cafd3fa946f50954f..93ba320bfc451930ebb4da3c734f7ae4c9555002 100644
+index 9be6694..93ba320 100644
 --- a/packages/boot/app-boot/src/index.ts
 +++ b/packages/boot/app-boot/src/index.ts
 @@ -8,6 +8,7 @@
@@ -2952,7 +2906,7 @@ index 9be66947bb5fab60e6e28c6cafd3fa946f50954f..93ba320bfc451930ebb4da3c734f7ae4
      }
    // `cordis:group` alongside it: a group row is how a composition gives one
 diff --git a/packages/boot/app-boot/src/profile.ts b/packages/boot/app-boot/src/profile.ts
-index 8f982bed80f03dc45e85070af7d5fd61320f83bc..29e738ae0f18ad09daae1da4c48eebd68527fb48 100644
+index 8f982be..29e738a 100644
 --- a/packages/boot/app-boot/src/profile.ts
 +++ b/packages/boot/app-boot/src/profile.ts
 @@ -113,6 +113,7 @@ export function resolveProfileDir(name: string, home: string = resolveDshHome())
@@ -2964,7 +2918,7 @@ index 8f982bed80f03dc45e85070af7d5fd61320f83bc..29e738ae0f18ad09daae1da4c48eebd6
  }
  
 diff --git a/packages/boot/app-boot/tests/app-boot.spec.ts b/packages/boot/app-boot/tests/app-boot.spec.ts
-index 9eec6202854ba65d2f7784f1bbad920608159e50..0a7f80316cc363b9405b29155877f3da98bb8686 100644
+index 9eec620..0a7f803 100644
 --- a/packages/boot/app-boot/tests/app-boot.spec.ts
 +++ b/packages/boot/app-boot/tests/app-boot.spec.ts
 @@ -614,7 +614,11 @@ describe('boot', () => {
@@ -2981,7 +2935,7 @@ index 9eec6202854ba65d2f7784f1bbad920608159e50..0a7f80316cc363b9405b29155877f3da
        expect(ctx.get('harnessPluginLoaded')).toBe(true)
        expect(ctx.get('shadowPluginLoaded')).toBeUndefined()
 diff --git a/packages/bundle/README.i18n.yaml b/packages/bundle/README.i18n.yaml
-index eafbe0b0ab5d9c3dab8bb095f5484cfd9b8445cb..f6c8a843870916625a9b5b3d412de3d272e2c9f9 100644
+index eafbe0b..f6c8a84 100644
 --- a/packages/bundle/README.i18n.yaml
 +++ b/packages/bundle/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2993,7 +2947,7 @@ index eafbe0b0ab5d9c3dab8bb095f5484cfd9b8445cb..f6c8a843870916625a9b5b3d412de3d2
 +README.md: 924c0658172c24acb91ee6487545a5a029489d6b
 +README.zh.md: 67a162620f583f2be169ce77a291e067f17b786e
 diff --git a/packages/bundle/README.md b/packages/bundle/README.md
-index 696aa9ef7bbed23774f2b9ab2648ca83edcf0978..924c0658172c24acb91ee6487545a5a029489d6b 100644
+index 696aa9e..924c065 100644
 --- a/packages/bundle/README.md
 +++ b/packages/bundle/README.md
 @@ -8,6 +8,7 @@ Profile bundles: npm packages whose manifest declares `"dsh": { "bundle": { "pat
@@ -3005,7 +2959,7 @@ index 696aa9ef7bbed23774f2b9ab2648ca83edcf0978..924c0658172c24acb91ee6487545a5a0
  
  In-box bundles resolve from the dsh installation; out-of-tree bundles install into a profile through `dsh plugin --profile <name> add <package>`.
 diff --git a/packages/bundle/README.zh.md b/packages/bundle/README.zh.md
-index 2bb22c7949d759f404288548ea0eccfa0aac866b..67a162620f583f2be169ce77a291e067f17b786e 100644
+index 2bb22c7..67a1626 100644
 --- a/packages/bundle/README.zh.md
 +++ b/packages/bundle/README.zh.md
 @@ -8,6 +8,7 @@ Profile 组合包：在 manifest（元数据清单）中声明 `"dsh": { "bundle
@@ -3018,7 +2972,7 @@ index 2bb22c7949d759f404288548ea0eccfa0aac866b..67a162620f583f2be169ce77a291e067
  内置组合包从 dsh 安装目录解析；树外（out-of-tree）组合包通过 `dsh plugin --profile <name> add <package>` 安装进 profile。
 diff --git a/packages/bundle/electron-app/README.i18n.yaml b/packages/bundle/electron-app/README.i18n.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..d383d7b3600ea1df98a46613c50d0ba35a7d43c7
+index 0000000..d383d7b
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.i18n.yaml
 @@ -0,0 +1,6 @@
@@ -3030,7 +2984,7 @@ index 0000000000000000000000000000000000000000..d383d7b3600ea1df98a46613c50d0ba3
 +README.zh.md: 51182b7e39cf698ad1e7a2b213dd98c73f3f46eb
 diff --git a/packages/bundle/electron-app/README.md b/packages/bundle/electron-app/README.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..d2fbfce6df232b96fe850292e95bf6701fe28c24
+index 0000000..d2fbfce
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.md
 @@ -0,0 +1,24 @@
@@ -3060,7 +3014,7 @@ index 0000000000000000000000000000000000000000..d2fbfce6df232b96fe850292e95bf670
 +
 diff --git a/packages/bundle/electron-app/README.zh.md b/packages/bundle/electron-app/README.zh.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..51182b7e39cf698ad1e7a2b213dd98c73f3f46eb
+index 0000000..51182b7
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.zh.md
 @@ -0,0 +1,24 @@
@@ -3090,7 +3044,7 @@ index 0000000000000000000000000000000000000000..51182b7e39cf698ad1e7a2b213dd98c7
 +
 diff --git a/packages/bundle/electron-app/cordis.patch.yml b/packages/bundle/electron-app/cordis.patch.yml
 new file mode 100644
-index 0000000000000000000000000000000000000000..3084a9463b970eeec7bd31ca215e957050f62ace
+index 0000000..3084a94
 --- /dev/null
 +++ b/packages/bundle/electron-app/cordis.patch.yml
 @@ -0,0 +1,30 @@
@@ -3126,7 +3080,7 @@ index 0000000000000000000000000000000000000000..3084a9463b970eeec7bd31ca215e9570
 +      name: '@deepseek-ai/dsh-client-ui-directory-picker-native'
 diff --git a/packages/bundle/electron-app/package.json b/packages/bundle/electron-app/package.json
 new file mode 100644
-index 0000000000000000000000000000000000000000..ae3170d5b5d6711657dada93f805fcedbbc7eab0
+index 0000000..ae3170d
 --- /dev/null
 +++ b/packages/bundle/electron-app/package.json
 @@ -0,0 +1,54 @@
@@ -3186,7 +3140,7 @@ index 0000000000000000000000000000000000000000..ae3170d5b5d6711657dada93f805fced
 +}
 diff --git a/packages/bundle/electron-app/src/index.ts b/packages/bundle/electron-app/src/index.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..6ffe0ffaa3bfe1c3c51565563ebdb490fc9e09f5
+index 0000000..6ffe0ff
 --- /dev/null
 +++ b/packages/bundle/electron-app/src/index.ts
 @@ -0,0 +1,12 @@
@@ -3204,7 +3158,7 @@ index 0000000000000000000000000000000000000000..6ffe0ffaa3bfe1c3c51565563ebdb490
 +export function apply(): void {}
 diff --git a/packages/bundle/electron-app/src/invariant.ts b/packages/bundle/electron-app/src/invariant.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..56ff021a7871ea7a2528a8630d03670267e5cafc
+index 0000000..56ff021
 --- /dev/null
 +++ b/packages/bundle/electron-app/src/invariant.ts
 @@ -0,0 +1,21 @@
@@ -3231,7 +3185,7 @@ index 0000000000000000000000000000000000000000..56ff021a7871ea7a2528a8630d036702
 +  Promise.resolve(ctx.invariants.register(PACKAGE_NAME, install))
 diff --git a/packages/bundle/electron-app/tests/electron-app.spec.ts b/packages/bundle/electron-app/tests/electron-app.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..b0c4d8ef413b8d3a892d4e15147d2967d2d37b02
+index 0000000..b0c4d8e
 --- /dev/null
 +++ b/packages/bundle/electron-app/tests/electron-app.spec.ts
 @@ -0,0 +1,47 @@
@@ -3284,7 +3238,7 @@ index 0000000000000000000000000000000000000000..b0c4d8ef413b8d3a892d4e15147d2967
 +})
 diff --git a/packages/bundle/electron-app/tsconfig.json b/packages/bundle/electron-app/tsconfig.json
 new file mode 100644
-index 0000000000000000000000000000000000000000..8f58ed6e28a89c92b0836c95ad8e3429e4b3bdf7
+index 0000000..8f58ed6
 --- /dev/null
 +++ b/packages/bundle/electron-app/tsconfig.json
 @@ -0,0 +1,18 @@
@@ -3307,7 +3261,7 @@ index 0000000000000000000000000000000000000000..8f58ed6e28a89c92b0836c95ad8e3429
 +  ]
 +}
 diff --git a/packages/client/connection/README.i18n.yaml b/packages/client/connection/README.i18n.yaml
-index 4745644cc575c21d46ef08d73648d77010f73479..3507565e22ab974e359ad3d366d75f2fd312e38f 100644
+index 4745644..3507565 100644
 --- a/packages/client/connection/README.i18n.yaml
 +++ b/packages/client/connection/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -3319,7 +3273,7 @@ index 4745644cc575c21d46ef08d73648d77010f73479..3507565e22ab974e359ad3d366d75f2f
 +README.md: 354efc3b677793c155a16cc475a8783e1ec65462
 +README.zh.md: fbfecc5c67de3b1945475d60b83fa8a9a0af9346
 diff --git a/packages/client/connection/README.md b/packages/client/connection/README.md
-index f0a707cc5f3a962c7852f7323c727d0a39a57b10..354efc3b677793c155a16cc475a8783e1ec65462 100644
+index f0a707c..354efc3 100644
 --- a/packages/client/connection/README.md
 +++ b/packages/client/connection/README.md
 @@ -2,7 +2,11 @@
@@ -3336,7 +3290,7 @@ index f0a707cc5f3a962c7852f7323c727d0a39a57b10..354efc3b677793c155a16cc475a8783e
  ## /api browser-trust fence
  
 diff --git a/packages/client/connection/README.zh.md b/packages/client/connection/README.zh.md
-index b529eebf9af93e36b6b92c19964678b7f5a04ea1..fbfecc5c67de3b1945475d60b83fa8a9a0af9346 100644
+index b529eeb..fbfecc5 100644
 --- a/packages/client/connection/README.zh.md
 +++ b/packages/client/connection/README.zh.md
 @@ -2,7 +2,11 @@
@@ -3353,7 +3307,7 @@ index b529eebf9af93e36b6b92c19964678b7f5a04ea1..fbfecc5c67de3b1945475d60b83fa8a9
  ## /api 浏览器信任栅栏
  
 diff --git a/packages/client/connection/src/client/api.ts b/packages/client/connection/src/client/api.ts
-index 1b7627b293e5508558769a1580ce814428c09eb5..071897d1e2130f9d28536bf7b4d6e82268b72a2a 100644
+index 1b7627b..071897d 100644
 --- a/packages/client/connection/src/client/api.ts
 +++ b/packages/client/connection/src/client/api.ts
 @@ -9,7 +9,8 @@ export type {
@@ -3368,7 +3322,7 @@ index 1b7627b293e5508558769a1580ce814428c09eb5..071897d1e2130f9d28536bf7b4d6e822
    ModelReasoningEffort, ModelSelection, QueueAction, QueuedInboxItem, SessionModels,
 diff --git a/packages/client/connection/src/client/electron-api-client.ts b/packages/client/connection/src/client/electron-api-client.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..ddaeee15c87a8a8496b3bb8237eea41cd3ead7fe
+index 0000000..ddaeee1
 --- /dev/null
 +++ b/packages/client/connection/src/client/electron-api-client.ts
 @@ -0,0 +1,144 @@
@@ -3517,7 +3471,7 @@ index 0000000000000000000000000000000000000000..ddaeee15c87a8a8496b3bb8237eea41c
 +  if (signal?.aborted === true) throw abortError(signal)
 +}
 diff --git a/packages/client/connection/src/client/fixture.ts b/packages/client/connection/src/client/fixture.ts
-index dd0566486e4a8b2b8ab9a05bbfa16b6cf09fba8b..adc802fcb3f9f414def047ff17451c188d32d1c8 100644
+index dd05664..adc802f 100644
 --- a/packages/client/connection/src/client/fixture.ts
 +++ b/packages/client/connection/src/client/fixture.ts
 @@ -1559,6 +1559,12 @@ function createFixtureWorld(options: FixtureOptions): FixtureWorld {
@@ -3655,7 +3609,7 @@ index dd0566486e4a8b2b8ab9a05bbfa16b6cf09fba8b..adc802fcb3f9f414def047ff17451c18
        case 'workspace.rename': return this.api.workspace.rename(request)
        case 'workspace.delete': return this.api.workspace.delete(request)
 diff --git a/packages/client/connection/src/client/index.ts b/packages/client/connection/src/client/index.ts
-index c4470b13aac72faaf38c83bb69381c0b32e4d968..6a3cda2b29fd64616d6d8a26ec35e8ce7731c7fc 100644
+index c4470b1..6a3cda2 100644
 --- a/packages/client/connection/src/client/index.ts
 +++ b/packages/client/connection/src/client/index.ts
 @@ -8,6 +8,7 @@ import type { HostDescription, IApiClient } from './api.ts'
@@ -3716,7 +3670,7 @@ index c4470b13aac72faaf38c83bb69381c0b32e4d968..6a3cda2b29fd64616d6d8a26ec35e8ce
        getSnapshot: () => description,
        subscribe: (listener) => {
 diff --git a/packages/client/connection/src/client/rpc.ts b/packages/client/connection/src/client/rpc.ts
-index f8bacb1553d6b4d3e29c2e4323b2de9f3b3c43e2..9de96679a786c50e37040feac4b078d7dbe05ed9 100644
+index f8bacb1..9de9667 100644
 --- a/packages/client/connection/src/client/rpc.ts
 +++ b/packages/client/connection/src/client/rpc.ts
 @@ -14,9 +14,10 @@ const ENDPOINT_SEGMENT_PATTERN = /^[A-Za-z0-9_$.-]+$/
@@ -3742,10 +3696,10 @@ index f8bacb1553d6b4d3e29c2e4323b2de9f3b3c43e2..9de96679a786c50e37040feac4b078d7
            method: 'POST',
 diff --git a/packages/client/connection/src/electron.ts b/packages/client/connection/src/electron.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..63a1f5345f83c23ee2604c6ebba93411fdf3136d
+index 0000000..05296d9
 --- /dev/null
 +++ b/packages/client/connection/src/electron.ts
-@@ -0,0 +1,54 @@
+@@ -0,0 +1,52 @@
 +/** Browser-safe data protocol exposed by an Electron preload bridge. */
 +
 +/** Request fields accepted by the Electron preload bridge. */
@@ -3789,8 +3743,6 @@ index 0000000000000000000000000000000000000000..63a1f5345f83c23ee2604c6ebba93411
 +export interface DshDesktopBridge {
 +  /** Native operations available only to the desktop shell chrome. */
 +  readonly windowControls: DesktopWindowControls
-+  /** Write exact text through Electron's main-process system clipboard. */
-+  writeClipboard(text: string): Promise<void>
 +  /** Read the Host-composed client module graph before the shell boots. */
 +  boot(): Promise<unknown>
 +  request(id: string, request: DesktopRequest): Promise<DesktopResponse>
@@ -3801,7 +3753,7 @@ index 0000000000000000000000000000000000000000..63a1f5345f83c23ee2604c6ebba93411
 +  exportSession(sessionId: string): Promise<{ canceled: boolean }>
 +}
 diff --git a/packages/client/connection/src/index.ts b/packages/client/connection/src/index.ts
-index 35084918e8b9a6de23ac340bbb78e42a9a896a28..4db4ad976d5bec8b30ac3e00d82f38f663c8dd52 100644
+index 3508491..4db4ad9 100644
 --- a/packages/client/connection/src/index.ts
 +++ b/packages/client/connection/src/index.ts
 @@ -3,7 +3,7 @@ import type { Context } from '@deepseek-ai/cordis'
@@ -3928,7 +3880,7 @@ index 35084918e8b9a6de23ac340bbb78e42a9a896a28..4db4ad976d5bec8b30ac3e00d82f38f6
          handler: (req, socket, head) => {
            if (!isTrustedApiRequest(req, trustedHosts)) {
 diff --git a/packages/client/connection/src/rpc-host.ts b/packages/client/connection/src/rpc-host.ts
-index 0da66c85a74709076a07315e6e5329a2afdacb65..f7270686122782d81de4cfafebb146e2abad6c71 100644
+index 0da66c8..f727068 100644
 --- a/packages/client/connection/src/rpc-host.ts
 +++ b/packages/client/connection/src/rpc-host.ts
 @@ -1,7 +1,7 @@
@@ -4041,7 +3993,7 @@ index 0da66c85a74709076a07315e6e5329a2afdacb65..f7270686122782d81de4cfafebb146e2
  
    private registerInterceptor(
 diff --git a/packages/client/connection/src/rpc.ts b/packages/client/connection/src/rpc.ts
-index e1260f00e8227163e769dae57317eb404679460d..f28aa8712e3558d301b270ec901eafb3800c5029 100644
+index e1260f0..f28aa87 100644
 --- a/packages/client/connection/src/rpc.ts
 +++ b/packages/client/connection/src/rpc.ts
 @@ -56,6 +56,13 @@ export interface HostConnectionRpc {
@@ -4060,10 +4012,10 @@ index e1260f00e8227163e769dae57317eb404679460d..f28aa8712e3558d301b270ec901eafb3
  /** Client caller for logical RPC channels carried by the current transport. */
 diff --git a/packages/client/connection/tests/electron-api-client.client.spec.ts b/packages/client/connection/tests/electron-api-client.client.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..7776d18e54c05696425832c05b8f7e6df563dd9e
+index 0000000..f96128b
 --- /dev/null
 +++ b/packages/client/connection/tests/electron-api-client.client.spec.ts
-@@ -0,0 +1,161 @@
+@@ -0,0 +1,157 @@
 +/** Electron IPC client carrier behavior. */
 +
 +import { describe, expect, it, vi } from 'vitest'
@@ -4094,10 +4046,6 @@ index 0000000000000000000000000000000000000000..7776d18e54c05696425832c05b8f7e6d
 +
 +  boot(): Promise<unknown> {
 +    return Promise.resolve({ rev: 'fixture', entries: [] })
-+  }
-+
-+  writeClipboard(): Promise<void> {
-+    return Promise.resolve()
 +  }
 +
 +  request(id: string, request: DesktopRequest): Promise<DesktopResponse> {
@@ -4226,7 +4174,7 @@ index 0000000000000000000000000000000000000000..7776d18e54c05696425832c05b8f7e6d
 +  })
 +})
 diff --git a/packages/client/connection/tests/fake-api.client.ts b/packages/client/connection/tests/fake-api.client.ts
-index bee4fc0ce06e50f2d574859014588e9befe4edca..8de7a7cdf85e13a7e2caaefa79994f4f2ac52e74 100644
+index bee4fc0..8de7a7c 100644
 --- a/packages/client/connection/tests/fake-api.client.ts
 +++ b/packages/client/connection/tests/fake-api.client.ts
 @@ -150,6 +150,21 @@ export class FakeApiClient implements IApiClient {
@@ -4252,7 +4200,7 @@ index bee4fc0ce06e50f2d574859014588e9befe4edca..8de7a7cdf85e13a7e2caaefa79994f4f
        workspace: { workspaceId: 'fk-ws' as never, path: '/f/ws', title: 'ws', sessionIds: [], createdAt: '0', updatedAt: '0' },
        created: true,
 diff --git a/packages/client/connection/tests/fixture.client.spec.ts b/packages/client/connection/tests/fixture.client.spec.ts
-index 11c4ddab8a33ef072d33263f0c5856061ff2531b..bf9248873d099b5435210b20a8e11ec34b2c209b 100644
+index 11c4dda..bf92488 100644
 --- a/packages/client/connection/tests/fixture.client.spec.ts
 +++ b/packages/client/connection/tests/fixture.client.spec.ts
 @@ -557,6 +557,33 @@ describe('createFixtureApi', () => {
@@ -4300,7 +4248,7 @@ index 11c4ddab8a33ef072d33263f0c5856061ff2531b..bf9248873d099b5435210b20a8e11ec3
      if (!workspace.result.ok) throw new Error('workspace create failed')
      expect(workspace.result.value.workspace.title).toBe('via-client')
 diff --git a/packages/client/connection/tests/node-half.host.spec.ts b/packages/client/connection/tests/node-half.host.spec.ts
-index 0b30ce65205708dcfb6ca5f38b3d4f3101a5e79b..83fe1f5dd460560f1e61fc42d4251257099b2044 100644
+index 0b30ce6..83fe1f5 100644
 --- a/packages/client/connection/tests/node-half.host.spec.ts
 +++ b/packages/client/connection/tests/node-half.host.spec.ts
 @@ -90,6 +90,47 @@ async function mounted(config?: { trustedHosts?: string[] }): Promise<{
@@ -4369,7 +4317,7 @@ index 0b30ce65205708dcfb6ca5f38b3d4f3101a5e79b..83fe1f5dd460560f1e61fc42d4251257
      expect(routes.map(candidate => candidate.path)).toEqual([API_PATH])
      await fiber.dispose()
 diff --git a/packages/client/connection/tsconfig.client.json b/packages/client/connection/tsconfig.client.json
-index 4d8621e270d5a8846adb25d51edd759106edeb12..c694d5b1cdd22debfef7953eeb13c48eb6f160ad 100644
+index 4d8621e..c694d5b 100644
 --- a/packages/client/connection/tsconfig.client.json
 +++ b/packages/client/connection/tsconfig.client.json
 @@ -9,11 +9,13 @@
@@ -4387,7 +4335,7 @@ index 4d8621e270d5a8846adb25d51edd759106edeb12..c694d5b1cdd22debfef7953eeb13c48e
      "src/rpc.ts"
    ],
 diff --git a/packages/client/connection/tsconfig.host.json b/packages/client/connection/tsconfig.host.json
-index 8e16ec834a38b103baa1b6c60937de2bcaf25aad..8e2f48b3565c2d68729b45fb8a309708a1834ba9 100644
+index 8e16ec8..8e2f48b 100644
 --- a/packages/client/connection/tsconfig.host.json
 +++ b/packages/client/connection/tsconfig.host.json
 @@ -8,6 +8,7 @@
@@ -4399,7 +4347,7 @@ index 8e16ec834a38b103baa1b6c60937de2bcaf25aad..8e2f48b3565c2d68729b45fb8a309708
      "src/index.ts",
      "src/invariant.ts",
 diff --git a/packages/client/modules/README.i18n.yaml b/packages/client/modules/README.i18n.yaml
-index a86bb342c59499a854ce5bcc392ed4db413e4f41..f80d425d1add11703559968cde8735422b926b67 100644
+index a86bb34..f80d425 100644
 --- a/packages/client/modules/README.i18n.yaml
 +++ b/packages/client/modules/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -4411,7 +4359,7 @@ index a86bb342c59499a854ce5bcc392ed4db413e4f41..f80d425d1add11703559968cde873542
 +README.md: 09052c9cf4ceb3736c64316dfa3bde8bf227578a
 +README.zh.md: de16028989de02fff6427f482f6b051cc6caba3c
 diff --git a/packages/client/modules/README.md b/packages/client/modules/README.md
-index efaff699839b977cc45f89f3c164402241b90dc2..09052c9cf4ceb3736c64316dfa3bde8bf227578a 100644
+index efaff69..09052c9 100644
 --- a/packages/client/modules/README.md
 +++ b/packages/client/modules/README.md
 @@ -8,7 +8,7 @@ Lazy CJS model (web2): executing a plugin bundle only REGISTERS its factory (`wi
@@ -4424,7 +4372,7 @@ index efaff699839b977cc45f89f3c164402241b90dc2..09052c9cf4ceb3736c64316dfa3bde8b
  ## Model Experience
  
 diff --git a/packages/client/modules/README.zh.md b/packages/client/modules/README.zh.md
-index 6ab3c8494d7ea902e8b891008f236aec41301a35..de16028989de02fff6427f482f6b051cc6caba3c 100644
+index 6ab3c84..de16028 100644
 --- a/packages/client/modules/README.zh.md
 +++ b/packages/client/modules/README.zh.md
 @@ -8,7 +8,7 @@
@@ -4437,7 +4385,7 @@ index 6ab3c8494d7ea902e8b891008f236aec41301a35..de16028989de02fff6427f482f6b051c
  ## 模型体验
  
 diff --git a/packages/client/modules/src/index.ts b/packages/client/modules/src/index.ts
-index aa0ff5d59d1aa116f388976662c30ef701b05bcf..2bc92de0fee41fe93e46cba4c997008aa3f956c3 100644
+index aa0ff5d..2bc92de 100644
 --- a/packages/client/modules/src/index.ts
 +++ b/packages/client/modules/src/index.ts
 @@ -3,7 +3,7 @@
@@ -4525,7 +4473,7 @@ index aa0ff5d59d1aa116f388976662c30ef701b05bcf..2bc92de0fee41fe93e46cba4c997008a
     * Re-hash one bundle (the HMR watch's registration hook — the only entry
     * point through which bundle content changes reach the graph).
 diff --git a/packages/client/modules/tests/node-half.client.spec.ts b/packages/client/modules/tests/node-half.client.spec.ts
-index 9fbe144bccbccd8815e08221fe3951207dcd4cd5..0f98f8aedcfd6f801119576a193bb8eb7f8e196f 100644
+index 9fbe144..0f98f8a 100644
 --- a/packages/client/modules/tests/node-half.client.spec.ts
 +++ b/packages/client/modules/tests/node-half.client.spec.ts
 @@ -68,7 +68,31 @@ function construct(packageNames: string[]): ClientModuleRegistry {
@@ -4561,7 +4509,7 @@ index 9fbe144bccbccd8815e08221fe3951207dcd4cd5..0f98f8aedcfd6f801119576a193bb8eb
      const currentName = '@fixture/current-client-field'
      const clientPath = writePackage(currentName, {
 diff --git a/packages/client/runtime/README.i18n.yaml b/packages/client/runtime/README.i18n.yaml
-index cd46900b7708f63bf99e845ab227208bbd1fd98c..6fbbab4960b85a3cdb5a9520075ed59c4d22e5d7 100644
+index cd46900..6fbbab4 100644
 --- a/packages/client/runtime/README.i18n.yaml
 +++ b/packages/client/runtime/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -4573,7 +4521,7 @@ index cd46900b7708f63bf99e845ab227208bbd1fd98c..6fbbab4960b85a3cdb5a9520075ed59c
 +README.md: ffe1bf54a634e063d35cb11a66f3d3cbf2ebb01f
 +README.zh.md: 0b021730f210647de2eb593cfaf5ab16649d474d
 diff --git a/packages/client/runtime/README.md b/packages/client/runtime/README.md
-index 1fb91bc8ca1bf9beae0ea12632acd9572db58670..ffe1bf54a634e063d35cb11a66f3d3cbf2ebb01f 100644
+index 1fb91bc..ffe1bf5 100644
 --- a/packages/client/runtime/README.md
 +++ b/packages/client/runtime/README.md
 @@ -18,6 +18,8 @@ The callback returns one synchronous disposer or an iterable of disposers. A gen
@@ -4586,7 +4534,7 @@ index 1fb91bc8ca1bf9beae0ea12632acd9572db58670..ffe1bf54a634e063d35cb11a66f3d3cb
  
  `WorkspaceRuntime.delete(workspaceId)` removes the registration from the client projection after the successful unary response; the matching `host/workspace-removed` frame is idempotent and synchronizes other tabs. Session state and the current Session selection are independent, so accounted Sessions immediately project under Ungrouped after their Workspace disappears.
 diff --git a/packages/client/runtime/README.zh.md b/packages/client/runtime/README.zh.md
-index 294a77d7081f5b475aca8b50f6c6d8322370375d..0b021730f210647de2eb593cfaf5ab16649d474d 100644
+index 294a77d..0b02173 100644
 --- a/packages/client/runtime/README.zh.md
 +++ b/packages/client/runtime/README.zh.md
 @@ -18,6 +18,8 @@
@@ -4599,7 +4547,7 @@ index 294a77d7081f5b475aca8b50f6c6d8322370375d..0b021730f210647de2eb593cfaf5ab16
  
  `WorkspaceRuntime.delete(workspaceId)` 在一元响应成功后从客户端投影中移除注册记录；对应的 `host/workspace-removed` 帧具有幂等性，并负责同步其他标签页。Session 状态与当前 Session selection 相互独立，因此 Workspace 消失后，其已纳入客户端投影的 Session 会立即投影到 Ungrouped 下。
 diff --git a/packages/client/runtime/src/client/contract/workspaces.ts b/packages/client/runtime/src/client/contract/workspaces.ts
-index 4012086c3d645e694d1c28619ac1fe32835ec33d..3d1d6f5cf3f046b802b1f609bc40951065e55042 100644
+index 4012086..3d1d6f5 100644
 --- a/packages/client/runtime/src/client/contract/workspaces.ts
 +++ b/packages/client/runtime/src/client/contract/workspaces.ts
 @@ -6,14 +6,79 @@
@@ -4684,7 +4632,7 @@ index 4012086c3d645e694d1c28619ac1fe32835ec33d..3d1d6f5cf3f046b802b1f609bc409510
     * Connect a Workspace to its reusable or freshly created blank session.
     * @param workspaceId - target workspace.
 diff --git a/packages/client/runtime/src/client/index.ts b/packages/client/runtime/src/client/index.ts
-index b5433bb5737f9377db965f52b5a415b9624af54e..7586dd6cd80f4867d8dfa06b52e106137ec92bed 100644
+index b5433bb..7586dd6 100644
 --- a/packages/client/runtime/src/client/index.ts
 +++ b/packages/client/runtime/src/client/index.ts
 @@ -55,7 +55,10 @@ export type {
@@ -4711,7 +4659,7 @@ index b5433bb5737f9377db965f52b5a415b9624af54e..7586dd6cd80f4867d8dfa06b52e10613
  export { createSnapshotStore, defineStore, shallowEqual } from './contract/store.ts'
 diff --git a/packages/client/runtime/src/client/workspaces/files.ts b/packages/client/runtime/src/client/workspaces/files.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..d91cc0a6394215526deab134e82d57f6d7f535e5
+index 0000000..d91cc0a
 --- /dev/null
 +++ b/packages/client/runtime/src/client/workspaces/files.ts
 @@ -0,0 +1,254 @@
@@ -4970,7 +4918,7 @@ index 0000000000000000000000000000000000000000..d91cc0a6394215526deab134e82d57f6
 +  }
 +}
 diff --git a/packages/client/runtime/src/client/workspaces/service.ts b/packages/client/runtime/src/client/workspaces/service.ts
-index c23e3b3a6c3f067a2aecf2db2f0795e2b2b905ae..fd30bbb7424cf2e3d8e848bc6685553ad8c6f649 100644
+index c23e3b3..fd30bbb 100644
 --- a/packages/client/runtime/src/client/workspaces/service.ts
 +++ b/packages/client/runtime/src/client/workspaces/service.ts
 @@ -10,6 +10,7 @@ import { createSnapshotStore } from '../contract/store.ts'
@@ -4999,7 +4947,7 @@ index c23e3b3a6c3f067a2aecf2db2f0795e2b2b905ae..fd30bbb7424cf2e3d8e848bc6685553a
      this.sessions.list.subscribe(() => { this.project() })
      ctx.reflect.provide('workspaces', this, undefined)
 diff --git a/packages/client/runtime/tests/fake-api.client.ts b/packages/client/runtime/tests/fake-api.client.ts
-index 33a0efbbfd78fe6631451358dd4bdf1522882d84..296904b3f49e0eb575eff0d1aea83d77df11b51e 100644
+index 33a0efb..296904b 100644
 --- a/packages/client/runtime/tests/fake-api.client.ts
 +++ b/packages/client/runtime/tests/fake-api.client.ts
 @@ -4,7 +4,7 @@
@@ -5051,7 +4999,7 @@ index 33a0efbbfd78fe6631451358dd4bdf1522882d84..296904b3f49e0eb575eff0d1aea83d77
      rename: (payload: unknown) => this.record('workspace.rename', payload, this.onWorkspaceRename(payload)),
      delete: (payload: unknown) => this.record('workspace.delete', payload, this.onWorkspaceDelete(payload)),
 diff --git a/packages/client/runtime/tests/workspaces-service.client.spec.ts b/packages/client/runtime/tests/workspaces-service.client.spec.ts
-index cfdfa98e9b3594f8d51521763671519527e0d8a2..4ff2697f1fe8eb010283fe4c5eae63bbf8bed6f8 100644
+index cfdfa98..4ff2697 100644
 --- a/packages/client/runtime/tests/workspaces-service.client.spec.ts
 +++ b/packages/client/runtime/tests/workspaces-service.client.spec.ts
 @@ -360,6 +360,111 @@ describe('WorkspaceRuntime', () => {
@@ -5167,7 +5115,7 @@ index cfdfa98e9b3594f8d51521763671519527e0d8a2..4ff2697f1fe8eb010283fe4c5eae63bb
      const ctx = new Context()
      const api = new FakeApiClient()
 diff --git a/packages/client/ui-conversation/README.i18n.yaml b/packages/client/ui-conversation/README.i18n.yaml
-index 954ba5d7af686ee45c7bb71ba21e7ce562ade29f..4e99e0d9a6dc770a787c6cabc135832a0660b2e5 100644
+index 954ba5d..4e99e0d 100644
 --- a/packages/client/ui-conversation/README.i18n.yaml
 +++ b/packages/client/ui-conversation/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -5179,7 +5127,7 @@ index 954ba5d7af686ee45c7bb71ba21e7ce562ade29f..4e99e0d9a6dc770a787c6cabc135832a
 +README.md: cbcb3cb4af56f7d72ce0c143efc543c219e51757
 +README.zh.md: 7ff5bfff5dbafcc84304a24cd7b1d964858d324c
 diff --git a/packages/client/ui-conversation/README.md b/packages/client/ui-conversation/README.md
-index ecf463da619662fe158511079e7773ee3c627ac8..cbcb3cb4af56f7d72ce0c143efc543c219e51757 100644
+index ecf463d..cbcb3cb 100644
 --- a/packages/client/ui-conversation/README.md
 +++ b/packages/client/ui-conversation/README.md
 @@ -4,6 +4,10 @@ English | [中文](README.zh.md)
@@ -5203,7 +5151,7 @@ index ecf463da619662fe158511079e7773ee3c627ac8..cbcb3cb4af56f7d72ce0c143efc543c2
  Logged non-user messages render as a default-collapsed disclosure whose header names the role the runtime projected for the message — `上下文注入` for an injection, `跨会话召回` for a recalled session — followed by the producer name that projection read out of the durable source, so a reader distinguishes a skill catalog from a workspace instruction file or a recalled session without expanding. A source that names no producer shows the role alone. The shared `DisclosureRow` primitive gives this context surface the same compact geometry as other flow rows while retaining context semantics: the expanded body follows its content height up to a 141px scrolling cap and synthesizes no tool state or summary ([historical disclosure decision](../../../.agents/notes/archived/feature/2026-07-30-web-context-injection-disclosure.md), [producer-label decision](../../../.agents/notes/implemented/feature/2026-08-04-web-context-source-and-steer-marks.md)). That body follows the form the producer declared on its durable source: `instructions` names the reconciled files above their text, `catalog` lists the entries the source recorded instead of the model-facing prose, and every other value — absent, unknown to this version, or carrying no usable fields — renders the opaque body, which shows the model-facing text with its real line breaks and the remaining source fields. The opaque body is the documented default, not a leftover: a resumed, forked, or foreign log must render whether or not its producer is mounted here. A durable or pending steering bubble shares the user bubble's presentation unadorned; its mid-turn position in the flow is the only steering signal the transcript shows.
  
 diff --git a/packages/client/ui-conversation/README.zh.md b/packages/client/ui-conversation/README.zh.md
-index f8922b160cdc6feca94dea998163c25d803a5535..7ff5bfff5dbafcc84304a24cd7b1d964858d324c 100644
+index f8922b1..7ff5bff 100644
 --- a/packages/client/ui-conversation/README.zh.md
 +++ b/packages/client/ui-conversation/README.zh.md
 @@ -4,6 +4,10 @@
@@ -5227,7 +5175,7 @@ index f8922b160cdc6feca94dea998163c25d803a5535..7ff5bfff5dbafcc84304a24cd7b1d964
  已记录的非用户消息渲染为默认折叠的展开项，标题栏先给出运行时为该消息投影出的角色——注入为 `上下文注入`，召回为 `跨会话召回`——其后是该投影从持久来源读出的生产者名称，因此读者无需展开即可区分 skill（技能）目录、工作区指令文件与被召回的会话。来源未提供生产者名称时只显示角色。共享的 `DisclosureRow` 原子组件让该上下文界面与消息流中的其他紧凑行保持相同几何，同时保留上下文语义：展开内容区的高度会随内容自适应，最大为 141px，超出后滚动，且不会合成工具状态或摘要（[历史展开项决策](../../../.agents/notes/archived/feature/2026-07-30-web-context-injection-disclosure.md)、[生产者标签决策](../../../.agents/notes/implemented/feature/2026-08-04-web-context-source-and-steer-marks.md)）。该内容区按生产方在持久来源上声明的形态渲染：`instructions` 在正文之上列出它对账过的文件，`catalog` 列出来源记录的条目而非面向模型的正文，其余取值——未声明、本版本不认识、或字段不可用——一律渲染 opaque 内容区，即按真实换行展示面向模型的文本，并把剩余来源字段列出。opaque 不是兜底剩余物而是有文档的默认：恢复的、fork 的、外部写入的日志，无论其生产方是否挂载在此处，都必须渲染得出来。持久或待处理的 steering（中途引导）气泡沿用用户气泡的呈现，不加任何装饰；transcript 中唯一的 steering 信号是它出现在轮次中途的位置。
  
 diff --git a/packages/client/ui-conversation/package.json b/packages/client/ui-conversation/package.json
-index 04f7d633f28e87942019af386243d298b6eb4659..eae2c571b813663fa0d445f695069ae67083536f 100644
+index 04f7d63..eae2c57 100644
 --- a/packages/client/ui-conversation/package.json
 +++ b/packages/client/ui-conversation/package.json
 @@ -48,9 +48,23 @@
@@ -5281,7 +5229,7 @@ index 04f7d633f28e87942019af386243d298b6eb4659..eae2c571b813663fa0d445f695069ae6
      "@deepseek-ai/dsh-commands": "workspace:^",
      "@deepseek-ai/dsh-compaction": "workspace:^",
 diff --git a/packages/client/ui-conversation/src/client/apply.ts b/packages/client/ui-conversation/src/client/apply.ts
-index f57caea9e5ad6f82e36f45a110c81b538feb090f..aac46de03ae4db69c6f2d341cd5fdccf696f3e5d 100644
+index f57caea..aac46de 100644
 --- a/packages/client/ui-conversation/src/client/apply.ts
 +++ b/packages/client/ui-conversation/src/client/apply.ts
 @@ -34,7 +34,7 @@ import { todoDockEntry } from './skeleton/TodoPanel.tsx'
@@ -5356,7 +5304,7 @@ index f57caea9e5ad6f82e36f45a110c81b538feb090f..aac46de03ae4db69c6f2d341cd5fdccf
  
  }
 diff --git a/packages/client/ui-conversation/src/client/contract/slots.ts b/packages/client/ui-conversation/src/client/contract/slots.ts
-index 21259146a748fd4ec9520f8509048608ec239c10..4620fc2aa74c4ce4e81a08256beff33dd0241197 100644
+index 2125914..4620fc2 100644
 --- a/packages/client/ui-conversation/src/client/contract/slots.ts
 +++ b/packages/client/ui-conversation/src/client/contract/slots.ts
 @@ -7,8 +7,8 @@ import type {
@@ -5420,7 +5368,7 @@ index 21259146a748fd4ec9520f8509048608ec239c10..4620fc2aa74c4ce4e81a08256beff33d
  /** Owner share common to the hero / New-Session Workspace pickers. */
  export interface EmptyWorkspaceOwnerProps {
 diff --git a/packages/client/ui-conversation/src/client/locales.ts b/packages/client/ui-conversation/src/client/locales.ts
-index c9b6f658caa7abbbc79b87406aacce8fadc31a0b..1a0b7e57a5ab6643ac8796e4f051f6e4ec2fa3f7 100644
+index c9b6f65..1a0b7e5 100644
 --- a/packages/client/ui-conversation/src/client/locales.ts
 +++ b/packages/client/ui-conversation/src/client/locales.ts
 @@ -76,11 +76,52 @@ export const zh = {
@@ -5531,7 +5479,7 @@ index c9b6f658caa7abbbc79b87406aacce8fadc31a0b..1a0b7e57a5ab6643ac8796e4f051f6e4
    'todo.progress.active': '{active} in progress',
 diff --git a/packages/client/ui-conversation/src/client/skeleton/CodeEditor.module.css b/packages/client/ui-conversation/src/client/skeleton/CodeEditor.module.css
 new file mode 100644
-index 0000000000000000000000000000000000000000..7ca34dd40b22297cef69c4fd7993fcd283497206
+index 0000000..7ca34dd
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/CodeEditor.module.css
 @@ -0,0 +1,7 @@
@@ -5544,7 +5492,7 @@ index 0000000000000000000000000000000000000000..7ca34dd40b22297cef69c4fd7993fcd2
 +}
 diff --git a/packages/client/ui-conversation/src/client/skeleton/CodeEditor.tsx b/packages/client/ui-conversation/src/client/skeleton/CodeEditor.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..cd56ee7ef7a3714cee76e7a2e992b8eaedb0b44a
+index 0000000..cd56ee7
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/CodeEditor.tsx
 @@ -0,0 +1,164 @@
@@ -5713,7 +5661,7 @@ index 0000000000000000000000000000000000000000..cd56ee7ef7a3714cee76e7a2e992b8ea
 +  return <div ref={host} className={css.root} />
 +})
 diff --git a/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.module.css b/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.module.css
-index 6146d428107c8a4e743b4c0f8738db9488fce74a..fe274bfb8072d23ffa5ded71c65c14f506796147 100644
+index 6146d42..fe274bf 100644
 --- a/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.module.css
 +++ b/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.module.css
 @@ -132,6 +132,36 @@
@@ -5754,7 +5702,7 @@ index 6146d428107c8a4e743b4c0f8738db9488fce74a..fe274bfb8072d23ffa5ded71c65c14f5
  .tabs {
    position: relative;
 diff --git a/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.tsx b/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.tsx
-index ef1221cd99ecb91cadf48570c8724604932e4010..4fedb8b7d0326213382ad00ee85230cdef7fb85f 100644
+index ef1221c..4fedb8b 100644
 --- a/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.tsx
 +++ b/packages/client/ui-conversation/src/client/skeleton/ConversationRoot.tsx
 @@ -14,7 +14,7 @@ export type ConversationRootProps = ConversationSlotProps
@@ -5776,7 +5724,7 @@ index ef1221cd99ecb91cadf48570c8724604932e4010..4fedb8b7d0326213382ad00ee85230cd
          {renderSlot('conversation.session', {})}
          {composerSeat}
 diff --git a/packages/client/ui-conversation/src/client/skeleton/ConversationSession.tsx b/packages/client/ui-conversation/src/client/skeleton/ConversationSession.tsx
-index d576aa175d34b1231d618de8eac2bcbd5497e4c7..c7a273c6c8803c721639c44adbe723a9757f4f0d 100644
+index d576aa1..c7a273c 100644
 --- a/packages/client/ui-conversation/src/client/skeleton/ConversationSession.tsx
 +++ b/packages/client/ui-conversation/src/client/skeleton/ConversationSession.tsx
 @@ -2,7 +2,9 @@
@@ -5829,7 +5777,7 @@ index d576aa175d34b1231d618de8eac2bcbd5497e4c7..c7a273c6c8803c721639c44adbe723a9
            {tabs.length > 1 && (
 diff --git a/packages/client/ui-conversation/src/client/skeleton/DetailsHost.tsx b/packages/client/ui-conversation/src/client/skeleton/DetailsHost.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..2a7a89685166df3dca6738185a8ca36fb94f3b65
+index 0000000..2a7a896
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/DetailsHost.tsx
 @@ -0,0 +1,45 @@
@@ -5879,7 +5827,7 @@ index 0000000000000000000000000000000000000000..2a7a89685166df3dca6738185a8ca36f
 +  return <DetailsPanel {...details} />
 +}
 diff --git a/packages/client/ui-conversation/src/client/skeleton/DetailsPanel.tsx b/packages/client/ui-conversation/src/client/skeleton/DetailsPanel.tsx
-index 8d11e3c5ea60b2ac2ae93cd8ab6edc446b56f821..482a214356851be58ba4fc7e3308070c1ac804b0 100644
+index 8d11e3c..482a214 100644
 --- a/packages/client/ui-conversation/src/client/skeleton/DetailsPanel.tsx
 +++ b/packages/client/ui-conversation/src/client/skeleton/DetailsPanel.tsx
 @@ -7,7 +7,8 @@
@@ -5940,7 +5888,7 @@ index 8d11e3c5ea60b2ac2ae93cd8ab6edc446b56f821..482a214356851be58ba4fc7e3308070c
          {selection === null || callId === undefined
 diff --git a/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.module.css b/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.module.css
 new file mode 100644
-index 0000000000000000000000000000000000000000..321c1625a874a3c5a469532f9380827da0f36525
+index 0000000..321c162
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.module.css
 @@ -0,0 +1,508 @@
@@ -6454,7 +6402,7 @@ index 0000000000000000000000000000000000000000..321c1625a874a3c5a469532f9380827d
 +}
 diff --git a/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.tsx b/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..784b9db8b944a02d300127935872564b4583da27
+index 0000000..784b9db
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.tsx
 @@ -0,0 +1,254 @@
@@ -6714,7 +6662,7 @@ index 0000000000000000000000000000000000000000..784b9db8b944a02d300127935872564b
 +}
 diff --git a/packages/client/ui-conversation/src/client/skeleton/ProjectExplorer.tsx b/packages/client/ui-conversation/src/client/skeleton/ProjectExplorer.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..51457fcc42551d1cc14c9795057d301687ab3dd8
+index 0000000..51457fc
 --- /dev/null
 +++ b/packages/client/ui-conversation/src/client/skeleton/ProjectExplorer.tsx
 @@ -0,0 +1,273 @@
@@ -6992,7 +6940,7 @@ index 0000000000000000000000000000000000000000..51457fcc42551d1cc14c9795057d3016
 +  )
 +}
 diff --git a/packages/client/ui-conversation/tests/apply-inject.client.spec.tsx b/packages/client/ui-conversation/tests/apply-inject.client.spec.tsx
-index 9cec01789ad88797c049ab739b27cae04006af3e..ed50bdc1543a7cf8ef800993c15daf2c9d61ef12 100644
+index 9cec017..ed50bdc 100644
 --- a/packages/client/ui-conversation/tests/apply-inject.client.spec.tsx
 +++ b/packages/client/ui-conversation/tests/apply-inject.client.spec.tsx
 @@ -240,6 +240,35 @@ describe('conversation slot inject API', () => {
@@ -7058,7 +7006,7 @@ index 9cec01789ad88797c049ab739b27cae04006af3e..ed50bdc1543a7cf8ef800993c15daf2c
      const conv = b.runtime.storeOf('conversation.session', ROOT)
      const details = b.runtime.storeOf('details', ROOT)
 diff --git a/packages/client/ui-conversation/tests/assembly-surfaces.client.spec.tsx b/packages/client/ui-conversation/tests/assembly-surfaces.client.spec.tsx
-index 2a2b67b128a7c27897992ea13dd9bdc59551b14a..e2aa50552d856e3668b5a97d1487bf3c77ba4438 100644
+index 2a2b67b..e2aa505 100644
 --- a/packages/client/ui-conversation/tests/assembly-surfaces.client.spec.tsx
 +++ b/packages/client/ui-conversation/tests/assembly-surfaces.client.spec.tsx
 @@ -31,7 +31,7 @@ beforeEach(() => {
@@ -7072,7 +7020,7 @@ index 2a2b67b128a7c27897992ea13dd9bdc59551b14a..e2aa50552d856e3668b5a97d1487bf3c
  const LAYOUT_CHILDREN = {
 diff --git a/packages/client/ui-conversation/tests/code-editor.client.spec.tsx b/packages/client/ui-conversation/tests/code-editor.client.spec.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..a06a293e90655e96100324e5e67c0617b22c67cd
+index 0000000..a06a293
 --- /dev/null
 +++ b/packages/client/ui-conversation/tests/code-editor.client.spec.tsx
 @@ -0,0 +1,69 @@
@@ -7147,7 +7095,7 @@ index 0000000000000000000000000000000000000000..a06a293e90655e96100324e5e67c0617
 +})
 diff --git a/packages/client/ui-conversation/tests/file-workbench.client.spec.tsx b/packages/client/ui-conversation/tests/file-workbench.client.spec.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..80ef79dac28a4a3677eba8ad9a06924aa4bdf1a1
+index 0000000..80ef79d
 --- /dev/null
 +++ b/packages/client/ui-conversation/tests/file-workbench.client.spec.tsx
 @@ -0,0 +1,243 @@
@@ -7395,7 +7343,7 @@ index 0000000000000000000000000000000000000000..80ef79dac28a4a3677eba8ad9a06924a
 +  })
 +})
 diff --git a/packages/client/ui-conversation/tests/skeleton.client.spec.tsx b/packages/client/ui-conversation/tests/skeleton.client.spec.tsx
-index acf618fb2be30a87dce5123953f7c634fd91d2ac..4e5ef2b4cae8ccb879f58f164f337a2b342d4b65 100644
+index acf618f..4e5ef2b 100644
 --- a/packages/client/ui-conversation/tests/skeleton.client.spec.tsx
 +++ b/packages/client/ui-conversation/tests/skeleton.client.spec.tsx
 @@ -25,7 +25,7 @@ import { HeroShell } from '../src/client/skeleton/EmptyHero.tsx'
@@ -7477,7 +7425,7 @@ index acf618fb2be30a87dce5123953f7c634fd91d2ac..4e5ef2b4cae8ccb879f58f164f337a2b
      const b = mount(conversationSnapshot(), undefined, undefined, { overlayTakeover: true })
      const seat = b.view.container.querySelector('[data-composer-seat]')
 diff --git a/packages/client/ui-layout/README.i18n.yaml b/packages/client/ui-layout/README.i18n.yaml
-index d52d995ca17da7176c8672be079839a296afb95c..08321d142a58af7794a4088261d492776c161d59 100644
+index d52d995..08321d1 100644
 --- a/packages/client/ui-layout/README.i18n.yaml
 +++ b/packages/client/ui-layout/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -7489,7 +7437,7 @@ index d52d995ca17da7176c8672be079839a296afb95c..08321d142a58af7794a4088261d49277
 +README.md: f800be5d39728153e181ae1e6019961ef01bdd17
 +README.zh.md: a1520be7659413d4ec28115f75c550366c61ff3c
 diff --git a/packages/client/ui-layout/README.md b/packages/client/ui-layout/README.md
-index 7c9d64b9ca7a5fada492c37200a283904466c36d..f800be5d39728153e181ae1e6019961ef01bdd17 100644
+index 7c9d64b..f800be5 100644
 --- a/packages/client/ui-layout/README.md
 +++ b/packages/client/ui-layout/README.md
 @@ -2,9 +2,9 @@
@@ -7505,7 +7453,7 @@ index 7c9d64b9ca7a5fada492c37200a283904466c36d..f800be5d39728153e181ae1e6019961e
  The `/client` exports are the plugin body (`apply`/`inject`), `LayoutController`, and the four owner-share interfaces. AppFrame, the panel store, and the concession solver remain package-internal.
  
 diff --git a/packages/client/ui-layout/README.zh.md b/packages/client/ui-layout/README.zh.md
-index a2604d865977c495d2a3d2362b25f05e34142c97..a1520be7659413d4ec28115f75c550366c61ff3c 100644
+index a2604d8..a1520be 100644
 --- a/packages/client/ui-layout/README.zh.md
 +++ b/packages/client/ui-layout/README.zh.md
 @@ -2,9 +2,9 @@
@@ -7521,7 +7469,7 @@ index a2604d865977c495d2a3d2362b25f05e34142c97..a1520be7659413d4ec28115f75c55036
  `/client` 导出表层包含插件主体（`apply`／`inject`）、`LayoutController` 和四个 owner-share 接口。AppFrame、面板 store 与让步求解器仍属于包内部。
  
 diff --git a/packages/client/ui-layout/src/client/AppFrame.module.css b/packages/client/ui-layout/src/client/AppFrame.module.css
-index ae56780133ee4a4a08b4381ff37aa8d4fdc55247..1e53a00a93f2baa6c81b9e2412bf70d646321bb4 100644
+index ae56780..1e53a00 100644
 --- a/packages/client/ui-layout/src/client/AppFrame.module.css
 +++ b/packages/client/ui-layout/src/client/AppFrame.module.css
 @@ -48,6 +48,10 @@
@@ -7536,7 +7484,7 @@ index ae56780133ee4a4a08b4381ff37aa8d4fdc55247..1e53a00a93f2baa6c81b9e2412bf70d6
     centered on the column border via inline left, above column content. Details
     adds a visible 12x32 pill at vertical center; sidebar keeps only the hit strip. */
 diff --git a/packages/client/ui-layout/src/client/AppFrame.tsx b/packages/client/ui-layout/src/client/AppFrame.tsx
-index 2696dc91fa9c8912b0f96ec8eba6e6a33715afb0..b6fcc32b7f114d4564ca4e0e332bab0cf1aa4029 100644
+index 2696dc9..b6fcc32 100644
 --- a/packages/client/ui-layout/src/client/AppFrame.tsx
 +++ b/packages/client/ui-layout/src/client/AppFrame.tsx
 @@ -139,7 +139,18 @@ export function AppFrame({
@@ -7600,7 +7548,7 @@ index 2696dc91fa9c8912b0f96ec8eba6e6a33715afb0..b6fcc32b7f114d4564ca4e0e332bab0c
    )
  }
 diff --git a/packages/client/ui-layout/src/client/columns.ts b/packages/client/ui-layout/src/client/columns.ts
-index 374ce64703ef14e1490395786001d2cca85b8099..b626242b68ea331c1ccb9b5a535a0f91b6da1596 100644
+index 374ce64..b626242 100644
 --- a/packages/client/ui-layout/src/client/columns.ts
 +++ b/packages/client/ui-layout/src/client/columns.ts
 @@ -1,7 +1,7 @@
@@ -7692,7 +7640,7 @@ index 374ce64703ef14e1490395786001d2cca85b8099..b626242b68ea331c1ccb9b5a535a0f91
    return { sidebar: s, center: Math.max(0, viewport - s), details: 0 }
  }
 diff --git a/packages/client/ui-layout/src/client/index.ts b/packages/client/ui-layout/src/client/index.ts
-index c56d83bfbb307f4ab1f0ee2c8537a63419958a1c..a131e11aa4a03d3fc9060d88bdec6b836e229304 100644
+index c56d83b..a131e11 100644
 --- a/packages/client/ui-layout/src/client/index.ts
 +++ b/packages/client/ui-layout/src/client/index.ts
 @@ -22,6 +22,7 @@ import { ThemePresenter } from './theme-presenter.ts'
@@ -7720,7 +7668,7 @@ index c56d83bfbb307f4ab1f0ee2c8537a63419958a1c..a131e11aa4a03d3fc9060d88bdec6b83
  /** Details owner share: empty — sessionId arrives as a framework-standard prop. */
  export interface DetailsOwnerProps {}
 diff --git a/packages/client/ui-layout/src/client/service.ts b/packages/client/ui-layout/src/client/service.ts
-index 2b2e50e5d5330de02a6fde9ff69046dc36ec4c07..c052cc480f2edc23a5fdb132631276970e6fbfd4 100644
+index 2b2e50e..c052cc4 100644
 --- a/packages/client/ui-layout/src/client/service.ts
 +++ b/packages/client/ui-layout/src/client/service.ts
 @@ -10,6 +10,7 @@
@@ -7756,7 +7704,7 @@ index 2b2e50e5d5330de02a6fde9ff69046dc36ec4c07..c052cc480f2edc23a5fdb13263127697
  
    /** Close the details panel. */
 diff --git a/packages/client/ui-layout/src/client/stores.ts b/packages/client/ui-layout/src/client/stores.ts
-index d2de668a9c8694b0579c737e6d50c43659391640..4ce1eaff858a48a36f64334e5aff4bd6c745d560 100644
+index d2de668..4ce1eaf 100644
 --- a/packages/client/ui-layout/src/client/stores.ts
 +++ b/packages/client/ui-layout/src/client/stores.ts
 @@ -10,8 +10,10 @@
@@ -7846,7 +7794,7 @@ index d2de668a9c8694b0579c737e6d50c43659391640..4ce1eaff858a48a36f64334e5aff4bd6
      },
    })
 diff --git a/packages/client/ui-layout/tests/app-frame.client.spec.tsx b/packages/client/ui-layout/tests/app-frame.client.spec.tsx
-index 65de5a640e51617b16a7b6eb89fdc2eff4d3e424..3d5912d617e941d3fe7a2e8fca8594e22d59a46e 100644
+index 65de5a6..3d5912d 100644
 --- a/packages/client/ui-layout/tests/app-frame.client.spec.tsx
 +++ b/packages/client/ui-layout/tests/app-frame.client.spec.tsx
 @@ -142,15 +142,28 @@ describe('AppFrame', () => {
@@ -7920,7 +7868,7 @@ index 65de5a640e51617b16a7b6eb89fdc2eff4d3e424..3d5912d617e941d3fe7a2e8fca8594e2
      frameWidth = 1250 // step-2 squeeze: details renders 330 while preference is 360
      const { frame, instance } = mountFrame()
 diff --git a/packages/client/ui-layout/tests/columns.client.spec.ts b/packages/client/ui-layout/tests/columns.client.spec.ts
-index ae8c39a1177527f8ca3f8477490f1e31f748476b..433c20de3d84cb73be059441b4926c3873acf44e 100644
+index ae8c39a..433c20d 100644
 --- a/packages/client/ui-layout/tests/columns.client.spec.ts
 +++ b/packages/client/ui-layout/tests/columns.client.spec.ts
 @@ -1,7 +1,8 @@
@@ -7961,7 +7909,7 @@ index ae8c39a1177527f8ca3f8477490f1e31f748476b..433c20de3d84cb73be059441b4926c38
  
  describe('computeColumns — degenerate viewports', () => {
 diff --git a/packages/client/ui-layout/tests/layout-store.client.spec.ts b/packages/client/ui-layout/tests/layout-store.client.spec.ts
-index c6f00691971c6e5ef3f83797e610413aba8121b1..746abbe0d82dee7f502a1336a81581dda7067f26 100644
+index c6f0069..746abbe 100644
 --- a/packages/client/ui-layout/tests/layout-store.client.spec.ts
 +++ b/packages/client/ui-layout/tests/layout-store.client.spec.ts
 @@ -9,6 +9,7 @@ import { beforeEach, describe, expect, it } from 'vitest'
@@ -8045,7 +7993,7 @@ index c6f00691971c6e5ef3f83797e610413aba8121b1..746abbe0d82dee7f502a1336a81581dd
        narrowExpanded: false,
      })
 diff --git a/packages/client/ui-layout/tests/service.client.spec.ts b/packages/client/ui-layout/tests/service.client.spec.ts
-index e1267b4f49c508646cc293d6dda17c06c7a04d05..a8b58da20e8ec86b74c99099b8db405fc9abb082 100644
+index e1267b4..a8b58da 100644
 --- a/packages/client/ui-layout/tests/service.client.spec.ts
 +++ b/packages/client/ui-layout/tests/service.client.spec.ts
 @@ -27,10 +27,12 @@ describe('LayoutController', () => {
@@ -8062,65 +8010,8 @@ index e1267b4f49c508646cc293d6dda17c06c7a04d05..a8b58da20e8ec86b74c99099b8db405f
      expect(panels.closeDetails).toHaveBeenCalledTimes(1)
      expect(panels.setSidebar).not.toHaveBeenCalled()
      expect(panels.setDetails).not.toHaveBeenCalled()
-diff --git a/packages/client/ui-primitives/src/clipboard.ts b/packages/client/ui-primitives/src/clipboard.ts
-index aa45f4c76d197532bac80a53a7aaaa518f2857ac..1e38818cc21a34b84d212d1b91b2780ba93b871b 100644
---- a/packages/client/ui-primitives/src/clipboard.ts
-+++ b/packages/client/ui-primitives/src/clipboard.ts
-@@ -9,6 +9,19 @@
-  * @returns true only when the host accepted the write.
-  */
- export async function writeClipboard(text: string): Promise<boolean> {
-+  const desktop = typeof window === 'undefined'
-+    ? undefined
-+    : (window as Window & {
-+      dshDesktop?: { writeClipboard?: (value: string) => Promise<void> }
-+    }).dshDesktop
-+  if (typeof desktop?.writeClipboard === 'function') {
-+    try {
-+      await desktop.writeClipboard(text)
-+      return true
-+    } catch {
-+      return false
-+    }
-+  }
-   // lib.dom types clipboard non-optional, but insecure contexts omit it —
-   // that runtime gap is exactly what this guard detects.
-   /* oxlint-disable-next-line typescript/no-unnecessary-condition */
-diff --git a/packages/client/ui-primitives/tests/terminal-block.client.spec.tsx b/packages/client/ui-primitives/tests/terminal-block.client.spec.tsx
-index 23a38e8e0951216e264452e89b8c4459b77c29c4..faf9da85dead187df8f703cb385d7c4b56c51247 100644
---- a/packages/client/ui-primitives/tests/terminal-block.client.spec.tsx
-+++ b/packages/client/ui-primitives/tests/terminal-block.client.spec.tsx
-@@ -369,6 +369,28 @@ describe('TerminalBlock copy', () => {
- })
- 
- describe('writeClipboard', () => {
-+  it('prefers the native Electron clipboard bridge when it is present', async () => {
-+    const prior = Object.getOwnPropertyDescriptor(window, 'dshDesktop')
-+    const nativeWrite = vi.fn().mockResolvedValue(undefined)
-+    const browserWrite = vi.fn().mockResolvedValue(undefined)
-+    Object.defineProperty(window, 'dshDesktop', {
-+      configurable: true,
-+      value: { writeClipboard: nativeWrite },
-+    })
-+    Object.defineProperty(navigator, 'clipboard', {
-+      configurable: true,
-+      value: { writeText: browserWrite },
-+    })
-+    try {
-+      await expect(writeClipboard('payload')).resolves.toBe(true)
-+      expect(nativeWrite).toHaveBeenCalledWith('payload')
-+      expect(browserWrite).not.toHaveBeenCalled()
-+    } finally {
-+      if (prior === undefined) Reflect.deleteProperty(window, 'dshDesktop')
-+      else Object.defineProperty(window, 'dshDesktop', prior)
-+    }
-+  })
-+
-   it('reports true after the async Clipboard API accepts the exact text', async () => {
-     const writeText = vi.fn().mockResolvedValue(undefined)
-     Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText } })
 diff --git a/packages/client/ui-tool/tests/assembly-surfaces.client.spec.tsx b/packages/client/ui-tool/tests/assembly-surfaces.client.spec.tsx
-index 501d4c27b918bd974c276071594c1abf63c7f5c6..9b6fc720f26cfc3da0d5fce31cfc4de7b8747199 100644
+index 501d4c2..9b6fc72 100644
 --- a/packages/client/ui-tool/tests/assembly-surfaces.client.spec.tsx
 +++ b/packages/client/ui-tool/tests/assembly-surfaces.client.spec.tsx
 @@ -58,7 +58,7 @@ const bashResult = (seq: number, callId: string, over?: Partial<ToolResultNode>)
@@ -8133,7 +8024,7 @@ index 501d4c27b918bd974c276071594c1abf63c7f5c6..9b6fc720f26cfc3da0d5fce31cfc4de7
  
  const LAYOUT_CHILDREN = {
 diff --git a/packages/client/ui-tool/tests/chat-code-subcalls.client.spec.tsx b/packages/client/ui-tool/tests/chat-code-subcalls.client.spec.tsx
-index 1f0cd29274a477045299178c4aedd4eb8eee6415..9823d51946cb88398d3c62ff08c4cf7a20727216 100644
+index 1f0cd29..9823d51 100644
 --- a/packages/client/ui-tool/tests/chat-code-subcalls.client.spec.tsx
 +++ b/packages/client/ui-tool/tests/chat-code-subcalls.client.spec.tsx
 @@ -93,7 +93,7 @@ function snapshotWith(
@@ -8146,7 +8037,7 @@ index 1f0cd29274a477045299178c4aedd4eb8eee6415..9823d51946cb88398d3c62ff08c4cf7a
  
  /**
 diff --git a/packages/client/ui-tool/tests/toolview-slot.client.spec.tsx b/packages/client/ui-tool/tests/toolview-slot.client.spec.tsx
-index 12af87cef655232d116324bf57cc158ad740d2c5..63fbf7891ee2f6596ecbe50d0e0f11c469e9873f 100644
+index 12af87c..63fbf78 100644
 --- a/packages/client/ui-tool/tests/toolview-slot.client.spec.tsx
 +++ b/packages/client/ui-tool/tests/toolview-slot.client.spec.tsx
 @@ -49,7 +49,7 @@ const toolResult = (seq: number, callId: string, name: string, args = '{"command
@@ -8159,7 +8050,7 @@ index 12af87cef655232d116324bf57cc158ad740d2c5..63fbf7891ee2f6596ecbe50d0e0f11c4
  
  const LAYOUT_CHILDREN = {
 diff --git a/packages/client/ui-trajectory/tests/views.client.spec.tsx b/packages/client/ui-trajectory/tests/views.client.spec.tsx
-index 77c35873df8d25a6f56761a48d31d89925095378..7b6c95ae0d0f59361b7838b80bb07c50f90212ea 100644
+index 77c3587..7b6c95a 100644
 --- a/packages/client/ui-trajectory/tests/views.client.spec.tsx
 +++ b/packages/client/ui-trajectory/tests/views.client.spec.tsx
 @@ -276,6 +276,8 @@ function mount(slots: SlotRegistry, nodes: ConversationSnapshot['nodes'] = NODES
@@ -8172,7 +8063,7 @@ index 77c35873df8d25a6f56761a48d31d89925095378..7b6c95ae0d0f59361b7838b80bb07c50
        />
        <ConversationSession
 diff --git a/packages/client/web/README.i18n.yaml b/packages/client/web/README.i18n.yaml
-index bd27db2525b2bebf3b47d56a8a983b1e1ff27b17..e67ef77b5a0f489fcfc2079469bf43bab64ee0ad 100644
+index bd27db2..e67ef77 100644
 --- a/packages/client/web/README.i18n.yaml
 +++ b/packages/client/web/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -8184,7 +8075,7 @@ index bd27db2525b2bebf3b47d56a8a983b1e1ff27b17..e67ef77b5a0f489fcfc2079469bf43ba
 +README.md: 28d4f6ed141129e85b5814dee976e7d279601cee
 +README.zh.md: fae3f95ab57196efb41eeacf5a241dde2ec9ffc5
 diff --git a/packages/client/web/README.md b/packages/client/web/README.md
-index 4b44e0e2c2e192363ce32ac2decc218f5ea17bd2..28d4f6ed141129e85b5814dee976e7d279601cee 100644
+index 4b44e0e..28d4f6e 100644
 --- a/packages/client/web/README.md
 +++ b/packages/client/web/README.md
 @@ -12,6 +12,8 @@ The optional override parameter `seams` forwards the module system's `loadBundle
@@ -8197,7 +8088,7 @@ index 4b44e0e2c2e192363ce32ac2decc218f5ea17bd2..28d4f6ed141129e85b5814dee976e7d2
  
  None, as the entry shell boots the browser plugin tree; nothing here reaches a model request.
 diff --git a/packages/client/web/README.zh.md b/packages/client/web/README.zh.md
-index d9cd3574fc1f1940b7dcd5e7722a3dccd1e75600..fae3f95ab57196efb41eeacf5a241dde2ec9ffc5 100644
+index d9cd357..fae3f95 100644
 --- a/packages/client/web/README.zh.md
 +++ b/packages/client/web/README.zh.md
 @@ -12,6 +12,8 @@ Web 外壳内核：`new AppWebEntry(el, seams?).run()` 通过两阶段启动（w
@@ -8210,7 +8101,7 @@ index d9cd3574fc1f1940b7dcd5e7722a3dccd1e75600..fae3f95ab57196efb41eeacf5a241dde
  
  无。入口外壳负责启动浏览器插件树；这里没有任何内容进入模型请求。
 diff --git a/packages/client/web/package.json b/packages/client/web/package.json
-index ded9257be026e9bf10e1e07e636830d404878483..9eb65d400572f280717606d17c79a67c473890b7 100644
+index ded9257..9eb65d4 100644
 --- a/packages/client/web/package.json
 +++ b/packages/client/web/package.json
 @@ -34,6 +34,7 @@
@@ -8222,7 +8113,7 @@ index ded9257be026e9bf10e1e07e636830d404878483..9eb65d400572f280717606d17c79a67c
      "react-dom": "^18.2.0"
    },
 diff --git a/packages/client/web/src/AppRoot.tsx b/packages/client/web/src/AppRoot.tsx
-index d8ef311b380aebf47a03d192202cda8c942a7e1c..baef7d44f84be47ef0118bdc5ee473227a9218f5 100644
+index d8ef311..baef7d4 100644
 --- a/packages/client/web/src/AppRoot.tsx
 +++ b/packages/client/web/src/AppRoot.tsx
 @@ -11,6 +11,7 @@
@@ -8280,7 +8171,7 @@ index d8ef311b380aebf47a03d192202cda8c942a7e1c..baef7d44f84be47ef0118bdc5ee47322
  }
 diff --git a/packages/client/web/src/DesktopChrome.module.css b/packages/client/web/src/DesktopChrome.module.css
 new file mode 100644
-index 0000000000000000000000000000000000000000..3cca6002cf7b4f6773c7bdf55eac92d7ff23472c
+index 0000000..3cca600
 --- /dev/null
 +++ b/packages/client/web/src/DesktopChrome.module.css
 @@ -0,0 +1,110 @@
@@ -8396,7 +8287,7 @@ index 0000000000000000000000000000000000000000..3cca6002cf7b4f6773c7bdf55eac92d7
 +}
 diff --git a/packages/client/web/src/DesktopChrome.tsx b/packages/client/web/src/DesktopChrome.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..5c30a01cee3055b201f228b50a0e7c8b48e6d68c
+index 0000000..5c30a01
 --- /dev/null
 +++ b/packages/client/web/src/DesktopChrome.tsx
 @@ -0,0 +1,105 @@
@@ -8506,7 +8397,7 @@ index 0000000000000000000000000000000000000000..5c30a01cee3055b201f228b50a0e7c8b
 +  return <DesktopFrame {...props} controls={controls} />
 +}
 diff --git a/packages/client/web/src/DocumentTitle.tsx b/packages/client/web/src/DocumentTitle.tsx
-index 608f97497d5d1178ece7062afe1ffab5a4d4aadb..d471c1a06ec995a8d638cf627fe9a231f52ea4ee 100644
+index 608f974..d471c1a 100644
 --- a/packages/client/web/src/DocumentTitle.tsx
 +++ b/packages/client/web/src/DocumentTitle.tsx
 @@ -6,6 +6,11 @@ export interface DocumentTitleProps {
@@ -8531,7 +8422,7 @@ index 608f97497d5d1178ece7062afe1ffab5a4d4aadb..d471c1a06ec995a8d638cf627fe9a231
    }, [title])
    return null
 diff --git a/packages/client/web/src/app.tsx b/packages/client/web/src/app.tsx
-index 646dcec3dce66a517f84d16a7f1ab0997100a0c9..16bd64f804547cc843b7bc720f22a03a1fdf43d2 100644
+index 646dcec..16bd64f 100644
 --- a/packages/client/web/src/app.tsx
 +++ b/packages/client/web/src/app.tsx
 @@ -8,7 +8,8 @@
@@ -8573,7 +8464,7 @@ index 646dcec3dce66a517f84d16a7f1ab0997100a0c9..16bd64f804547cc843b7bc720f22a03a
    )
  }
 diff --git a/packages/client/web/src/boot.tsx b/packages/client/web/src/boot.tsx
-index 7afc298767f5ea32ba0d3ad4e3ede54f3d2fc52b..1caf417f7dfc81134f34d0073ef32b84ced5f604 100644
+index 7afc298..1caf417 100644
 --- a/packages/client/web/src/boot.tsx
 +++ b/packages/client/web/src/boot.tsx
 @@ -50,6 +50,21 @@ import './base.css'
@@ -8609,7 +8500,7 @@ index 7afc298767f5ea32ba0d3ad4e3ede54f3d2fc52b..1caf417f7dfc81134f34d0073ef32b84
        modules: this.manifest.modules, staticModules: getStaticModules(), ...this.seams,
 diff --git a/packages/client/web/tests/boot-graph.client.spec.ts b/packages/client/web/tests/boot-graph.client.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..7d18bed6b0955599082e9a311abc75bdbfe64ed2
+index 0000000..7d18bed
 --- /dev/null
 +++ b/packages/client/web/tests/boot-graph.client.spec.ts
 @@ -0,0 +1,24 @@
@@ -8639,7 +8530,7 @@ index 0000000000000000000000000000000000000000..7d18bed6b0955599082e9a311abc75bd
 +})
 diff --git a/packages/client/web/tests/desktop-chrome.client.spec.tsx b/packages/client/web/tests/desktop-chrome.client.spec.tsx
 new file mode 100644
-index 0000000000000000000000000000000000000000..1d85c3bddf343343ad930c34390aac969af9a749
+index 0000000..1d85c3b
 --- /dev/null
 +++ b/packages/client/web/tests/desktop-chrome.client.spec.tsx
 @@ -0,0 +1,80 @@
@@ -8723,134 +8614,8 @@ index 0000000000000000000000000000000000000000..1d85c3bddf343343ad930c34390aac96
 +    expect(controls.listener).toBeUndefined()
 +  })
 +})
-diff --git a/packages/core/agent-loop/src/agent.ts b/packages/core/agent-loop/src/agent.ts
-index 668ef6582657ed0e1e4420777696ee50251371ad..efdc554a994cfb666c18d69151e1b5eb6aca4ab2 100644
---- a/packages/core/agent-loop/src/agent.ts
-+++ b/packages/core/agent-loop/src/agent.ts
-@@ -16,7 +16,7 @@ import type {
-   RequestErrorAction,
- } from '@deepseek-ai/dsh-agent'
- import { Inbox, agentEvents, assembleContextFor } from '@deepseek-ai/dsh-agent'
--import type { GenerateOptions, LlmCallConfig, Message, PreparedLlmCall } from '@deepseek-ai/dsh-llm'
-+import type { ContentBlock, GenerateOptions, LlmCallConfig, Message, PreparedLlmCall } from '@deepseek-ai/dsh-llm'
- import {
-   BlockAssembler,
-   LlmError,
-@@ -51,6 +51,40 @@ type PreparedStep =
-   | { kind: 'reject' }
-   | { kind: 'enter'; messages: UserMessage[]; assembly: PromptAssembly }
- 
-+const DUPLICATE_TOOL_CALL_FLOOD_THRESHOLD = 8
-+const INTERACTIVE_TOOL_CALLS = new Set(['ask_user_question'])
-+
-+/** Collapse provider-side duplicate-call floods before they reach persistence or execution. */
-+function normalizeToolCallFlood(content: ContentBlock[]): { content: ContentBlock[]; collapsed: boolean } {
-+  const counts = new Map<string, { count: number; name: string }>()
-+  for (const block of content) {
-+    if (block.type !== 'tool-call') continue
-+    const signature = JSON.stringify([block.name, block.arguments])
-+    const current = counts.get(signature)
-+    counts.set(signature, { count: (current?.count ?? 0) + 1, name: block.name })
-+  }
-+
-+  const flooded = new Set<string>()
-+  for (const [signature, { count, name }] of counts) {
-+    const threshold = INTERACTIVE_TOOL_CALLS.has(name) ? 2 : DUPLICATE_TOOL_CALL_FLOOD_THRESHOLD
-+    if (count >= threshold) flooded.add(signature)
-+  }
-+  if (flooded.size === 0) return { content, collapsed: false }
-+
-+  const retained = new Set<string>()
-+  return {
-+    content: content.filter((block) => {
-+      if (block.type !== 'tool-call') return true
-+      const signature = JSON.stringify([block.name, block.arguments])
-+      if (!flooded.has(signature)) return true
-+      if (retained.has(signature)) return false
-+      retained.add(signature)
-+      return true
-+    }),
-+    collapsed: true,
-+  }
-+}
-+
- /** Remove adapter-derived values before plugins propose the next request config. */
- function requestProposal(header: EpochHeader): LlmCallConfig {
-   if (header.adapterDefaults === undefined) return header.config
-@@ -370,12 +404,14 @@ export class ReactLoopAgent implements Agent {
-         continue
-       }
- 
-+      const normalized = normalizeToolCallFlood(assembler.blocks())
-+      const replayState = normalized.collapsed ? undefined : assembler.replayState
-       const message = createAssistantMessage({
--        content: assembler.blocks(),
-+        content: normalized.content,
-         source: {
-           provider: request.provider,
-           model: request.model,
--          ...assembler.replayState !== undefined ? { replayState: assembler.replayState } : {},
-+          ...replayState !== undefined ? { replayState } : {},
-         },
-       })
-       this.session.append(
-diff --git a/packages/core/agent-loop/tests/tool-calls.spec.ts b/packages/core/agent-loop/tests/tool-calls.spec.ts
-index 87f69cc7d0c90e8eb94297a6d2f8af690f1e2b0c..86e66ff6cca0d23733b2bf249f61da4af8b76d90 100644
---- a/packages/core/agent-loop/tests/tool-calls.spec.ts
-+++ b/packages/core/agent-loop/tests/tool-calls.spec.ts
-@@ -96,6 +96,50 @@ async function until(predicate: () => boolean): Promise<void> {
-   if (!predicate()) throw new Error('until: condition never held')
- }
- 
-+describe('tool-call provider flood protection', () => {
-+  it('executes one exact duplicate interactive call and drops stale replay state', async () => {
-+    const response = multiCall([
-+      { id: 'question-1', name: 'ask_user_question', args: { value: 'same question' } },
-+      { id: 'question-2', name: 'ask_user_question', args: { value: 'same question' } },
-+    ])
-+    response[response.length - 1] = {
-+      type: 'finish',
-+      reason: { kind: 'tool-calls' },
-+      replayState: { providerOutput: 'contains both calls' },
-+    }
-+    const adapter = new MockAdapter([response, textResponse('done')])
-+    const ctx = await harness(adapter)
-+    const executed: string[] = []
-+    ctx.tools.register(defineContentToolFixture({
-+      name: 'ask_user_question',
-+      description: 'test interactive call',
-+      parameters: { value: { type: 'string', required: true } },
-+      async execute(args) {
-+        executed.push(args.value)
-+        return [{ type: 'text', text: 'answered' }]
-+      },
-+    }))
-+    const agent = ctx.agentLoop.create(SessionId('provider-flood'), { provider: 'mock', model: 'mock' })
-+
-+    agent.followup(createUserMessage({ content: [{ type: 'text', text: 'go' }], source: { kind: 'user' } }))
-+    await waitForIdle(ctx, agent)
-+
-+    expect(executed).toEqual(['same question'])
-+    const assistant = events(agent).find(event => event.type === 'assistant/message')
-+    expect(assistant?.type === 'assistant/message'
-+      ? assistant.data.message.content.filter(block => block.type === 'tool-call')
-+      : []).toEqual([{
-+      type: 'tool-call',
-+      id: CallId('question-1'),
-+      name: 'ask_user_question',
-+      arguments: JSON.stringify({ value: 'same question' }),
-+    }])
-+    expect(assistant?.type === 'assistant/message' ? assistant.data.message.source : undefined)
-+      .toEqual({ kind: 'model', provider: 'mock', model: 'mock' })
-+    await ctx.fiber.dispose()
-+  })
-+})
-+
- describe('tool-call scheduler: grouping and barriers', () => {
-   it('runs parallel-safe siblings concurrently (all start before any completes)', async () => {
-     const adapter = new MockAdapter([
 diff --git a/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts b/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
-index 0cd1f51cd21307cd369c8310dac423381e9377de..f2b8307ad23b674359c397aa07ca159d0ac720c5 100644
+index 0cd1f51..f2b8307 100644
 --- a/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
 +++ b/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
 @@ -108,7 +108,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
@@ -8895,7 +8660,7 @@ index 0cd1f51cd21307cd369c8310dac423381e9377de..f2b8307ad23b674359c397aa07ca159d
    {
      key: 'sidebar.footer.action',
 diff --git a/packages/extensions/tool-cordis/src/api-catalog.ts b/packages/extensions/tool-cordis/src/api-catalog.ts
-index 5a812806dabf104c07af75d1829a8f4e1c44936f..810805c4a978fb1a2f067825246e736efe1397f8 100644
+index 5a81280..810805c 100644
 --- a/packages/extensions/tool-cordis/src/api-catalog.ts
 +++ b/packages/extensions/tool-cordis/src/api-catalog.ts
 @@ -380,8 +380,8 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
@@ -8937,7 +8702,7 @@ index 5a812806dabf104c07af75d1829a8f4e1c44936f..810805c4a978fb1a2f067825246e736e
    {
      name: 'RpcId',
 diff --git a/packages/host/apiproxy/README.i18n.yaml b/packages/host/apiproxy/README.i18n.yaml
-index 2ae197d230d7d7e277b99a213907aafd69f8cd4a..0ca1252191a5f0e9f49eadd43f6fc75f44b2f257 100644
+index 2ae197d..0ca1252 100644
 --- a/packages/host/apiproxy/README.i18n.yaml
 +++ b/packages/host/apiproxy/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -8949,7 +8714,7 @@ index 2ae197d230d7d7e277b99a213907aafd69f8cd4a..0ca1252191a5f0e9f49eadd43f6fc75f
 +README.md: deef58bdaeac85e3f988919de8ec4ed413cf7416
 +README.zh.md: b5a76f41bfda8ce1a568f0770fd5cb7e5aa500bd
 diff --git a/packages/host/apiproxy/README.md b/packages/host/apiproxy/README.md
-index b7dee9488c1b123172c225d4d4235bdb3c76911d..deef58bdaeac85e3f988919de8ec4ed413cf7416 100644
+index b7dee94..deef58b 100644
 --- a/packages/host/apiproxy/README.md
 +++ b/packages/host/apiproxy/README.md
 @@ -22,6 +22,8 @@ Wire messages form a four-quadrant discriminated union — who initiates × requ
@@ -8962,7 +8727,7 @@ index b7dee9488c1b123172c225d4d4235bdb3c76911d..deef58bdaeac85e3f988919de8ec4ed4
  
  `session.history` reads an attached Session in memory or inspects a cold log through persistence without resuming or publishing an Agent, then pages on append-origin message boundaries. `maxMessages` counts `user/message` and `assistant/message` events that entered the surface by appending, so a model-only replacement copy consumes no quota. Each page stays one contiguous raw event range, which keeps a compaction's log-only `compaction/summary` record on the same page as the replacement that cites it.
 diff --git a/packages/host/apiproxy/README.zh.md b/packages/host/apiproxy/README.zh.md
-index 46835a84254c4bbc45300a18d29aae5a6ac66f14..b5a76f41bfda8ce1a568f0770fd5cb7e5aa500bd 100644
+index 46835a8..b5a76f4 100644
 --- a/packages/host/apiproxy/README.zh.md
 +++ b/packages/host/apiproxy/README.zh.md
 @@ -22,6 +22,8 @@ Settings 分节中的 `reasoningEffort` 在 agent-default-model 插件配置中
@@ -8975,7 +8740,7 @@ index 46835a84254c4bbc45300a18d29aae5a6ac66f14..b5a76f41bfda8ce1a568f0770fd5cb7e
  
  `session.history` 会读取已附加 Session 的内存状态，或通过持久化检查冷日志，而不会恢复或发布 agent，然后按追加来源的消息边界分页：`maxMessages` 统计以追加方式进入 surface 的 `user/message` 和 `assistant/message` 事件，因此仅供模型使用的替换副本不占用配额。每一页仍是一段连续的原始事件区间，从而让压缩（compaction）的仅日志 `compaction/summary` 记录与引用它的替换留在同一页。
 diff --git a/packages/host/apiproxy/package.json b/packages/host/apiproxy/package.json
-index ba83efedb53d862f8b18ee551af98092128406e6..5a0205a1b68b2e15d9a265eb6765ba814fcb8930 100644
+index ba83efe..5a0205a 100644
 --- a/packages/host/apiproxy/package.json
 +++ b/packages/host/apiproxy/package.json
 @@ -45,15 +45,17 @@
@@ -9020,7 +8785,7 @@ index ba83efedb53d862f8b18ee551af98092128406e6..5a0205a1b68b2e15d9a265eb6765ba81
    }
  }
 diff --git a/packages/host/apiproxy/src/api-proxy.ts b/packages/host/apiproxy/src/api-proxy.ts
-index bda99362b6899937c4bf90a8159643fa42106880..c46ed60743b00416314919c55f28be31bde2b146 100644
+index bda9936..c46ed60 100644
 --- a/packages/host/apiproxy/src/api-proxy.ts
 +++ b/packages/host/apiproxy/src/api-proxy.ts
 @@ -40,7 +40,7 @@ import type {
@@ -9309,7 +9074,7 @@ index bda99362b6899937c4bf90a8159643fa42106880..c46ed60743b00416314919c55f28be31
          const { path } = request.payload
          try {
 diff --git a/packages/host/apiproxy/src/api/index.ts b/packages/host/apiproxy/src/api/index.ts
-index b5e1d1ffd977a6c218b296bacd2a13f7ab116666..dbe22cfdb9e8a910bd627d6f6c162570419a2168 100644
+index b5e1d1f..dbe22cf 100644
 --- a/packages/host/apiproxy/src/api/index.ts
 +++ b/packages/host/apiproxy/src/api/index.ts
 @@ -53,7 +53,11 @@ export type {
@@ -9326,7 +9091,7 @@ index b5e1d1ffd977a6c218b296bacd2a13f7ab116666..dbe22cfdb9e8a910bd627d6f6c162570
  export type { AgentPresetsApi, AgentPresetEntry } from './agent-presets.ts'
  export type { EventsApi, MuxFrame, HostFrame, QueuedInboxItem, ToolCallView, ToolEventView, ToolResultView } from './events.ts'
 diff --git a/packages/host/apiproxy/src/api/rpc-map.ts b/packages/host/apiproxy/src/api/rpc-map.ts
-index 80dede179913fc3f96bc32e71e77c75ee8460cf9..b566b0dc57af4cb18ef50d2dbcbc58d2f441fd2a 100644
+index 80dede1..b566b0d 100644
 --- a/packages/host/apiproxy/src/api/rpc-map.ts
 +++ b/packages/host/apiproxy/src/api/rpc-map.ts
 @@ -45,6 +45,9 @@ export interface RpcMethodMap {
@@ -9340,7 +9105,7 @@ index 80dede179913fc3f96bc32e71e77c75ee8460cf9..b566b0dc57af4cb18ef50d2dbcbc58d2
    'workspace.delete': WorkspaceApi['delete']
    'workspace.insertBefore': WorkspaceApi['insertBefore']
 diff --git a/packages/host/apiproxy/src/api/rpc.schema.ts b/packages/host/apiproxy/src/api/rpc.schema.ts
-index 177f0ffd2940b1f8cfee9847fdcc091370720937..ab2f512ebf860030f14718bb26a83e255711f96b 100644
+index 177f0ff..ab2f512 100644
 --- a/packages/host/apiproxy/src/api/rpc.schema.ts
 +++ b/packages/host/apiproxy/src/api/rpc.schema.ts
 @@ -41,6 +41,22 @@ export const rpcErrorSchema: z.ZodType<RpcError> = z.discriminatedUnion('code',
@@ -9367,7 +9132,7 @@ index 177f0ffd2940b1f8cfee9847fdcc091370720937..ab2f512ebf860030f14718bb26a83e25
    z.object({ code: z.literal('workspace-move-invalid'), message: z.string(), details: z.object({ workspaceId: z.string(), sessionId: z.string(), beforeSessionId: z.string().optional() }) }),
    z.object({ code: z.literal('directory-unreadable'), message: z.string(), details: z.object({ path: z.string() }) }),
 diff --git a/packages/host/apiproxy/src/api/rpc.ts b/packages/host/apiproxy/src/api/rpc.ts
-index 134a39eba94e67d871848188319927f2bac37c8b..be99ab810b6a42a27652551a497c2664a31b3eb0 100644
+index 134a39e..be99ab8 100644
 --- a/packages/host/apiproxy/src/api/rpc.ts
 +++ b/packages/host/apiproxy/src/api/rpc.ts
 @@ -39,6 +39,19 @@ export interface RpcErrorDetailsMap {
@@ -9391,7 +9156,7 @@ index 134a39eba94e67d871848188319927f2bac37c8b..be99ab810b6a42a27652551a497c2664
    'workspace-move-invalid': { workspaceId: string; sessionId: SessionId; beforeSessionId?: SessionId }
    'directory-unreadable': { path: string }
 diff --git a/packages/host/apiproxy/src/api/workspace.schema.ts b/packages/host/apiproxy/src/api/workspace.schema.ts
-index b57305141ce88d952bc0f1accc23f4e2f57bebcf..10e83dbdf6626b8e9575ece9845d0c01b8f88c50 100644
+index b573051..10e83db 100644
 --- a/packages/host/apiproxy/src/api/workspace.schema.ts
 +++ b/packages/host/apiproxy/src/api/workspace.schema.ts
 @@ -7,7 +7,10 @@
@@ -9467,7 +9232,7 @@ index b57305141ce88d952bc0f1accc23f4e2f57bebcf..10e83dbdf6626b8e9575ece9845d0c01
  export const workspaceRenameRequestSchema = z.object({
    workspaceId: workspaceIdSchema,
 diff --git a/packages/host/apiproxy/src/api/workspace.ts b/packages/host/apiproxy/src/api/workspace.ts
-index d36d0c406e5affd2fc22473b6cd083cb9bdaa616..c58813fc9d24d9513f1bf294c348d4649051917a 100644
+index d36d0c4..c58813f 100644
 --- a/packages/host/apiproxy/src/api/workspace.ts
 +++ b/packages/host/apiproxy/src/api/workspace.ts
 @@ -35,6 +35,39 @@ export interface WorkspaceView {
@@ -9550,7 +9315,7 @@ index d36d0c406e5affd2fc22473b6cd083cb9bdaa616..c58813fc9d24d9513f1bf294c348d464
     * Renames a workspace. `title` is trimmed and must be non-empty
     * (schema-enforced). An unknown id fails with `workspace-not-found`; a
 diff --git a/packages/host/apiproxy/src/fetch/client.ts b/packages/host/apiproxy/src/fetch/client.ts
-index 70e3ece58fe9d16462c23b9b810923d378a15cd1..21ba4713c53ef031ebe1da16543bacd4d467d216 100644
+index 70e3ece..21ba471 100644
 --- a/packages/host/apiproxy/src/fetch/client.ts
 +++ b/packages/host/apiproxy/src/fetch/client.ts
 @@ -37,8 +37,11 @@ import {
@@ -9596,7 +9361,7 @@ index 70e3ece58fe9d16462c23b9b810923d378a15cd1..21ba4713c53ef031ebe1da16543bacd4
      delete: (payload, signal) => this.callUnary('workspace.delete', payload, signal),
      insertBefore: (payload, signal) => this.callUnary('workspace.insertBefore', payload, signal),
 diff --git a/packages/host/apiproxy/src/fetch/handler.ts b/packages/host/apiproxy/src/fetch/handler.ts
-index 697171ec53fc817405445aece90c7ddad1b38c67..f8b8a46135b7e6a47bbabd2696cf7c7ffa05b058 100644
+index 697171e..f8b8a46 100644
 --- a/packages/host/apiproxy/src/fetch/handler.ts
 +++ b/packages/host/apiproxy/src/fetch/handler.ts
 @@ -40,8 +40,11 @@ import {
@@ -9622,7 +9387,7 @@ index 697171ec53fc817405445aece90c7ddad1b38c67..f8b8a46135b7e6a47bbabd2696cf7c7f
    'workspace.delete': { schema: workspaceDeleteRequestSchema, invoke: (api, r) => api.workspace.delete(r) },
    'workspace.insertBefore': { schema: workspaceInsertBeforeRequestSchema, invoke: (api, r) => api.workspace.insertBefore(r) },
 diff --git a/packages/host/apiproxy/src/index.ts b/packages/host/apiproxy/src/index.ts
-index ac6c770801c498cd48220722790dfeefdf837227..30461613869eb65656940d1601b0ed31bd27a586 100644
+index ac6c770..3046161 100644
 --- a/packages/host/apiproxy/src/index.ts
 +++ b/packages/host/apiproxy/src/index.ts
 @@ -69,7 +69,7 @@ export interface Config {
@@ -9635,7 +9400,7 @@ index ac6c770801c498cd48220722790dfeefdf837227..30461613869eb65656940d1601b0ed31
  
    static Config: z<Config> = z.object({
 diff --git a/packages/host/apiproxy/tests/api-proxy-workspace.spec.ts b/packages/host/apiproxy/tests/api-proxy-workspace.spec.ts
-index 54bdb015e4a4c1801463ef61f3d5ebe5bce71a68..dcecfc3fedb663c44a7d717304d82bc0592b563f 100644
+index 54bdb01..dcecfc3 100644
 --- a/packages/host/apiproxy/tests/api-proxy-workspace.spec.ts
 +++ b/packages/host/apiproxy/tests/api-proxy-workspace.spec.ts
 @@ -1,4 +1,4 @@
@@ -9884,7 +9649,7 @@ index 54bdb015e4a4c1801463ef61f3d5ebe5bce71a68..dcecfc3fedb663c44a7d717304d82bc0
    it('commits the complete order, streams one order frame, and maps unknown ids', async () => {
      const { api, ctx, root } = await harness()
 diff --git a/packages/host/apiproxy/tests/client-handler.spec.ts b/packages/host/apiproxy/tests/client-handler.spec.ts
-index 4130d8f210aeb389d18af1ce5621294ee755f2b2..ab82066723d9917a1624b332145c4b531130890a 100644
+index 4130d8f..ab82066 100644
 --- a/packages/host/apiproxy/tests/client-handler.spec.ts
 +++ b/packages/host/apiproxy/tests/client-handler.spec.ts
 @@ -82,6 +82,9 @@ function scriptedApi(overrides: {
@@ -9925,7 +9690,7 @@ index 4130d8f210aeb389d18af1ce5621294ee755f2b2..ab82066723d9917a1624b332145c4b53
  
    it('rejects a pathless create payload at the handler schema', async () => {
 diff --git a/packages/host/apiproxy/tests/fetch-carrier.spec.ts b/packages/host/apiproxy/tests/fetch-carrier.spec.ts
-index 2000f708ba58bb57164a2e91a9e7b29f6f3a3c70..a5886e8a5737ecf2aecb6940372de82f20165d03 100644
+index 2000f70..a5886e8 100644
 --- a/packages/host/apiproxy/tests/fetch-carrier.spec.ts
 +++ b/packages/host/apiproxy/tests/fetch-carrier.spec.ts
 @@ -164,6 +164,24 @@ function fakeApi(overrides: Partial<{ muxFrames: MuxFrame[]; hostFrames: HostFra
@@ -9966,7 +9731,7 @@ index 2000f708ba58bb57164a2e91a9e7b29f6f3a3c70..a5886e8a5737ecf2aecb6940372de82f
      const api = fakeApi()
      let opened: string | undefined
 diff --git a/packages/host/apiproxy/tests/rpc-schemas.spec.ts b/packages/host/apiproxy/tests/rpc-schemas.spec.ts
-index 66ae52f7832e578c3396b7aa66434068549bee97..23f549b56da05e45f5307663226784b638d30d3f 100644
+index 66ae52f..23f549b 100644
 --- a/packages/host/apiproxy/tests/rpc-schemas.spec.ts
 +++ b/packages/host/apiproxy/tests/rpc-schemas.spec.ts
 @@ -25,6 +25,7 @@ import {
@@ -10015,7 +9780,7 @@ index 66ae52f7832e578c3396b7aa66434068549bee97..23f549b56da05e45f5307663226784b6
      expect(workspaceRenameRequestSchema.parse({ workspaceId: 'w1', title: 'new' }).title).toBe('new')
      expect(() => workspaceRenameRequestSchema.parse({ workspaceId: 'w1', title: '  ' })).toThrow(/non-blank/)
 diff --git a/packages/host/apiproxy/tsconfig.json b/packages/host/apiproxy/tsconfig.json
-index 3ed38b3d779ad095521dbf39b572de417d75c532..ca73f7d6ac48a3db294142af48e93b8ac04361de 100644
+index 3ed38b3..ca73f7d 100644
 --- a/packages/host/apiproxy/tsconfig.json
 +++ b/packages/host/apiproxy/tsconfig.json
 @@ -89,6 +89,9 @@
@@ -10029,7 +9794,7 @@ index 3ed38b3d779ad095521dbf39b572de417d75c532..ca73f7d6ac48a3db294142af48e93b8a
        "path": "../directory-picker"
      },
 diff --git a/packages/host/directory-picker-native/src/win32-dialog-bindings.ts b/packages/host/directory-picker-native/src/win32-dialog-bindings.ts
-index 654bbc5a7441ed3d845a4435e4a0789b14ffb198..f1d8ad5a1e6b272e01cf3933263005a4e5f8714b 100644
+index 654bbc5..f1d8ad5 100644
 --- a/packages/host/directory-picker-native/src/win32-dialog-bindings.ts
 +++ b/packages/host/directory-picker-native/src/win32-dialog-bindings.ts
 @@ -16,29 +16,30 @@ import type { Win32DialogBindings, Win32FolderDialog } from './win32-dialog-logi
@@ -10090,7 +9855,7 @@ index 654bbc5a7441ed3d845a4435e4a0789b14ffb198..f1d8ad5a1e6b272e01cf3933263005a4
              method(item, SLOT_RELEASE, protoRelease)()
            }
 diff --git a/packages/host/directory-picker-native/src/win32-dialog-host.ts b/packages/host/directory-picker-native/src/win32-dialog-host.ts
-index 7a60ab05ed67a095518daf14a5bcdedddd49e7b9..0ae7caacb17eb8ec623f1eeeab8875448f601645 100644
+index 7a60ab0..0ae7caa 100644
 --- a/packages/host/directory-picker-native/src/win32-dialog-host.ts
 +++ b/packages/host/directory-picker-native/src/win32-dialog-host.ts
 @@ -21,8 +21,11 @@ import type { Win32DialogWorkerData } from './win32-dialog-worker.ts'
@@ -10108,7 +9873,7 @@ index 7a60ab05ed67a095518daf14a5bcdedddd49e7b9..0ae7caacb17eb8ec623f1eeeab887544
    if (!import.meta.url.endsWith('.ts')) {
      return spawn(process.execPath, [fileURLToPath(new URL('./worker.cjs', import.meta.url))], { env, stdio, windowsHide: true })
 diff --git a/packages/host/directory-picker-native/src/win32-dialog-worker.ts b/packages/host/directory-picker-native/src/win32-dialog-worker.ts
-index 0b422b3ca711306a1b153df1c6a384396f796a30..91aefee7dac349916fa1f8a65dd16f01838004bd 100644
+index 0b422b3..91aefee 100644
 --- a/packages/host/directory-picker-native/src/win32-dialog-worker.ts
 +++ b/packages/host/directory-picker-native/src/win32-dialog-worker.ts
 @@ -27,8 +27,14 @@ if (process.send === undefined) throw new Error('win32-dialog-worker must run as
@@ -10144,7 +9909,7 @@ index 0b422b3ca711306a1b153df1c6a384396f796a30..91aefee7dac349916fa1f8a65dd16f01
    }
  })()
 diff --git a/packages/host/directory-picker-native/src/win32-dialog.ts b/packages/host/directory-picker-native/src/win32-dialog.ts
-index cb8a492faaa24ce4512c943ff41d86247eb9c034..e3d717e6385f92a4c6b2c33f7a54e9812d1f1443 100644
+index cb8a492..e3d717e 100644
 --- a/packages/host/directory-picker-native/src/win32-dialog.ts
 +++ b/packages/host/directory-picker-native/src/win32-dialog.ts
 @@ -18,7 +18,9 @@ export interface Win32DialogWorkerLike {
@@ -10196,7 +9961,7 @@ index cb8a492faaa24ce4512c943ff41d86247eb9c034..e3d717e6385f92a4c6b2c33f7a54e981
      })
    })
 diff --git a/packages/host/directory-picker-native/tests/win32-dialog-bindings.spec.ts b/packages/host/directory-picker-native/tests/win32-dialog-bindings.spec.ts
-index b8ff4c3f1a05f5214d48e4e03701c2f7800e855a..5a57d626996a3da14db7043dfeff14f992e3d143 100644
+index b8ff4c3..5a57d62 100644
 --- a/packages/host/directory-picker-native/tests/win32-dialog-bindings.spec.ts
 +++ b/packages/host/directory-picker-native/tests/win32-dialog-bindings.spec.ts
 @@ -30,6 +30,7 @@ interface ComWorld {
@@ -10350,7 +10115,7 @@ index b8ff4c3f1a05f5214d48e4e03701c2f7800e855a..5a57d626996a3da14db7043dfeff14f9
  
    it('posts the failure message when the native surface cannot load', async () => {
 diff --git a/packages/host/directory-picker-native/tests/win32-dialog.spec.ts b/packages/host/directory-picker-native/tests/win32-dialog.spec.ts
-index 8e7d6951b8c1a8984b415b070c9de797cbb015bd..6108c90d5005535399931a4bd75b7cfaa8e59d2f 100644
+index 8e7d695..6108c90 100644
 --- a/packages/host/directory-picker-native/tests/win32-dialog.spec.ts
 +++ b/packages/host/directory-picker-native/tests/win32-dialog.spec.ts
 @@ -7,12 +7,14 @@
@@ -10383,7 +10148,7 @@ index 8e7d6951b8c1a8984b415b070c9de797cbb015bd..6108c90d5005535399931a4bd75b7cfa
  
    it('settles once: a late exit after the result is inert', async () => {
 diff --git a/packages/sandbox/sandbox-local/README.i18n.yaml b/packages/sandbox/sandbox-local/README.i18n.yaml
-index d8155add506da2a2556d97a0ec9aaf7be6cdabb2..b5805de93bde1f85bcf476e83ab156f78082a909 100644
+index d8155ad..b5805de 100644
 --- a/packages/sandbox/sandbox-local/README.i18n.yaml
 +++ b/packages/sandbox/sandbox-local/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -10395,7 +10160,7 @@ index d8155add506da2a2556d97a0ec9aaf7be6cdabb2..b5805de93bde1f85bcf476e83ab156f7
 +README.md: cf14ca86d1ba16b9b1353dbfd391a2df86c03121
 +README.zh.md: 3ece7d66f7a49d3b4a5c334237f5efe33b39dd44
 diff --git a/packages/sandbox/sandbox-local/README.md b/packages/sandbox/sandbox-local/README.md
-index e1b59385a1380e0918e69c06dd86834c00cf2395..cf14ca86d1ba16b9b1353dbfd391a2df86c03121 100644
+index e1b5938..cf14ca8 100644
 --- a/packages/sandbox/sandbox-local/README.md
 +++ b/packages/sandbox/sandbox-local/README.md
 @@ -12,7 +12,7 @@ Policy is per call; the provider stores only the mechanism and cached runner ver
@@ -10408,7 +10173,7 @@ index e1b59385a1380e0918e69c06dd86834c00cf2395..cf14ca86d1ba16b9b1353dbfd391a2df
  [`@deepseek-ai/node-addon-landlock-run`](https://www.npmjs.com/package/@deepseek-ai/node-addon-landlock-run) supplies the platform launcher, functional probe, and CLI argument vocabulary. This provider owns only mode-to-grant mapping and runner selection. Keeping path resolution and probe parsing with the versioned binary prevents contract drift.
  
 diff --git a/packages/sandbox/sandbox-local/README.zh.md b/packages/sandbox/sandbox-local/README.zh.md
-index f4e31e220f3f69612243066a3183ebf79ed6f73a..3ece7d66f7a49d3b4a5c334237f5efe33b39dd44 100644
+index f4e31e2..3ece7d6 100644
 --- a/packages/sandbox/sandbox-local/README.zh.md
 +++ b/packages/sandbox/sandbox-local/README.zh.md
 @@ -12,7 +12,7 @@
@@ -10421,7 +10186,7 @@ index f4e31e220f3f69612243066a3183ebf79ed6f73a..3ece7d66f7a49d3b4a5c334237f5efe3
  [`@deepseek-ai/node-addon-landlock-run`](https://www.npmjs.com/package/@deepseek-ai/node-addon-landlock-run) 提供平台 launcher、功能探测和 CLI 参数词汇。该提供方只负责模式到授权的映射与 runner 选择。把路径解析和探测解析保留在带版本的 binary 中，可防止约定漂移。
  
 diff --git a/packages/sandbox/sandbox-local/src/index.ts b/packages/sandbox/sandbox-local/src/index.ts
-index 8880da8103e01635d87cf1d2b84b61128d1fa170..c23c8dc99c40ac1b83acdf3531ffe1e9e2891092 100644
+index 8880da8..c23c8dc 100644
 --- a/packages/sandbox/sandbox-local/src/index.ts
 +++ b/packages/sandbox/sandbox-local/src/index.ts
 @@ -97,7 +97,11 @@ function defaultProbeSeatbelt(seatbeltExec: string, timeoutMs: number): boolean
@@ -10496,7 +10261,7 @@ index 8880da8103e01635d87cf1d2b84b61128d1fa170..c23c8dc99c40ac1b83acdf3531ffe1e9
        }
        default: return assertNever(runner)
 diff --git a/packages/sandbox/sandbox-windows-acl/README.i18n.yaml b/packages/sandbox/sandbox-windows-acl/README.i18n.yaml
-index a394957f498ac8c7a7cc0c5855d5be169b076053..32009e3e72a12c0028c094e6ecb5532964d09ac9 100644
+index a394957..32009e3 100644
 --- a/packages/sandbox/sandbox-windows-acl/README.i18n.yaml
 +++ b/packages/sandbox/sandbox-windows-acl/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -10508,7 +10273,7 @@ index a394957f498ac8c7a7cc0c5855d5be169b076053..32009e3e72a12c0028c094e6ecb55329
 +README.md: 809db941b36ec31684cbe95592a573e9e5a250ff
 +README.zh.md: 3ec31d42f91108b7c9f30af3670d296cbce27ad5
 diff --git a/packages/sandbox/sandbox-windows-acl/README.md b/packages/sandbox/sandbox-windows-acl/README.md
-index a78f334342196ec1848a4a360e5c60b375a28057..809db941b36ec31684cbe95592a573e9e5a250ff 100644
+index a78f334..809db94 100644
 --- a/packages/sandbox/sandbox-windows-acl/README.md
 +++ b/packages/sandbox/sandbox-windows-acl/README.md
 @@ -48,7 +48,7 @@ The seam-facing shape is the **runner entry** (`./runner`), the argv-prefix wrap
@@ -10521,7 +10286,7 @@ index a78f334342196ec1848a4a360e5c60b375a28057..809db941b36ec31684cbe95592a573e9
  **Workspace reuse and temp isolation**: the seam materializes the deterministic workspace SID's ACE STANDING (once per workspace per server lifetime, never revoked — it is the reuse cache), then creates a random private temp directory and distinct revocable SID for each live session/workspace pair. It passes both identities as the required `--write-sid`/`--temp-write-sid` pair; the runner verifies each against its owning path and neither grants nor revokes (`manageDacls: false`). A fork receives a different temp capability, and a fresh provider gives even the same resumed session a new path and SID, so crash residue is inert litter rather than a collision or inherited capability. Without the pair, `--temp` names a root: an agentless/standalone workspace-write runner creates a random private child, self-manages its temp SID, rewrites TMP/TEMP, and removes the child on exit. A workspace equal to or containing that root is rejected before any grant because its inheritable workspace ACE would otherwise authorize every private child; the direct API likewise rejects overlap between any writable root and the actual private temp directory. Re-granting the standing workspace ACE after a restart is idempotent: `grantWrite` reads the current DACL and skips `SetNamedSecurityInfoW` when the exact ACE already stands (that apply eagerly re-propagates the identical ACE across the whole tree — minutes on large workspaces). Known cost: the first grant on a big workspace tree blocks for that eager propagation once per workspace per machine.
  
 diff --git a/packages/sandbox/sandbox-windows-acl/README.zh.md b/packages/sandbox/sandbox-windows-acl/README.zh.md
-index 8962653b69b23b92fe763e4fcc90bf45911865f7..3ec31d42f91108b7c9f30af3670d296cbce27ad5 100644
+index 8962653..3ec31d4 100644
 --- a/packages/sandbox/sandbox-windows-acl/README.zh.md
 +++ b/packages/sandbox/sandbox-windows-acl/README.zh.md
 @@ -50,7 +50,7 @@ rmSync(tempDir, { recursive: true, force: true })
@@ -10534,7 +10299,7 @@ index 8962653b69b23b92fe763e4fcc90bf45911865f7..3ec31d42f91108b7c9f30af3670d296c
  **工作区复用与临时隔离**：seam 先把确定性工作区 SID 的 ACE **常驻**物化（每个工作区每服务器生命周期一次，绝不撤销——它就是复用缓存），再为每个活跃的会话/工作区对创建随机私有临时目录和不同的可回收 SID。它把两种身份作为必须成对出现的 `--write-sid`/`--temp-write-sid` 传入；runner 对照各自所属路径验证二者，既不授权也不撤销（`manageDacls: false`）。fork 获得不同的临时能力；即使恢复的是同一会话，新的提供方也会给出新的路径和 SID，因此崩溃残留只是失效垃圾，而非冲突或继承的能力。如果不带这一对标志，`--temp` 指定的是根目录：无 agent（智能体）/独立的 workspace-write runner 会创建随机私有子目录，自行管理其临时 SID，重写 TMP/TEMP，并在退出时移除该子目录。工作区若等于或包含该根目录，会在任何授权前被拒绝，因为否则其可继承的工作区 ACE 会向每个私有子目录授权；直接 API 同样拒绝任何可写根目录与实际私有临时目录重叠。重启后重新授权常驻工作区 ACE 是幂等的：`grantWrite` 读取当前 DACL，当完全相同的 ACE 已存在时跳过 `SetNamedSecurityInfoW`（应用该 ACE 会把相同的 ACE 急切地重新传播到整棵树——大型工作区上以分钟计）。已知代价：大型工作区树的首次授权会阻塞整次急切传播，每台机器每个工作区一次。
  
 diff --git a/packages/sandbox/sandbox-windows-acl/src/runner.ts b/packages/sandbox/sandbox-windows-acl/src/runner.ts
-index 8d5fe3564506ffa7e3aebb60e403138999003ad3..16092e9d7d3aeb34b2ab01ca45fd1209e4b62fd1 100644
+index 8d5fe35..16092e9 100644
 --- a/packages/sandbox/sandbox-windows-acl/src/runner.ts
 +++ b/packages/sandbox/sandbox-windows-acl/src/runner.ts
 @@ -178,6 +178,10 @@ async function main(): Promise<number> {
@@ -10549,7 +10314,7 @@ index 8d5fe3564506ffa7e3aebb60e403138999003ad3..16092e9d7d3aeb34b2ab01ca45fd1209
        command: parsed.command,
        args: parsed.args,
 diff --git a/packages/sandbox/sandbox-windows-acl/tests/runner.spec.ts b/packages/sandbox/sandbox-windows-acl/tests/runner.spec.ts
-index 19dfdaf106ef2f36dc9f6ab6c6ddb911f03541ae..82957a2053c98824032fd70749cb83f1cc87b42b 100644
+index 19dfdaf..82957a2 100644
 --- a/packages/sandbox/sandbox-windows-acl/tests/runner.spec.ts
 +++ b/packages/sandbox/sandbox-windows-acl/tests/runner.spec.ts
 @@ -17,18 +17,20 @@ import { AclWriteGrant, tempWriteSid, workspaceWriteSid } from '../src/index.ts'
@@ -10694,7 +10459,7 @@ index 19dfdaf106ef2f36dc9f6ab6c6ddb911f03541ae..82957a2053c98824032fd70749cb83f1
        expect(result.status, `stderr: ${result.stderr}`).toBe(0)
        expect(result.stdout, `mode: ${mode}`).toContain('PUBLIC-WRITE: DENIED')
 diff --git a/packages/sandbox/sandbox/README.i18n.yaml b/packages/sandbox/sandbox/README.i18n.yaml
-index 7e7ed765b28843dc664425b64cabcf124169c63d..9c81f0c2903c3f98991c844b84f7797b28b1b9a5 100644
+index 7e7ed76..9c81f0c 100644
 --- a/packages/sandbox/sandbox/README.i18n.yaml
 +++ b/packages/sandbox/sandbox/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -10706,7 +10471,7 @@ index 7e7ed765b28843dc664425b64cabcf124169c63d..9c81f0c2903c3f98991c844b84f7797b
 +README.md: 3209328ccca4331f5b60f89d88e3f9b75f3d2735
 +README.zh.md: 867a2da195d93ccb6f040dd2ce52fc6b69636ead
 diff --git a/packages/sandbox/sandbox/README.md b/packages/sandbox/sandbox/README.md
-index 3ebbffd623eee51dd6fcb588eec374e6d09be2f0..3209328ccca4331f5b60f89d88e3f9b75f3d2735 100644
+index 3ebbffd..3209328 100644
 --- a/packages/sandbox/sandbox/README.md
 +++ b/packages/sandbox/sandbox/README.md
 @@ -4,7 +4,7 @@ English | [中文](README.zh.md)
@@ -10719,7 +10484,7 @@ index 3ebbffd623eee51dd6fcb588eec374e6d09be2f0..3209328ccca4331f5b60f89d88e3f9b7
  Policy rides the call, not the provider: two consumers may confine under different policies at the same instant (bash under `read-only` while a confined child agent keeps its state directory writable), and an approved escalated retry is just a new call with a wider policy.
  
 diff --git a/packages/sandbox/sandbox/README.zh.md b/packages/sandbox/sandbox/README.zh.md
-index bde83955a85cbe2d60c521e3677b5b305a29ecb1..867a2da195d93ccb6f040dd2ce52fc6b69636ead 100644
+index bde8395..867a2da 100644
 --- a/packages/sandbox/sandbox/README.zh.md
 +++ b/packages/sandbox/sandbox/README.zh.md
 @@ -4,7 +4,7 @@
@@ -10732,7 +10497,7 @@ index bde83955a85cbe2d60c521e3677b5b305a29ecb1..867a2da195d93ccb6f040dd2ce52fc6b
  策略随调用传递，而不属于提供方：两个消费方可以同时按不同策略施加限制（bash 使用 `read-only`，而受限制的子 agent（智能体）保持其状态目录可写）；获批的升权重试只是使用更宽策略发起的新调用。
  
 diff --git a/packages/sandbox/sandbox/src/index.ts b/packages/sandbox/sandbox/src/index.ts
-index 2d9ee5b91b570e6f0ae53c65482dd49508628266..8dd71f127b43d93addfc2109fa111b175f827037 100644
+index 2d9ee5b..8dd71f1 100644
 --- a/packages/sandbox/sandbox/src/index.ts
 +++ b/packages/sandbox/sandbox/src/index.ts
 @@ -95,6 +95,8 @@ export interface RunnerFailureRule {
@@ -10756,7 +10521,7 @@ index 2d9ee5b91b570e6f0ae53c65482dd49508628266..8dd71f127b43d93addfc2109fa111b17
    abstract confine(argv: readonly string[], policy: SandboxPolicy): ConfinedArgv
  }
 diff --git a/packages/session-query/session-log-export/README.i18n.yaml b/packages/session-query/session-log-export/README.i18n.yaml
-index d333d5ed90da870a66b5b77a66eab4c6133b1a2b..d53808fb667c666b932c24d1aa95171f265e6c82 100644
+index d333d5e..d53808f 100644
 --- a/packages/session-query/session-log-export/README.i18n.yaml
 +++ b/packages/session-query/session-log-export/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -10768,7 +10533,7 @@ index d333d5ed90da870a66b5b77a66eab4c6133b1a2b..d53808fb667c666b932c24d1aa95171f
 +README.md: 384db33207dd0a15791fa302ee57ce932c9a5b2a
 +README.zh.md: 29190a492624b0b16d528b222a7b473646fb4922
 diff --git a/packages/session-query/session-log-export/README.md b/packages/session-query/session-log-export/README.md
-index f3625338e85a38ab279c5fa4700a7a9e1124cfb3..384db33207dd0a15791fa302ee57ce932c9a5b2a 100644
+index f362533..384db33 100644
 --- a/packages/session-query/session-log-export/README.md
 +++ b/packages/session-query/session-log-export/README.md
 @@ -11,7 +11,7 @@ Web Session-log download control over the host-streamed ZIP endpoint owned by `d
@@ -10788,7 +10553,7 @@ index f3625338e85a38ab279c5fa4700a7a9e1124cfb3..384db33207dd0a15791fa302ee57ce93
 +- Browser mode remains a browser download. Electron alone owns a Host-side native save dialog and atomic writer; the selected path never returns to Client code.
  - The preflight reports failures found before ZIP streaming starts. A descendant or attachment failure after the browser accepts the GET is reported by the browser download manager, not by the modal.
 diff --git a/packages/session-query/session-log-export/README.zh.md b/packages/session-query/session-log-export/README.zh.md
-index 5a2fa86d126f6bda808d3036bddc0e26fd310690..29190a492624b0b16d528b222a7b473646fb4922 100644
+index 5a2fa86..29190a4 100644
 --- a/packages/session-query/session-log-export/README.zh.md
 +++ b/packages/session-query/session-log-export/README.zh.md
 @@ -11,7 +11,7 @@ Web Session 日志下载控制，使用 `dsh-host-apiproxy` 拥有的 Host 流
@@ -10808,7 +10573,7 @@ index 5a2fa86d126f6bda808d3036bddc0e26fd310690..29190a492624b0b16d528b222a7b4736
 +- 浏览器模式仍是普通浏览器下载。只有 Electron 持有 Host 侧原生保存对话框与原子 writer；所选路径绝不会返回 Client 代码。
  - 预检只报告 ZIP 开始流式传输前发现的失败。浏览器接受 GET 后发生的子 Session 或附件读取失败由浏览器下载管理器报告，不通过弹窗报告。
 diff --git a/packages/session-query/session-log-export/package.json b/packages/session-query/session-log-export/package.json
-index 1d9532bda141afbf3d6c7b0defe50790e6ec32ca..f2ff9cb8a6f7bd02f335402b53484500fafb93c8 100644
+index 1d9532b..f2ff9cb 100644
 --- a/packages/session-query/session-log-export/package.json
 +++ b/packages/session-query/session-log-export/package.json
 @@ -24,6 +24,7 @@
@@ -10828,7 +10593,7 @@ index 1d9532bda141afbf3d6c7b0defe50790e6ec32ca..f2ff9cb8a6f7bd02f335402b53484500
      "@deepseek-ai/dsh-client-ui-commands": "workspace:^",
      "@deepseek-ai/dsh-client-ui-conversation": "workspace:^",
 diff --git a/packages/session-query/session-log-export/src/client/controller.ts b/packages/session-query/session-log-export/src/client/controller.ts
-index 4423d19f4ee486819a1022da1d05c9f326cd4c99..bad5dbd44c8e2e026d557103545bc1c00154a72d 100644
+index 4423d19..bad5dbd 100644
 --- a/packages/session-query/session-log-export/src/client/controller.ts
 +++ b/packages/session-query/session-log-export/src/client/controller.ts
 @@ -1,6 +1,7 @@
@@ -10886,7 +10651,7 @@ index 4423d19f4ee486819a1022da1d05c9f326cd4c99..bad5dbd44c8e2e026d557103545bc1c0
        url.searchParams.set('sessionId', sessionId)
        url.searchParams.set('includeDescendants', 'true')
 diff --git a/packages/session-query/session-log-export/tests/controller.client.spec.ts b/packages/session-query/session-log-export/tests/controller.client.spec.ts
-index 8b982a74744645d450788cb93e6c281c8ca1f0b4..b287aa9ebe7a536f3b31ddcc9678d59fcc6d3c4a 100644
+index 8b982a7..b287aa9 100644
 --- a/packages/session-query/session-log-export/tests/controller.client.spec.ts
 +++ b/packages/session-query/session-log-export/tests/controller.client.spec.ts
 @@ -36,6 +36,34 @@ describe('SessionLogDownloadController', () => {
@@ -10925,7 +10690,7 @@ index 8b982a74744645d450788cb93e6c281c8ca1f0b4..b287aa9ebe7a536f3b31ddcc9678d59f
      const response = Promise.withResolvers<Response>()
      const fetcher = vi.fn(() => response.promise)
 diff --git a/packages/session-query/session-log-export/tsconfig.json b/packages/session-query/session-log-export/tsconfig.json
-index ed1f6f6dd8199e60bd2ecfa8798901b6796bf0e1..4facdc90c7fab5849adecfbda14dafcf09662834 100644
+index ed1f6f6..4facdc9 100644
 --- a/packages/session-query/session-log-export/tsconfig.json
 +++ b/packages/session-query/session-log-export/tsconfig.json
 @@ -11,6 +11,7 @@
@@ -10937,7 +10702,7 @@ index ed1f6f6dd8199e60bd2ecfa8798901b6796bf0e1..4facdc90c7fab5849adecfbda14dafcf
      { "path": "../../client/ui-commands" },
      { "path": "../../client/ui-conversation" },
 diff --git a/packages/shell/bash-sandbox/README.i18n.yaml b/packages/shell/bash-sandbox/README.i18n.yaml
-index 6792ffa955af4cd72bb4711ef7129306007b7cd9..1379e706e64aceea96ebd23547e6666cc143363e 100644
+index 6792ffa..1379e70 100644
 --- a/packages/shell/bash-sandbox/README.i18n.yaml
 +++ b/packages/shell/bash-sandbox/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -10949,7 +10714,7 @@ index 6792ffa955af4cd72bb4711ef7129306007b7cd9..1379e706e64aceea96ebd23547e6666c
 +README.md: 07eed9d3bbe0ae0044a289d1dd11aed2736d04ae
 +README.zh.md: 49aedc14834ae7463f6461b5b9f3105b7a8a460d
 diff --git a/packages/shell/bash-sandbox/README.md b/packages/shell/bash-sandbox/README.md
-index fe9a0b1a891bd2b9102357f48141822c70465ddf..07eed9d3bbe0ae0044a289d1dd11aed2736d04ae 100644
+index fe9a0b1..07eed9d 100644
 --- a/packages/shell/bash-sandbox/README.md
 +++ b/packages/shell/bash-sandbox/README.md
 @@ -6,7 +6,7 @@ Sandbox-consuming Service Provider for the [`@deepseek-ai/dsh-shell`](../shell/)
@@ -10962,7 +10727,7 @@ index fe9a0b1a891bd2b9102357f48141822c70465ddf..07eed9d3bbe0ae0044a289d1dd11aed2
  | Mode | File effects |
  |---|---|
 diff --git a/packages/shell/bash-sandbox/README.zh.md b/packages/shell/bash-sandbox/README.zh.md
-index 648264615dc476f9442b9bb9ae3a332196f4e104..49aedc14834ae7463f6461b5b9f3105b7a8a460d 100644
+index 6482646..49aedc1 100644
 --- a/packages/shell/bash-sandbox/README.zh.md
 +++ b/packages/shell/bash-sandbox/README.zh.md
 @@ -6,7 +6,7 @@
@@ -10975,7 +10740,7 @@ index 648264615dc476f9442b9bb9ae3a332196f4e104..49aedc14834ae7463f6461b5b9f3105b
  | 模式 | 文件影响 |
  |---|---|
 diff --git a/packages/shell/bash-sandbox/src/index.ts b/packages/shell/bash-sandbox/src/index.ts
-index be9c6647ec48d85521dc3baab361b63c575f3dea..f37aaf94ad604c378c8702360e044c0a8680be30 100644
+index be9c664..f37aaf9 100644
 --- a/packages/shell/bash-sandbox/src/index.ts
 +++ b/packages/shell/bash-sandbox/src/index.ts
 @@ -95,7 +95,7 @@ export class SandboxBashExecutor extends LocalBashExecutor {
@@ -11007,7 +10772,7 @@ index be9c6647ec48d85521dc3baab361b63c575f3dea..f37aaf94ad604c378c8702360e044c0a
 +
  export default SandboxBashExecutor
 diff --git a/packages/shell/bash-sandbox/tests/sandbox.spec.ts b/packages/shell/bash-sandbox/tests/sandbox.spec.ts
-index 750fb870c3ecf7c89e64465e95a929d4d8314bed..08c95b55d49f5a596f398977061a2a731d7e5193 100644
+index 750fb87..08c95b5 100644
 --- a/packages/shell/bash-sandbox/tests/sandbox.spec.ts
 +++ b/packages/shell/bash-sandbox/tests/sandbox.spec.ts
 @@ -98,14 +98,19 @@ describe('the provider hand-off', () => {
@@ -11036,7 +10801,7 @@ index 750fb870c3ecf7c89e64465e95a929d4d8314bed..08c95b55d49f5a596f398977061a2a73
    })
  
 diff --git a/packages/shell/pwsh-sandbox/README.i18n.yaml b/packages/shell/pwsh-sandbox/README.i18n.yaml
-index 27d1e0d7c6c461d8c98206efaa60975bd7afdfdb..9c82d86b67dcea351a292d3e4bc3dcf34ff4dcd4 100644
+index 27d1e0d..9c82d86 100644
 --- a/packages/shell/pwsh-sandbox/README.i18n.yaml
 +++ b/packages/shell/pwsh-sandbox/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -11048,7 +10813,7 @@ index 27d1e0d7c6c461d8c98206efaa60975bd7afdfdb..9c82d86b67dcea351a292d3e4bc3dcf3
 +README.md: 0f259ee4d4558583b1d7d2e79b22ce725bb1bbcd
 +README.zh.md: 38ed93c65e4528b3197bd6f35fc2ffb3b14bfcff
 diff --git a/packages/shell/pwsh-sandbox/README.md b/packages/shell/pwsh-sandbox/README.md
-index 533b89b533084843a17153f3f3da39f21d271b04..0f259ee4d4558583b1d7d2e79b22ce725bb1bbcd 100644
+index 533b89b..0f259ee 100644
 --- a/packages/shell/pwsh-sandbox/README.md
 +++ b/packages/shell/pwsh-sandbox/README.md
 @@ -4,7 +4,7 @@ English | [中文](README.zh.md)
@@ -11061,7 +10826,7 @@ index 533b89b533084843a17153f3f3da39f21d271b04..0f259ee4d4558583b1d7d2e79b22ce72
  ## Behavior
  
 diff --git a/packages/shell/pwsh-sandbox/README.zh.md b/packages/shell/pwsh-sandbox/README.zh.md
-index 370cc6fd4a3961d6f79c5c8829ac5c42e093c2a5..38ed93c65e4528b3197bd6f35fc2ffb3b14bfcff 100644
+index 370cc6f..38ed93c 100644
 --- a/packages/shell/pwsh-sandbox/README.zh.md
 +++ b/packages/shell/pwsh-sandbox/README.zh.md
 @@ -4,7 +4,7 @@
@@ -11074,7 +10839,7 @@ index 370cc6fd4a3961d6f79c5c8829ac5c42e093c2a5..38ed93c65e4528b3197bd6f35fc2ffb3
  ## 行为
  
 diff --git a/packages/shell/pwsh-sandbox/src/index.ts b/packages/shell/pwsh-sandbox/src/index.ts
-index 66bc73bcf06ed0b2f7967b310417604aede4a723..03e067b5234b4f51dffd8e9b3b076810950f3204 100644
+index 66bc73b..03e067b 100644
 --- a/packages/shell/pwsh-sandbox/src/index.ts
 +++ b/packages/shell/pwsh-sandbox/src/index.ts
 @@ -103,7 +103,7 @@ export class SandboxPwshExecutor extends PwshLocalExecutor {
@@ -11106,7 +10871,7 @@ index 66bc73bcf06ed0b2f7967b310417604aede4a723..03e067b5234b4f51dffd8e9b3b076810
 +
  export default SandboxPwshExecutor
 diff --git a/packages/shell/pwsh-sandbox/tests/sandbox.spec.ts b/packages/shell/pwsh-sandbox/tests/sandbox.spec.ts
-index 22d65b60a9c9a7c30c5e92840a8ae14b6875d3c6..8bd9c5246e57809d2a0313ba2af5d73670943ce5 100644
+index 22d65b6..8bd9c52 100644
 --- a/packages/shell/pwsh-sandbox/tests/sandbox.spec.ts
 +++ b/packages/shell/pwsh-sandbox/tests/sandbox.spec.ts
 @@ -175,12 +175,30 @@ describe.skipIf(!pwshAvailable())('SandboxPwshExecutor', () => {
@@ -11142,7 +10907,7 @@ index 22d65b60a9c9a7c30c5e92840a8ae14b6875d3c6..8bd9c5246e57809d2a0313ba2af5d736
      const { executor, calls } = await setup()
      expect(executor.sandboxMode).toBe('workspace-write')
 diff --git a/packages/subprocess/subprocess-local/README.i18n.yaml b/packages/subprocess/subprocess-local/README.i18n.yaml
-index 10c7c1cd62563a488ed03433dfc162a4a8e123d7..53492b0d18cf31c4b1093979980cfa8e416f9daa 100644
+index 10c7c1c..53492b0 100644
 --- a/packages/subprocess/subprocess-local/README.i18n.yaml
 +++ b/packages/subprocess/subprocess-local/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -11154,7 +10919,7 @@ index 10c7c1cd62563a488ed03433dfc162a4a8e123d7..53492b0d18cf31c4b1093979980cfa8e
 +README.md: 66e5ea560dd1cd59c3fa83ceca413531842a2b88
 +README.zh.md: 4b0d16b2c95bc860a3f8e080246069263670734c
 diff --git a/packages/subprocess/subprocess-local/README.md b/packages/subprocess/subprocess-local/README.md
-index a88eab6776c7259bb8ee8fdad2d6002d8f57e133..66e5ea560dd1cd59c3fa83ceca413531842a2b88 100644
+index a88eab6..66e5ea5 100644
 --- a/packages/subprocess/subprocess-local/README.md
 +++ b/packages/subprocess/subprocess-local/README.md
 @@ -11,7 +11,7 @@ Local Service Provider for the [`@deepseek-ai/dsh-subprocess`](../subprocess/REA
@@ -11167,7 +10932,7 @@ index a88eab6776c7259bb8ee8fdad2d6002d8f57e133..66e5ea560dd1cd59c3fa83ceca413531
  - **Synchronous host-exit finalization** — while the service effect is active, a Node `exit` listener force-terminates every ordinary tree and observable terminal session still in the same live sets. The local-only operations send POSIX SIGKILL to the managed group, run Windows `taskkill /T /F`, and synchronously signal captured/current terminal identities around the PTY root kill; they create no promise or timer, preserve the host's exit code and diagnostic, contain each target's failure, and do not claim quiescence. Normal disposal keeps the awaited graceful path above. See the [host-exit cleanup decision](../../../.agents/notes/implemented/bug-fix/2026-08-11-synchronous-subprocess-exit-cleanup.md).
  
 diff --git a/packages/subprocess/subprocess-local/README.zh.md b/packages/subprocess/subprocess-local/README.zh.md
-index ce088557875daceb5643f13bef78d6ea9a61e12f..4b0d16b2c95bc860a3f8e080246069263670734c 100644
+index ce08855..4b0d16b 100644
 --- a/packages/subprocess/subprocess-local/README.zh.md
 +++ b/packages/subprocess/subprocess-local/README.zh.md
 @@ -11,7 +11,7 @@
@@ -11180,7 +10945,7 @@ index ce088557875daceb5643f13bef78d6ea9a61e12f..4b0d16b2c95bc860a3f8e08024606926
  - **同步宿主退出最终清理**：服务 effect 仍有效时，Node `exit` listener 会强制终止同一组存活集合中仍存在的每棵普通进程树和可观察 terminal session。这些仅供本地实现使用的操作会向受管 POSIX 进程组发送 SIGKILL、在 Windows 运行 `taskkill /T /F`，并在终止 PTY root 前后同步向已捕获及当前可观察的 terminal 身份发送信号；它们不会创建 Promise 或 timer，不改变宿主退出码与诊断，会分别包含每个目标的失败，也不会声称已经完全停稳。正常 dispose 仍使用上面的须等待温和路径。参见[宿主退出清理决策](../../../.agents/notes/implemented/bug-fix/2026-08-11-synchronous-subprocess-exit-cleanup.md)。
  
 diff --git a/packages/subprocess/subprocess-local/src/index.ts b/packages/subprocess/subprocess-local/src/index.ts
-index 261f614fbaec667fb7301ab75b16babdfde81dc9..c7603afc997baaef1e27eba6e4b62f86737634c9 100644
+index 261f614..c7603af 100644
 --- a/packages/subprocess/subprocess-local/src/index.ts
 +++ b/packages/subprocess/subprocess-local/src/index.ts
 @@ -12,7 +12,6 @@ import { constants } from 'node:fs'
@@ -11210,7 +10975,7 @@ index 261f614fbaec667fb7301ab75b16babdfde81dc9..c7603afc997baaef1e27eba6e4b62f86
      this.terminals.add(handle)
 diff --git a/packages/subprocess/subprocess-local/tests/lazy-node-pty.host.spec.ts b/packages/subprocess/subprocess-local/tests/lazy-node-pty.host.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..48c8fa35a4c9063f511db4f9d5becce2897fca61
+index 0000000..48c8fa3
 --- /dev/null
 +++ b/packages/subprocess/subprocess-local/tests/lazy-node-pty.host.spec.ts
 @@ -0,0 +1,16 @@
@@ -11231,7 +10996,7 @@ index 0000000000000000000000000000000000000000..48c8fa35a4c9063f511db4f9d5becce2
 +  })
 +})
 diff --git a/packages/terminal/terminal-bash/README.i18n.yaml b/packages/terminal/terminal-bash/README.i18n.yaml
-index 231dac91906e1e89984de80216b56eff70ad635f..3ebadfa9d81fbe1dd649aa317a4f98d0c0ce3fa8 100644
+index 231dac9..3ebadfa 100644
 --- a/packages/terminal/terminal-bash/README.i18n.yaml
 +++ b/packages/terminal/terminal-bash/README.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -11243,7 +11008,7 @@ index 231dac91906e1e89984de80216b56eff70ad635f..3ebadfa9d81fbe1dd649aa317a4f98d0
 +README.md: 54bc90007aba708d2954c78b0dad43d211ae8988
 +README.zh.md: 44bc837616b2b3a3b5535b716639a731d886ecc8
 diff --git a/packages/terminal/terminal-bash/README.md b/packages/terminal/terminal-bash/README.md
-index 36e725fd4ce86be09755768a9e21ccb66d025251..54bc90007aba708d2954c78b0dad43d211ae8988 100644
+index 36e725f..54bc900 100644
 --- a/packages/terminal/terminal-bash/README.md
 +++ b/packages/terminal/terminal-bash/README.md
 @@ -6,7 +6,7 @@ Persistent shell backend for `ctx.terminals` over `ctx.subprocess.spawnTerminal`
@@ -11256,7 +11021,7 @@ index 36e725fd4ce86be09755768a9e21ccb66d025251..54bc90007aba708d2954c78b0dad43d2
  Readiness combines a foreground-verified private bash prompt marker, provider-reported foreground stdin-wait facts, silence fallback, and absolute timeout. A marker is not ready until the printable tail after the latest owned marker exactly equals the controlled `PS1`, including when the OSC marker and prompt are split across data callbacks; echoed input or output following an earlier prompt therefore cannot settle the current send. Prompt and silence evidence collected before the provider write, including while pre-write foreground inspection is pending, is discarded at the write boundary. When bash prints the marker before the terminal provider publishes its return to the foreground process group, polling retains the candidate for `handoffGraceMs` past the ordinary silence bound so a coincident handoff can win. An interactive child that inherits `PROMPT_COMMAND` therefore cannot suppress inferred-idle readiness until the absolute timeout. Unknown foreground state is never a positive exact-idle signal. A foreground group's stdin wait that existed before a send is likewise not post-write readiness: the same group must be observed outside that wait before a later wait can settle the send, while a changed foreground group is new evidence. During unpublished startup, a fallback requires observed output; zero-output silence cannot publish an empty session, and timeout rejects the spawn. Cancellation closes the unpublished shell and rejects with the caller's exact abort reason; `TerminalBackendCleanupError` separately preserves a cleanup failure. The caller's signal is forwarded for terminal allocation and readiness initialization; after publication the handle owns its lifetime. Incomplete terminal-control sequences are bounded by `maxReadBytes` and discarded through their terminator after crossing that limit; malformed UTF-8 terminal output uses replacement characters, and a trailing carriage return is carried across callbacks so split CRLF becomes one newline.
  
 diff --git a/packages/terminal/terminal-bash/README.zh.md b/packages/terminal/terminal-bash/README.zh.md
-index 080f45eb03dfdeece91269a3253aeb3fb280864d..44bc837616b2b3a3b5535b716639a731d886ecc8 100644
+index 080f45e..44bc837 100644
 --- a/packages/terminal/terminal-bash/README.zh.md
 +++ b/packages/terminal/terminal-bash/README.zh.md
 @@ -6,7 +6,7 @@
@@ -11269,7 +11034,7 @@ index 080f45eb03dfdeece91269a3253aeb3fb280864d..44bc837616b2b3a3b5535b716639a731
  就绪检测结合以下机制：由前台状态验证的私有 bash 提示符标记、提供方报告的前台 stdin 等待事实、静默回退和绝对超时。只有最新自有标记之后的可打印尾部与受控 `PS1` 完全相等，标记才算就绪；即使 OSC 标记和提示符被拆到多个数据回调中也一样。因此，较早提示符之后的回显输入或输出无法使当前 send 完成。提供方写入前收集的提示符与静默证据，包括写入前前台检查仍在等待时收集的证据，都会在写入边界丢弃。如果 bash 在终端提供方发布其重新取得前台进程组的状态前打印标记，轮询会在普通静默上限之后再保留该候选状态 `handoffGraceMs`，使恰好同时发生的前台交接有机会胜出。因此，继承 `PROMPT_COMMAND` 的交互式子进程无法一直抑制推断空闲就绪直至绝对超时。未知的前台状态绝不会作为精确空闲的正向信号。同样，一次 send 之前就已存在的前台进程组 stdin 等待并不代表写入后就绪：必须先观察到同一进程组脱离该等待，之后再次进入等待才能使该次 send 完成；前台进程组发生变化则构成新的证据。尚未发布的启动过程中，回退路径要求已经观察到输出；零输出静默不能发布空会话，超时则拒绝 spawn。取消操作会关闭尚未发布的 shell，并以调用方提供的确切中止原因拒绝；`TerminalBackendCleanupError` 会单独保留清理失败。调用方的 signal 会转发给终端分配与就绪初始化；发布后，句柄负责其生命周期。未完成的终端控制序列受 `maxReadBytes` 限制；超过上限后，系统会丢弃内容直到其终止符。格式错误的 UTF-8 终端输出使用替换字符；末尾的回车会跨回调保留，使拆分的 CRLF 合并为一个换行。
  
 diff --git a/packages/terminal/terminal-bash/src/index.ts b/packages/terminal/terminal-bash/src/index.ts
-index 82e864e7ab41b41b5f52159422215d64dc44f8e8..f420014c5d6ef045dfa2b7bd69057e6ef06bad25 100644
+index 82e864e..f420014 100644
 --- a/packages/terminal/terminal-bash/src/index.ts
 +++ b/packages/terminal/terminal-bash/src/index.ts
 @@ -10,7 +10,7 @@ import type { Session, SessionEvent } from '@deepseek-ai/dsh-session'
@@ -11318,7 +11083,7 @@ index 82e864e7ab41b41b5f52159422215d64dc44f8e8..f420014c5d6ef045dfa2b7bd69057e6e
        cols: this.config.cols,
        graceMs: this.config.disposeGraceMs,
 diff --git a/packages/terminal/terminal-bash/tests/index.spec.ts b/packages/terminal/terminal-bash/tests/index.spec.ts
-index 9e2a3529eb3b5cbd7fd0c546fbbdc9192fd2acfa..c752b3df706103cc9918546bc0c9efb2bcfc545a 100644
+index 9e2a352..c752b3d 100644
 --- a/packages/terminal/terminal-bash/tests/index.spec.ts
 +++ b/packages/terminal/terminal-bash/tests/index.spec.ts
 @@ -31,7 +31,13 @@ class RecordingSandbox extends SandboxProvider {
@@ -11345,7 +11110,7 @@ index 9e2a3529eb3b5cbd7fd0c546fbbdc9192fd2acfa..c752b3df706103cc9918546bc0c9efb2
      })
      expect(spawned?.env?.PTY_TEST_SECRET).toBeUndefined()
 diff --git a/packages/test-support/client-runtime/src/workspaces.ts b/packages/test-support/client-runtime/src/workspaces.ts
-index 4f6b2122cb45360350b606e626ed7ba04bcc6a28..8ce5f53ea5d4b596c3e7929837d5fe22deab1d05 100644
+index 4f6b212..8ce5f53 100644
 --- a/packages/test-support/client-runtime/src/workspaces.ts
 +++ b/packages/test-support/client-runtime/src/workspaces.ts
 @@ -1,7 +1,9 @@
@@ -11477,7 +11242,7 @@ index 4f6b2122cb45360350b606e626ed7ba04bcc6a28..8ce5f53ea5d4b596c3e7929837d5fe22
  
    /**
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index 1490a0f9f76e7a9df847a9946782c1097483792d..84f1bc08c828927bae4e0a336597c904c857987e 100644
+index 1490a0f..84f1bc0 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
 @@ -83,7 +83,7 @@ importers:
@@ -12873,7 +12638,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..84f1bc08c828927bae4e0a336597c904
      dependencies:
        xml-name-validator: 5.0.0
 diff --git a/pnpm-workspace.yaml b/pnpm-workspace.yaml
-index e8d8ee5bec815c40c74c044fcfcfc9a3ba981bb8..f87563b1c26d79be1841a09360cdcafb9e722e6b 100644
+index e8d8ee5..f87563b 100644
 --- a/pnpm-workspace.yaml
 +++ b/pnpm-workspace.yaml
 @@ -38,6 +38,7 @@ peerDependencyRules:
@@ -12886,7 +12651,7 @@ index e8d8ee5bec815c40c74c044fcfcfc9a3ba981bb8..f87563b1c26d79be1841a09360cdcafb
    # Cross-platform boundary for the persistent PTY backend, including ConPTY on Windows.
 diff --git a/scripts/build-electron-runtime.spec.ts b/scripts/build-electron-runtime.spec.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..ef749defb64441251fe0b65438e2dc47a77481e0
+index 0000000..ef749de
 --- /dev/null
 +++ b/scripts/build-electron-runtime.spec.ts
 @@ -0,0 +1,72 @@
@@ -12964,7 +12729,7 @@ index 0000000000000000000000000000000000000000..ef749defb64441251fe0b65438e2dc47
 +})
 diff --git a/scripts/build-electron-runtime.ts b/scripts/build-electron-runtime.ts
 new file mode 100644
-index 0000000000000000000000000000000000000000..d65025903e5520a09d956f8d52462773c6c4a50a
+index 0000000..d650259
 --- /dev/null
 +++ b/scripts/build-electron-runtime.ts
 @@ -0,0 +1,396 @@
@@ -13365,7 +13130,7 @@ index 0000000000000000000000000000000000000000..d65025903e5520a09d956f8d52462773
 +  }
 +}
 diff --git a/scripts/check-workspace-constraints.ts b/scripts/check-workspace-constraints.ts
-index 29742995ee66101e3616f61ac3fee0507660eb1f..3f30ae46290e3644af2cbe5ab38f3386abc955cb 100644
+index 2974299..3f30ae4 100644
 --- a/scripts/check-workspace-constraints.ts
 +++ b/scripts/check-workspace-constraints.ts
 @@ -52,7 +52,8 @@ const releaseMemberDirectory = /^(?:packages\/[^/]+\/[^/]+|apps\/[^/]+|vendor\/[
@@ -13387,7 +13152,7 @@ index 29742995ee66101e3616f61ac3fee0507660eb1f..3f30ae46290e3644af2cbe5ab38f3386
    '@deepseek-ai/dsh-client-ui-theme': ['lib/styles'],
    // The Python runtime uses a distinct closed-resolution bin; the public CLI
 diff --git a/scripts/verify-package-readme-model-experience.ts b/scripts/verify-package-readme-model-experience.ts
-index d38b4743c52c6562831d6f79ceab942dab9e8e45..ad1325044df2d90f1cef334f0b63a5ddb0f99426 100644
+index d38b474..ad13250 100644
 --- a/scripts/verify-package-readme-model-experience.ts
 +++ b/scripts/verify-package-readme-model-experience.ts
 @@ -109,6 +109,7 @@ const SENTENCE_MODEL_EXPERIENCE: Readonly<Record<string, SentenceContract>> = {
@@ -13399,7 +13164,7 @@ index d38b4743c52c6562831d6f79ceab942dab9e8e45..ad1325044df2d90f1cef334f0b63a5dd
    'packages/llm/llm': { kind: 'none', reason: 'The adapter registry forwards already-assembled requests unchanged.' },
    'packages/llm/token-meter': { kind: 'indirect', reason: 'The measurement service leaves model-visible changes to its consumers.' },
 diff --git a/scripts/verify-runtime-closure.ts b/scripts/verify-runtime-closure.ts
-index c87d562f59ca650e6a6d3558455565972ee0aa40..d2842f8dbed5505f9abe918721aabec3e8e148a7 100644
+index c87d562..d2842f8 100644
 --- a/scripts/verify-runtime-closure.ts
 +++ b/scripts/verify-runtime-closure.ts
 @@ -65,7 +65,7 @@ for (let index = 0; index < queue.length; index += 1) {
@@ -13422,7 +13187,7 @@ index c87d562f59ca650e6a6d3558455565972ee0aa40..d2842f8dbed5505f9abe918721aabec3
    const result = new Map<string, WorkspacePackage>()
 diff --git a/start-deepseek-harness.cmd b/start-deepseek-harness.cmd
 new file mode 100644
-index 0000000000000000000000000000000000000000..aa69c4bffed484d785f06998eda63f2edaf49829
+index 0000000..aa69c4b
 --- /dev/null
 +++ b/start-deepseek-harness.cmd
 @@ -0,0 +1,24 @@
@@ -13451,7 +13216,7 @@ index 0000000000000000000000000000000000000000..aa69c4bffed484d785f06998eda63f2e
 +popd
 +
 diff --git a/tsconfig.base.json b/tsconfig.base.json
-index 16d69db6dbb89c5c38e301a9319f95967457eb23..120099a14ddaed51336cb12c6baff7167d87b6f9 100644
+index 16d69db..120099a 100644
 --- a/tsconfig.base.json
 +++ b/tsconfig.base.json
 @@ -149,6 +149,7 @@
@@ -13471,7 +13236,7 @@ index 16d69db6dbb89c5c38e301a9319f95967457eb23..120099a14ddaed51336cb12c6baff716
        "@deepseek-ai/dsh-client-ui-primitives": ["./packages/client/ui-primitives/src"],
        "@deepseek-ai/dsh-client-schema-form": ["./packages/client/schema-form/src"],
 diff --git a/tsconfig.host.json b/tsconfig.host.json
-index 459036247a75db134eb655a547478f8dbe65e3ab..45d6557193400a551f54d8ad69dc292e2bce262a 100644
+index 4590362..45d6557 100644
 --- a/tsconfig.host.json
 +++ b/tsconfig.host.json
 @@ -242,6 +242,7 @@
@@ -13492,7 +13257,7 @@ index 459036247a75db134eb655a547478f8dbe65e3ab..45d6557193400a551f54d8ad69dc292e
    ]
  }
 diff --git a/tsdown.config.ts b/tsdown.config.ts
-index 5a0fcc8c782edd579e3ff991faabe064dbcb178f..6e518fe19e746245406e799620b555f79ec19cd4 100644
+index 5a0fcc8..6e518fe 100644
 --- a/tsdown.config.ts
 +++ b/tsdown.config.ts
 @@ -16,7 +16,7 @@ function isBuildFaceClient(value: unknown): boolean {
