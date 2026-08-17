@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 export const HARNESS_PATCH_BASE_COMMIT = '47f943859bef60e4160492346772ded9b24f765a'
 
 /** Bundle revision written into generated desktop artifacts. */
-export const HARNESS_EXTENSION_VERSION = '0.3.0'
+export const HARNESS_EXTENSION_VERSION = '0.3.1'
 
 /** Resolve the complete source patch shipped with this package. */
 export function harnessPatchPath(): string {
@@ -17,6 +17,7 @@ export function harnessPatchPath(): string {
 /** Resolve complete patches for extension revisions supported by in-place upgrades. */
 export function legacyHarnessPatchPaths(): readonly string[] {
   const paths = [
+    fileURLToPath(new URL('../legacy/harness-v0.3.0.patch', import.meta.url)),
     fileURLToPath(new URL('../legacy/harness-v0.2.2.patch', import.meta.url)),
     fileURLToPath(new URL('../legacy/harness-v0.2.1.patch', import.meta.url)),
     fileURLToPath(new URL('../legacy/harness-v0.2.0.patch', import.meta.url)),

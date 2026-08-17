@@ -12709,7 +12709,7 @@ index 4f6b2122cb45360350b606e626ed7ba04bcc6a28..8ce5f53ea5d4b596c3e7929837d5fe22
  
    /**
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd465324b647b7f 100644
+index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015c9c5aa99 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
 @@ -83,7 +83,7 @@ importers:
@@ -13083,7 +13083,17 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd46532
    packages/bundle/headless:
      dependencies:
        '@deepseek-ai/dsh-cmdline':
-@@ -1779,6 +2102,42 @@ importers:
+@@ -1675,6 +1998,9 @@ importers:
+       '@deepseek-ai/dsh-client-ui-conversation':
+         specifier: workspace:^
+         version: link:../ui-conversation
++      '@deepseek-ai/dsh-client-ui-input-trigger':
++        specifier: workspace:^
++        version: link:../ui-input-trigger
+       '@deepseek-ai/dsh-client-ui-primitives':
+         specifier: workspace:^
+         version: link:../ui-primitives
+@@ -1779,6 +2105,42 @@ importers:
  
    packages/client/ui-conversation:
      dependencies:
@@ -13126,7 +13136,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd46532
        '@deepseek-ai/dsh-settings':
          specifier: workspace:^
          version: link:../../settings/settings
-@@ -1788,6 +2147,12 @@ importers:
+@@ -1788,6 +2150,12 @@ importers:
        clsx:
          specifier: ^2.0.0
          version: 2.1.1
@@ -13139,7 +13149,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd46532
      devDependencies:
        '@deepseek-ai/cordis':
          specifier: workspace:^
-@@ -2344,7 +2709,7 @@ importers:
+@@ -2344,7 +2712,7 @@ importers:
          version: 0.16.47
        mdast-util-from-markdown:
          specifier: ^2.0.3
@@ -13148,16 +13158,6 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd46532
        mdast-util-gfm:
          specifier: ^3.1.0
          version: 3.1.0
-@@ -3041,6 +3406,9 @@ importers:
-       '@deepseek-ai/dsh-client-ui-conversation':
-         specifier: workspace:^
-         version: link:../ui-conversation
-+      '@deepseek-ai/dsh-client-ui-input-trigger':
-+        specifier: workspace:^
-+        version: link:../ui-input-trigger
-       '@deepseek-ai/dsh-client-ui-primitives':
-         specifier: workspace:^
-         version: link:../ui-primitives
 @@ -3083,6 +3451,9 @@ importers:
        '@deepseek-ai/dsh-client-web-react':
          specifier: workspace:^
