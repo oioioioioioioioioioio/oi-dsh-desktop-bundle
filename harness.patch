@@ -13148,7 +13148,25 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..67939e5d302ba42ed544c20a8dd46532
        mdast-util-gfm:
          specifier: ^3.1.0
          version: 3.1.0
-@@ -3041,6 +3406,9 @@ importers:
+@@ -3023,24 +3388,27 @@ importers:
+   packages/client/ui-workspace:
+     dependencies:
+       clsx:
+         specifier: ^2.0.0
+         version: 2.1.1
+     devDependencies:
+       '@deepseek-ai/cordis':
+         specifier: workspace:^
+         version: link:../../../vendor/cordis
+       '@deepseek-ai/dsh-client-locale':
+         specifier: workspace:^
+         version: link:../locale
+       '@deepseek-ai/dsh-client-runtime':
+         specifier: workspace:^
+         version: link:../runtime
+       '@deepseek-ai/dsh-client-test-runtime':
+         specifier: workspace:^
+         version: link:../../test-support/client-runtime
        '@deepseek-ai/dsh-client-ui-conversation':
          specifier: workspace:^
          version: link:../ui-conversation

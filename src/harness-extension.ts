@@ -5,7 +5,7 @@ import { fileURLToPath } from 'node:url'
 export const HARNESS_PATCH_BASE_COMMIT = '47f943859bef60e4160492346772ded9b24f765a'
 
 /** Bundle revision written into generated desktop artifacts. */
-export const HARNESS_EXTENSION_VERSION = '0.3.1'
+export const HARNESS_EXTENSION_VERSION = '0.3.2'
 
 /** Resolve the complete source patch shipped with this package. */
 export function harnessPatchPath(): string {

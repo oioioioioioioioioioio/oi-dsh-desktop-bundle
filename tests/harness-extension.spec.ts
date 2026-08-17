@@ -12,7 +12,7 @@ describe('Harness source extension', () => {
     const patch = await readFile(harnessPatchPath(), 'utf8')
 
     expect(HARNESS_PATCH_BASE_COMMIT).toMatch(/^[0-9a-f]{40}$/u)
-    expect(HARNESS_EXTENSION_VERSION).toBe('0.3.1')
+    expect(HARNESS_EXTENSION_VERSION).toBe('0.3.2')
     expect(patch).toContain('diff --git a/apps/electron/src/main.ts b/apps/electron/src/main.ts')
     expect(patch).toContain('diff --git a/packages/client/ui-conversation/src/client/skeleton/FileWorkbench.tsx')
     expect(patch).toContain('diff --git a/packages/client/ui-conversation/src/client/skeleton/ProjectExplorer.tsx')
@@ -27,7 +27,12 @@ describe('Harness source extension', () => {
     expect(patch).toContain("'@file:src/main.ts'")
     expect(patch).toContain("'@folder:\"docs/my guides\"'")
     expect(patch).toContain([
-      '@@ -3041,6 +3406,9 @@ importers:',
+      '@@ -3023,24 +3388,27 @@ importers:',
+      '   packages/client/ui-workspace:',
+      '     dependencies:',
+      '       clsx:',
+    ].join('\n'))
+    expect(patch).toContain([
       "       '@deepseek-ai/dsh-client-ui-conversation':",
       '         specifier: workspace:^',
       '         version: link:../ui-conversation',
@@ -37,6 +42,14 @@ describe('Harness source extension', () => {
       "       '@deepseek-ai/dsh-client-ui-primitives':",
     ].join('\n'))
     expect(patch).not.toContain('@@ -1675,6 +1998,9 @@ importers:')
-    expect(legacyHarnessPatchPaths()).toHaveLength(4)
+    const legacyPatches = legacyHarnessPatchPaths()
+    expect(legacyPatches).toHaveLength(4)
+    const previousPatch = await readFile(legacyPatches[0]!, 'utf8')
+    expect(previousPatch).toContain([
+      '@@ -1655,26 +1978,29 @@ importers:',
+      '   packages/client/ui-agent-preset:',
+      '     devDependencies:',
+      "       '@deepseek-ai/cordis':",
+    ].join('\n'))
   })
 })

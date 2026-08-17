@@ -13083,7 +13083,27 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    packages/bundle/headless:
      dependencies:
        '@deepseek-ai/dsh-cmdline':
-@@ -1675,6 +1998,9 @@ importers:
+@@ -1655,26 +1978,29 @@ importers:
+   packages/client/ui-agent-preset:
+     devDependencies:
+       '@deepseek-ai/cordis':
+         specifier: workspace:^
+         version: link:../../../vendor/cordis
+       '@deepseek-ai/dsh-api-remotes':
+         specifier: workspace:^
+         version: link:../../api/remotes
+       '@deepseek-ai/dsh-client-connection':
+         specifier: workspace:^
+         version: link:../connection
+       '@deepseek-ai/dsh-client-locale':
+         specifier: workspace:^
+         version: link:../locale
+       '@deepseek-ai/dsh-client-runtime':
+         specifier: workspace:^
+         version: link:../runtime
+       '@deepseek-ai/dsh-client-test-runtime':
+         specifier: workspace:^
+         version: link:../../test-support/client-runtime
        '@deepseek-ai/dsh-client-ui-conversation':
          specifier: workspace:^
          version: link:../ui-conversation
