@@ -1,6 +1,6 @@
 {
   "name": "oi-dsh-desktop-bundle",
-  "version": "0.2.2",
+  "version": "0.3.0",
   "description": "Source extension bundle for the DeepSeek Harness Electron desktop client",
   "license": "Apache-2.0",
   "repository": {

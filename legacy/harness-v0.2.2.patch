@@ -222,100 +222,6 @@ index 0000000000000000000000000000000000000000..4bd212e993ccf34c66b92f3ba4faea8c
 +用户可以在不离开共用 Web 或 Electron 客户端的情况下审查和编辑生成的代码与 Markdown，同时仍可把操作系统交接作为明确的次级操作。两种载体遵循同一套 Host 安全与并发规则，任何文件内容都不会进入持久 Session 事件或持久化 UI store。
 +
 +工作台刻意只编辑已有的有界文本文件，不创建、重命名、删除、合并或格式化文件。二进制和更大的产物仍需外部应用。未保存草稿可跨客户端内导航保留，但不能跨进程重启保留；冲突解决采用重新加载而非合并 UI；CodeMirror 语言支持也会增加客户端 bundle 与 Electron 运行时体积。
-diff --git a/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.i18n.yaml b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.i18n.yaml
-new file mode 100644
-index 0000000000000000000000000000000000000000..2de405a1b7f8be771566553233c46065bd1a451f
---- /dev/null
-+++ b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.i18n.yaml
-@@ -0,0 +1,6 @@
-+# Bilingual-pair consistency record (docs/i18n/README.md): the git blob hash of each
-+# side as of the last confirmed-consistent state. Both languages carry equal authority;
-+# after editing either side, bring the other along and re-record with:
-+#   pnpm run verify-translation-pairing --write .agents/notes/implemented/feature/2026-08-17-workspace-path-references.md
-+2026-08-17-workspace-path-references.md: f3ca72faba28bb6e313e7e01d43b4b8de1580119
-+2026-08-17-workspace-path-references.zh.md: a861d8f58a63a34cd0e456052cf9fe8be534e375
-diff --git a/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.md b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..f3ca72faba28bb6e313e7e01d43b4b8de1580119
---- /dev/null
-+++ b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.md
-@@ -0,0 +1,35 @@
-+# Agent Note: Workspace path references in conversation input
-+
-+Status: implemented
-+
-+English | [中文](2026-08-17-workspace-path-references.zh.md)
-+
-+## Problem
-+
-+Users can discuss a Workspace file or directory by typing its path, but manual paths are easy to mistype and the composer has no Workspace-aware discovery. Attaching file contents would solve a different problem: a path reference needs to identify an artifact without spending context on its contents or granting the Renderer broader filesystem access.
-+
-+## Decision
-+
-+The Workspace Client plugin registers two `@` input-trigger sources named `workspace-file` and `workspace-folder`. They appear as `file` and `folder` commands only when the addressed Session belongs to a registered Workspace. Selecting a command inserts the searchable `@file:` or `@folder:` prefix; selecting a result creates a `ReferenceInsert` whose source-scoped value is the raw Workspace-relative path. Clipboard projection and submit serialization both produce the same literal reference. Paths containing whitespace or quotes use a JSON-quoted path.
-+
-+The Client builds a path-only index by recursively calling the existing bounded `workspace.listDirectory` runtime method. It never calls `workspace.readFile`. A scan skips version-control metadata, prioritizes ordinary source directories over dependency and build trees, lists up to six directories concurrently, and stops after 20,000 indexed paths. Query changes share the in-flight per-Workspace scan, while reopening an empty prefix refreshes a settled index. Local fuzzy ranking orders exact basenames, basename prefixes, path prefixes, containment, and subsequence matches; each source returns at most 40 results.
-+
-+Both Web and Electron use the same Client plugin and Workspace runtime method. Web carries listings through its existing loopback transport and Electron through its existing fixed IPC bridge, so the feature adds no Host RPC or Renderer filesystem authority. Durable user bubbles recognize both serialized path forms as reference chips without changing their copy text.
-+
-+## Alternatives considered
-+
-+**Attach or inject the selected file contents.** Rejected because the feature identifies an artifact rather than requesting its contents. Automatic reads would increase prompt size, make directory semantics ambiguous, and couple a path mention to an implicit context policy.
-+
-+**Add a recursive Host search RPC.** Rejected because the existing directory-listing method already enforces Workspace containment and is available through both transports. Client-side indexing keeps fuzzy ranking and interaction caching in the owning UI plugin without widening Host authority.
-+
-+**Insert plain text without a reference occurrence.** Rejected because a `ReferenceInsert` preserves one identity for chip rendering, clipboard projection, undo, persistence, and asynchronous submit serialization. The model still receives plain path text; the occurrence exists only in composer state.
-+
-+**Ship a separate Workspace-reference package.** Rejected because the source depends on the Workspace list and directory runtime already owned by `ui-workspace`, has no independent service, and must follow the same plugin lifecycle. A separate package would add composition and dependency edges without creating an independently replaceable behavior.
-+
-+## Verification
-+
-+Workspace Client tests cover command discovery, Session-to-Workspace selection, recursive file and folder filtering, ranking, quoting, copy and model serialization, scan sharing, refresh, cancellation, disposal, inaccessible directories, VCS exclusion, deferred dependency traversal, result and index bounds, and the absence of file reads. Plugin assembly tests pin source registration and teardown. Conversation rendering tests pin durable chips and unchanged copy text.
-+
-+## Consequences
-+
-+Users can discover and mention Workspace artifacts from either Web or Electron while sending only stable relative paths. Large Workspaces pay one bounded recursive scan per opened prefix, and newly generated paths appear after reopening the prefix. The 20,000-path bound means dependency-heavy trees can omit later entries; content search, file attachment, and automatic reads remain separate features.
-diff --git a/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.zh.md b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.zh.md
-new file mode 100644
-index 0000000000000000000000000000000000000000..a861d8f58a63a34cd0e456052cf9fe8be534e375
---- /dev/null
-+++ b/.agents/notes/implemented/feature/2026-08-17-workspace-path-references.zh.md
-@@ -0,0 +1,35 @@
-+# Agent Note: 对话输入中的 Workspace 路径引用
-+
-+Status: implemented
-+
-+[English](2026-08-17-workspace-path-references.md) | 中文
-+
-+## 问题
-+
-+用户可以通过手动输入路径来讨论 Workspace 文件或目录，但路径容易输错，输入框也无法感知 Workspace 并提供搜索。附加文件内容解决的是另一个问题：路径引用只需标识产物，不应消耗文件内容对应的上下文，也不应扩大 Renderer 的文件系统权限。
-+
-+## 决策
-+
-+Workspace Client 插件注册两个名为 `workspace-file` 和 `workspace-folder` 的 `@` 输入触发来源。只有当前寻址的 Session 属于已注册 Workspace 时，菜单才显示 `file` 和 `folder` 命令。选择命令会插入可继续搜索的 `@file:` 或 `@folder:` 前缀；选择结果会创建 `ReferenceInsert`，其来源域值是未经修改的 Workspace 相对路径。剪贴板投影与提交序列化会生成同一条字面引用。路径包含空白或引号时采用 JSON 引号格式。
-+
-+Client 通过递归调用现有且有边界的 `workspace.listDirectory` 运行时方法建立纯路径索引，绝不调用 `workspace.readFile`。扫描会跳过版本控制元数据，优先处理普通源码目录，再处理依赖目录与构建目录；最多并发枚举六个目录，并在索引达到 20,000 条路径后停止。查询变化会共用每个 Workspace 正在进行的扫描，再次打开空前缀则会刷新已完成的索引。本地模糊排序依次优先精确 basename、basename 前缀、路径前缀、包含匹配与子序列匹配；每个来源最多返回 40 条结果。
-+
-+Web 与 Electron 使用同一个 Client 插件和 Workspace 运行时方法。Web 通过现有 loopback 传输获取目录列表，Electron 则使用现有固定 IPC bridge，因此该功能不新增 Host RPC，也不向 Renderer 授予文件系统权限。持久用户气泡会把两种已序列化路径识别为引用 chip，同时保持复制文本不变。
-+
-+## 考虑过的替代方案
-+
-+**附加或注入所选文件内容。** 未采用，因为该功能的目标是标识产物，而不是请求其内容。自动读取会增大提示词、让目录语义变得含糊，并把路径提及与隐式上下文策略绑定。
-+
-+**新增递归 Host 搜索 RPC。** 未采用，因为现有目录枚举方法已经实施 Workspace containment，并可通过两种传输使用。Client 侧索引让模糊排序与交互缓存留在所属 UI 插件内，无需扩大 Host 权限。
-+
-+**插入没有引用 occurrence 的普通文本。** 未采用，因为 `ReferenceInsert` 可为 chip 渲染、剪贴板投影、撤销、持久化与异步提交序列化保留同一身份。模型仍然只接收普通路径文本；occurrence 只存在于输入框状态中。
-+
-+**发布独立的 Workspace 引用包。** 未采用，因为该来源依赖 `ui-workspace` 已经持有的 Workspace 列表与目录运行时，没有独立服务，并且必须跟随同一插件生命周期。独立包只会增加组合和依赖边，而不会形成可独立替换的行为。
-+
-+## 验证
-+
-+Workspace Client 测试覆盖命令发现、Session 到 Workspace 的选择、递归文件与目录过滤、排序、引号格式、复制与模型序列化、扫描共用、刷新、取消、销毁、不可访问目录、版本控制目录排除、依赖目录延后遍历、结果与索引上限，以及不会读取文件。插件装配测试固定来源注册和卸载行为，对话渲染测试固定持久 chip 与不变的复制文本。
-+
-+## 后果
-+
-+用户可以在 Web 或 Electron 中搜索并提及 Workspace 产物，同时只发送稳定的相对路径。大型 Workspace 每次打开前缀需要承担一次有边界的递归扫描，新生成的路径会在重新打开前缀后出现。20,000 条路径上限意味着依赖繁重的目录树可能省略后续条目；内容搜索、文件附加和自动读取仍然属于独立功能。
 diff --git a/apps/cli/README.i18n.yaml b/apps/cli/README.i18n.yaml
 index f270fdf88247b2af3c013f4df2c3659980737c10..dea55e5a162055db2761d3dc44ea540d0c52df33 100644
 --- a/apps/cli/README.i18n.yaml
@@ -2464,26 +2370,6 @@ QqZi|JA^_%ao16Ln1B3Xs<p2Nx
 literal 0
 HcmV?d00001
 
-diff --git a/apps/web/tests/assembled-boot.ts b/apps/web/tests/assembled-boot.ts
-index 52c0658e4e5fde665883f0bfc168950db8585f73..5997af025cb4a7eb56ea1be7cb1b129e037eca03 100644
---- a/apps/web/tests/assembled-boot.ts
-+++ b/apps/web/tests/assembled-boot.ts
-@@ -27,6 +27,7 @@ const PLUGINS: readonly (WebBootEntry & { bundlePath: string })[] = [
-   { id: '@deepseek-ai/dsh-client-runtime', bundlePath: 'packages/client/runtime/lib/client.js', url: '/plugins/runtime.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-typert-registry', '@deepseek-ai/dsh-api-gateway'], immediately: true },
-   { id: '@deepseek-ai/dsh-client-ui-theme', bundlePath: 'packages/client/ui-theme/lib/client.js', url: '/plugins/ui-theme.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-runtime', '@deepseek-ai/dsh-client-locale', '@deepseek-ai/dsh-client-ui-settings', '@deepseek-ai/dsh-api-remotes'], immediately: true },
-   { id: '@deepseek-ai/dsh-client-locale', bundlePath: 'packages/client/locale/lib/client.js', url: '/plugins/locale.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-connection', '@deepseek-ai/dsh-client-runtime', '@deepseek-ai/dsh-client-ui-settings', '@deepseek-ai/dsh-api-remotes'], immediately: true },
-+  { id: '@deepseek-ai/dsh-client-ui-input-trigger', bundlePath: 'packages/client/ui-input-trigger/lib/client.js', url: '/plugins/ui-input-trigger.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-runtime', '@deepseek-ai/dsh-client-locale'] },
-   { id: '@deepseek-ai/dsh-client-ui-layout', bundlePath: 'packages/client/ui-layout/lib/client.js', url: '/plugins/ui-layout.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-runtime'] },
-   { id: '@deepseek-ai/dsh-client-ui-sidebar', bundlePath: 'packages/client/ui-sidebar/lib/client.js', url: '/plugins/ui-sidebar.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-ui-layout'] },
-   { id: '@deepseek-ai/dsh-client-ui-conversation', bundlePath: 'packages/client/ui-conversation/lib/client.js', url: '/plugins/ui-conversation.js', rev: 'fx', inject: ['@deepseek-ai/dsh-client-ui-layout'] },
-@@ -40,6 +41,7 @@ const PLUGINS: readonly (WebBootEntry & { bundlePath: string })[] = [
-     inject: [
-       '@deepseek-ai/dsh-client-runtime',
-       '@deepseek-ai/dsh-client-ui-conversation',
-+      '@deepseek-ai/dsh-client-ui-input-trigger',
-       '@deepseek-ai/dsh-client-ui-sidebar',
-     ],
-   },
 diff --git a/apps/web/tests/produced-files.e2e.ts b/apps/web/tests/produced-files.e2e.ts
 index 2dcc92f65ec1b1fc3426598610891f5560f0bb55..b882dd32911a9d2c0c9e4ca00080d18f8268e241 100644
 --- a/apps/web/tests/produced-files.e2e.ts
@@ -2668,7 +2554,7 @@ index f2f5310f665b86b86587307e7ce31c5841b96317..57d8b12ebb20e31133c317cb2a3c426e
  各层按此顺序应用在空条目列表之上：先按 profile 列出的顺序应用每个组合包，然后是 profile 的 `cordis.patch.yml`，然后是 home 级的那份，最后是任意 `--patch` overlay。一条 patch 按 id 定位某个条目并替换其整个 config，或插入新条目。
  
 diff --git a/docs/config-catalog.i18n.yaml b/docs/config-catalog.i18n.yaml
-index f5a845ad5f7377170702887d41726f44bab4346b..e934c14002416532f2b229d91cb1ce2d32d49dba 100644
+index f5a845ad5f7377170702887d41726f44bab4346b..6643396e9c90235c644956d06f3e9dae96f2759c 100644
 --- a/docs/config-catalog.i18n.yaml
 +++ b/docs/config-catalog.i18n.yaml
 @@ -2,5 +2,5 @@
@@ -2677,10 +2563,10 @@ index f5a845ad5f7377170702887d41726f44bab4346b..e934c14002416532f2b229d91cb1ce2d
  #   pnpm run verify-translation-pairing --write docs/config-catalog.md
 -config-catalog.md: 20919b3fdc5ab26255465949d72bdce8d356a529
 -config-catalog.zh.md: 8dfb49df5e3f5906af859a4de83ebc44f315a0bd
-+config-catalog.md: f9ac21ffe855a2e5f6ca5b8ff1fabe56b9e149f9
-+config-catalog.zh.md: 733af0e4817267169123f36ad4a0b6a2f6b1d729
++config-catalog.md: da9439de043adda5602d7f9852e337232171471e
++config-catalog.zh.md: e4d351235c42aae6614c80a72089e364d2886626
 diff --git a/docs/config-catalog.md b/docs/config-catalog.md
-index 20919b3fdc5ab26255465949d72bdce8d356a529..f9ac21ffe855a2e5f6ca5b8ff1fabe56b9e149f9 100644
+index 20919b3fdc5ab26255465949d72bdce8d356a529..9098fea6c4f4da361d898c3b7535e0fef8e01113 100644
 --- a/docs/config-catalog.md
 +++ b/docs/config-catalog.md
 @@ -391,11 +391,11 @@ Source: [`packages/shell/bash-sandbox/src/index.ts:35`](../packages/shell/bash-s
@@ -2702,7 +2588,7 @@ index 20919b3fdc5ab26255465949d72bdce8d356a529..f9ac21ffe855a2e5f6ca5b8ff1fabe56
  ```
  
 -Source: [`packages/client/connection/src/index.ts:50`](../packages/client/connection/src/index.ts)
-+Source: [`packages/client/connection/src/index.ts:61`](../packages/client/connection/src/index.ts)
++Source: [`packages/client/connection/src/index.ts:60`](../packages/client/connection/src/index.ts)
  
  <a id="deepseek-aidsh-client-hmr"></a>
  
@@ -2733,7 +2619,7 @@ index 20919b3fdc5ab26255465949d72bdce8d356a529..f9ac21ffe855a2e5f6ca5b8ff1fabe56
  - `@deepseek-ai/dsh-fs-observation-policy` ([`packages/fs/fs-observation-policy/src/index.ts`](../packages/fs/fs-observation-policy/src/index.ts))
  - `@deepseek-ai/dsh-goal-round-driver` — requires `agents` · `goals` · `sessions` ([`packages/goal/goal-round-driver/src/index.ts`](../packages/goal/goal-round-driver/src/index.ts))
 diff --git a/docs/config-catalog.zh.md b/docs/config-catalog.zh.md
-index 8dfb49df5e3f5906af859a4de83ebc44f315a0bd..733af0e4817267169123f36ad4a0b6a2f6b1d729 100644
+index 8dfb49df5e3f5906af859a4de83ebc44f315a0bd..e4d351235c42aae6614c80a72089e364d2886626 100644
 --- a/docs/config-catalog.zh.md
 +++ b/docs/config-catalog.zh.md
 @@ -393,11 +393,11 @@ export type Config = LocalConfig
@@ -2755,19 +2641,10 @@ index 8dfb49df5e3f5906af859a4de83ebc44f315a0bd..733af0e4817267169123f36ad4a0b6a2
  ```
  
 -来源：[`packages/client/connection/src/index.ts:50`](../packages/client/connection/src/index.ts)
-+来源：[`packages/client/connection/src/index.ts:61`](../packages/client/connection/src/index.ts)
++来源：[`packages/client/connection/src/index.ts:53`](../packages/client/connection/src/index.ts)
  
  <a id="deepseek-aidsh-client-hmr"></a>
  
-@@ -727,7 +727,7 @@ export interface Config {
- 
- ## `@deepseek-ai/dsh-host-apiproxy`
- 
--需要：`agentDefaultModel` · `agents` · `attachments` · `directoryPicker` · `llm` · `sessions` · `subagents` · `sessionQuery` · `tools` · `userInteraction` · `workspace`
-+需要：`agentDefaultModel` · `agents` · `attachments` · `directoryPicker` · `llm` · `sessions` · `subagents` · `sessionQuery` · `tools` · `userQuestions` · `workspaceRegistry` · `fs`
- 
- ```ts config-catalog
- /** Gateway plugin configuration. */
 @@ -3031,7 +3031,7 @@ export interface Config {
  - `@deepseek-ai/dsh-api-gateway` — 需要 `typert`（[`packages/api/gateway/src/index.ts`](../packages/api/gateway/src/index.ts)）
  - `@deepseek-ai/dsh-api-remotes`（[`packages/api/remotes/src/index.ts`](../packages/api/remotes/src/index.ts)）
@@ -3141,7 +3018,7 @@ index 2bb22c7949d759f404288548ea0eccfa0aac866b..67a162620f583f2be169ce77a291e067
  内置组合包从 dsh 安装目录解析；树外（out-of-tree）组合包通过 `dsh plugin --profile <name> add <package>` 安装进 profile。
 diff --git a/packages/bundle/electron-app/README.i18n.yaml b/packages/bundle/electron-app/README.i18n.yaml
 new file mode 100644
-index 0000000000000000000000000000000000000000..b958e7bdc2fff3a43f773604d72e9fb30616da5a
+index 0000000000000000000000000000000000000000..d383d7b3600ea1df98a46613c50d0ba35a7d43c7
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.i18n.yaml
 @@ -0,0 +1,6 @@
@@ -3149,14 +3026,14 @@ index 0000000000000000000000000000000000000000..b958e7bdc2fff3a43f773604d72e9fb3
 +# side as of the last confirmed-consistent state. Both languages carry equal authority;
 +# after editing either side, bring the other along and re-record with:
 +#   pnpm run verify-translation-pairing --write packages/bundle/electron-app/README.md
-+README.md: 103b4952d23caeefbdb51c859403fda3dc3ee64f
-+README.zh.md: 66df8c62ea2a62866383b3b79b0675118637c0ad
++README.md: d2fbfce6df232b96fe850292e95bf6701fe28c24
++README.zh.md: 51182b7e39cf698ad1e7a2b213dd98c73f3f46eb
 diff --git a/packages/bundle/electron-app/README.md b/packages/bundle/electron-app/README.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..103b4952d23caeefbdb51c859403fda3dc3ee64f
+index 0000000000000000000000000000000000000000..d2fbfce6df232b96fe850292e95bf6701fe28c24
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.md
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +# `@deepseek-ai/dsh-electron-app`
 +
 +English | [中文](README.zh.md)
@@ -3180,12 +3057,13 @@ index 0000000000000000000000000000000000000000..103b4952d23caeefbdb51c859403fda3
 +- **Requires the Electron application shell** — booting this bundle in an ordinary browser leaves no Web server and no preload bridge.
 +- **No client HMR** — the desktop protocol serves built plugin bundles and does not mount the Web rebuild stream.
 +- **Native chooser assumes a local display** — remote or headless Host deployments should retain the browse directory-picker composition.
++
 diff --git a/packages/bundle/electron-app/README.zh.md b/packages/bundle/electron-app/README.zh.md
 new file mode 100644
-index 0000000000000000000000000000000000000000..66df8c62ea2a62866383b3b79b0675118637c0ad
+index 0000000000000000000000000000000000000000..51182b7e39cf698ad1e7a2b213dd98c73f3f46eb
 --- /dev/null
 +++ b/packages/bundle/electron-app/README.zh.md
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +# `@deepseek-ai/dsh-electron-app`
 +
 +[English](README.md) | 中文
@@ -3209,6 +3087,7 @@ index 0000000000000000000000000000000000000000..66df8c62ea2a62866383b3b79b067511
 +- **需要 Electron 应用外壳**：在普通浏览器中启动该组合包时既没有 Web server，也没有 preload bridge。
 +- **没有客户端 HMR**：桌面 protocol 提供已构建插件 bundle，不挂载 Web 重建事件流。
 +- **原生选择器假定存在本地显示器**：远程或无头 Host 部署应保留 browse 目录选择器组合。
++
 diff --git a/packages/bundle/electron-app/cordis.patch.yml b/packages/bundle/electron-app/cordis.patch.yml
 new file mode 100644
 index 0000000000000000000000000000000000000000..3084a9463b970eeec7bd31ca215e957050f62ace
@@ -5476,43 +5355,6 @@ index f57caea9e5ad6f82e36f45a110c81b538feb090f..aac46de03ae4db69c6f2d341cd5fdccf
 +  }, DetailsHost)
  
  }
-diff --git a/packages/client/ui-conversation/src/client/chat/MessageItem.tsx b/packages/client/ui-conversation/src/client/chat/MessageItem.tsx
-index 00b5110d683642cec01bf625cf7e279b1a56c30e..b0c13386402c847d353a0e871d174e0d6a2ad948 100644
---- a/packages/client/ui-conversation/src/client/chat/MessageItem.tsx
-+++ b/packages/client/ui-conversation/src/client/chat/MessageItem.tsx
-@@ -149,13 +149,12 @@ function TurnMaxTokensItem({ t }: {
-  * Display projection of reference forms in a user bubble (free geometry — no
-  * textarea alignment constraint here); everything else stays plain text. The
-  * logged model text remains the single truth; this is presentation only.
-- * Plain-text `/name` / `@name` word-boundary tokens decorate (the sent text
-- * IS the reference — the bubble uses the same plainest token
-- * scan as the composer, minus the lexicon: sent tokens were validated at
-- * compose time, so shape alone decorates).
-+ * Plain-text `/name` / `@name` tokens and serialized `@file:` / `@folder:`
-+ * paths decorate. The sent text is the reference; the bubble scans only its
-+ * recorded syntax because composer-time selection already validated it.
-  */
- function projectUserText(text: string): ReactNode {
--  const re = /(^|\s)([/@][\w-]+)(?=\s|$)/g
-+  const re = /(^|\s)(@(?:file|folder):(?:"(?:\\.|[^"\\])*"|[^\s]+)|[/@][\w-]+)(?=\s|$)/g
-   const parts: ReactNode[] = []
-   let cursor = 0
-   let m: RegExpExecArray | null
-@@ -163,8 +162,13 @@ function projectUserText(text: string): ReactNode {
-     const tokenStart = m.index + (m[1]?.length ?? 0)
-     const label = m[2] ?? ''
-     if (tokenStart > cursor) parts.push(<MessageText key={cursor} text={text.slice(cursor, tokenStart)} />)
-+    const source = label.startsWith('@file:')
-+      ? 'workspace-file'
-+      : label.startsWith('@folder:')
-+        ? 'workspace-folder'
-+        : label.startsWith('@') ? 'subagent' : 'skill'
-     parts.push(
--      <span key={tokenStart} className={css.refChip} data-ref-chip={label.startsWith('@') ? 'subagent' : 'skill'}>
-+      <span key={tokenStart} className={css.refChip} data-ref-chip={source}>
-         {label}
-       </span>,
-     )
 diff --git a/packages/client/ui-conversation/src/client/contract/slots.ts b/packages/client/ui-conversation/src/client/contract/slots.ts
 index 21259146a748fd4ec9520f8509048608ec239c10..4620fc2aa74c4ce4e81a08256beff33dd0241197 100644
 --- a/packages/client/ui-conversation/src/client/contract/slots.ts
@@ -7228,38 +7070,6 @@ index 2a2b67b128a7c27897992ea13dd9bdc59551b14a..e2aa50552d856e3668b5a97d1487bf3c
  }
  
  const LAYOUT_CHILDREN = {
-diff --git a/packages/client/ui-conversation/tests/chat-view.client.spec.tsx b/packages/client/ui-conversation/tests/chat-view.client.spec.tsx
-index 360b589bdc4f4b419c9198ac740b1d4c9b960066..9c3c847a21c4c50b4dc903d3d261a4497cc7e1bd 100644
---- a/packages/client/ui-conversation/tests/chat-view.client.spec.tsx
-+++ b/packages/client/ui-conversation/tests/chat-view.client.spec.tsx
-@@ -537,6 +537,27 @@ describe('ChatView', () => {
-     expect(view.container.querySelectorAll('[data-pending-steering]')).toHaveLength(1)
-   })
- 
-+  it('decorates Workspace path references in durable user text without changing copy text', () => {
-+    const writeText = vi.fn().mockResolvedValue(undefined)
-+    Object.defineProperty(navigator, 'clipboard', {
-+      configurable: true,
-+      value: { writeText },
-+    })
-+    const text = 'Review @file:src/main.ts and @folder:"docs/my guides" with @worker-1 /commit-helper'
-+    const h = makeHarness({ nodes: [user(1, text)] })
-+    const view = render(<h.ChatView {...h.props} />)
-+
-+    const chips = [...view.container.querySelectorAll<HTMLElement>('[data-ref-chip]')]
-+    expect(chips.map(chip => [chip.dataset.refChip, chip.textContent])).toEqual([
-+      ['workspace-file', '@file:src/main.ts'],
-+      ['workspace-folder', '@folder:"docs/my guides"'],
-+      ['subagent', '@worker-1'],
-+      ['skill', '/commit-helper'],
-+    ])
-+    fireEvent.click(view.getByRole('button', { name: '复制' }))
-+    expect(writeText).toHaveBeenCalledWith(text)
-+  })
-+
-   it('animates only the latest unresolved model retry', () => {
-     const retryNode = retry(2)
-     const nextRetry = { ...retry(3), turn: 2, retry: 2 }
 diff --git a/packages/client/ui-conversation/tests/code-editor.client.spec.tsx b/packages/client/ui-conversation/tests/code-editor.client.spec.tsx
 new file mode 100644
 index 0000000000000000000000000000000000000000..a06a293e90655e96100324e5e67c0617b22c67cd
@@ -7666,28 +7476,6 @@ index acf618fb2be30a87dce5123953f7c634fd91d2ac..4e5ef2b4cae8ccb879f58f164f337a2b
    it('sticky composer seat wraps the whole overlay chain, not only the fallback stack', () => {
      const b = mount(conversationSnapshot(), undefined, undefined, { overlayTakeover: true })
      const seat = b.view.container.querySelector('[data-composer-seat]')
-diff --git a/packages/client/ui-input-trigger/src/client/locales.ts b/packages/client/ui-input-trigger/src/client/locales.ts
-index 1d4784bfbe9e351fa9650b2907483fd4b4037641..6b095ca4cb823066c2d880323a7d5c8e9e973c84 100644
---- a/packages/client/ui-input-trigger/src/client/locales.ts
-+++ b/packages/client/ui-input-trigger/src/client/locales.ts
-@@ -9,6 +9,8 @@ export const zh = {
-   'command': '命令',
-   'skill': '技能',
-   'subagent': '子智能体',
-+  'workspace-file': '工作区文件',
-+  'workspace-folder': '工作区文件夹',
-   'loading': '正在加载…',
-   'suggestions.aria': '触发候选建议',
- } satisfies Record<string, string>
-@@ -21,6 +23,8 @@ export const en = {
-   'command': 'Commands',
-   'skill': 'Skills',
-   'subagent': 'Subagents',
-+  'workspace-file': 'Workspace files',
-+  'workspace-folder': 'Workspace folders',
-   'loading': 'Loading…',
-   'suggestions.aria': 'Trigger suggestions',
- } satisfies Record<MenuKey, string>
 diff --git a/packages/client/ui-layout/README.i18n.yaml b/packages/client/ui-layout/README.i18n.yaml
 index d52d995ca17da7176c8672be079839a296afb95c..08321d142a58af7794a4088261d492776c161d59 100644
 --- a/packages/client/ui-layout/README.i18n.yaml
@@ -8383,844 +8171,6 @@ index 77c35873df8d25a6f56761a48d31d89925095378..7b6c95ae0d0f59361b7838b80bb07c50
          t={tConversation}
        />
        <ConversationSession
-diff --git a/packages/client/ui-workspace/README.i18n.yaml b/packages/client/ui-workspace/README.i18n.yaml
-index 6d5eff023bd630b11e0f6281db1b4c3efd53e9fb..264d12ae2c94a5acf7e7630a57a12f17e71782e5 100644
---- a/packages/client/ui-workspace/README.i18n.yaml
-+++ b/packages/client/ui-workspace/README.i18n.yaml
-@@ -2,5 +2,5 @@
- # side as of the last confirmed-consistent state. Both languages carry equal authority;
- # after editing either side, bring the other along and re-record with:
- #   pnpm run verify-translation-pairing --write packages/client/ui-workspace/README.md
--README.md: 8878aa49dcccd60ddcde5f0a9563bbfbd969c9c0
--README.zh.md: c83f1c53d5471dd8d52b933163a573eb98a70c2e
-+README.md: 7c6fe6ece82eb2c7d9bb309de8b0ff21936ab255
-+README.zh.md: 96719465b632f0b47f046affb3e54de137bc9db7
-diff --git a/packages/client/ui-workspace/README.md b/packages/client/ui-workspace/README.md
-index 8878aa49dcccd60ddcde5f0a9563bbfbd969c9c0..7c6fe6ece82eb2c7d9bb309de8b0ff21936ab255 100644
---- a/packages/client/ui-workspace/README.md
-+++ b/packages/client/ui-workspace/README.md
-@@ -20,17 +20,28 @@ Both target slots are declared by other plugins, so `apply` uses `slots.inject()
- 
- The shared sidebar projection hides rows whose durable Session summary has `origin: 'subagent'`; users enter those conversations through the selected parent's subagent header catalog. Each visible ordinary row inherits the blue activity indicator while any descendant reached through uninterrupted subagent-origin lineage is running, and its hover and assistive text report the exact running-descendant count without describing an idle parent as running. Ordinary forks remain visible and terminate this aggregation because lineage alone does not set their origin. Pending user interaction outranks the session's own running state, and either remains the primary row status while descendant activity stays available as a separate hover and assistive status. With neither present, descendant activity outranks the green unviewed-completion reminder; the reminder returns once no descendant is running. The runtime keeps hidden rows available for conversation, title, and addressed transport state.
- 
-+The conversation input registers `@file` and `@folder` sources for the current Session's Workspace. Typing `@` offers both commands; selecting one enters `@file:` or `@folder:` search, and selecting a fuzzy-matched result inserts a reference chip. Search recursively enumerates relative paths through `workspace.listDirectory`, never calls `readFile`, skips version-control metadata, and scans ordinary source directories before dependency and build trees. One in-flight index is shared across query changes, a reopened empty prefix refreshes a settled index, at most 20,000 paths are indexed, and the menu returns at most 40 ranked results. File and folder results remain separate. Paths containing whitespace or quotes use a JSON-quoted path after the prefix.
-+
- ## Model Experience
- 
--None, as the picker is browser chrome; nothing here reaches a model request.
-+### Workspace path reference text in the user prompt
-+
-+#### What the model sees
-+
-+A selected path chip reaches the ordinary user message only as its literal Workspace-relative reference, such as `@file:src/main.ts` or `@folder:packages/client`. The package never reads or injects the referenced file contents; the existing `user/message` event records the exact text sent to the model. Workspace picking and path search add no prompt section.
-+
-+#### Token effect
-+
-+Conditional and append-only: only the selected reference text adds tokens to the new user message. Search results, the path index, and file contents add zero model tokens.
- 
- #### KV Cache effect
- 
--None; this package neither assembles nor sends a provider request.
-+Append-only. A path reference changes only the new user message and never edits earlier request tokens.
- 
- ## Known Limitations and Deferred Work
- 
- - **No fuzzy content search or event deep links** — the content backend uses literal token/phrase matching, and selecting a result opens the Session rather than the matching event.
-+- **Workspace reference search is path-only and bounded** — it does not search file contents, and paths after the first 20,000 indexed entries are unavailable until the Workspace is reduced or the bound changes. The first search may wait for a recursive directory scan; reopening the prefix refreshes the index for newly generated paths.
- - **No Session deletion or unarchive control** — sessions can be archived, but archived sessions have no viewing or unarchive surface, and Workspace registration deletion does not delete Sessions.
- - **Pending user interaction is not aggregated into collapsed groups** — a waiting row inside a collapsed group lights no group-header indicator and becomes visible only after that group is expanded.
- - **Native folder selection depends on the local Host carrier** — under the `-native` composition, in-process or remote browser deployments cannot open a local operating-system dialog; platform failures are shown in a retryable modal. Remote-capable picking is the `-browse` composition's in-app flow.
-diff --git a/packages/client/ui-workspace/README.zh.md b/packages/client/ui-workspace/README.zh.md
-index c83f1c53d5471dd8d52b933163a573eb98a70c2e..96719465b632f0b47f046affb3e54de137bc9db7 100644
---- a/packages/client/ui-workspace/README.zh.md
-+++ b/packages/client/ui-workspace/README.zh.md
-@@ -20,17 +20,28 @@ Session 行渲染运行时的实时 `pendingInteraction` 分类：审批显示**
- 
- 共享侧边栏投影会隐藏持久化 Session 摘要中带有 `origin: 'subagent'` 的行；用户从所选父级的 subagent 页头目录进入这些对话。每个可见的普通行都会在经不间断的 subagent 谱系可达的任一后代运行时继承蓝色活动指示器；其悬停与无障碍文本会报告确切的运行中后代数量，同时不会把空闲 parent 描述为正在运行。普通 fork 仍然可见，并会终止此聚合，因为仅有谱系不会设置该 origin。待处理的用户交互优先于会话自身的运行中状态，二者无论哪一项存在都会保持为行的主要状态，而后代活动仍作为独立的悬停与无障碍状态保留。两者均不存在时，后代活动优先于绿色的未查看完成提醒；最后一个运行中的后代停止后，该提醒会重新出现。运行时仍保留隐藏行，供对话、标题与已寻址传输状态使用。
- 
-+对话输入框会为当前 Session 所属的 Workspace 注册 `@file` 和 `@folder` 来源。输入 `@` 会同时显示两个命令；选择后进入 `@file:` 或 `@folder:` 搜索，再选择模糊匹配结果即可插入引用 chip。搜索仅通过 `workspace.listDirectory` 递归枚举相对路径，绝不调用 `readFile`；版本控制元数据会被跳过，普通源码目录会先于依赖目录和构建目录扫描。查询变化会共用同一份进行中的索引，再次打开空前缀会刷新已完成索引；索引最多包含 20,000 条路径，菜单最多返回 40 条排序结果，文件与文件夹结果彼此分离。路径包含空白或引号时，前缀后的路径采用 JSON 引号格式。
-+
- ## 模型体验
- 
--无。选择器属于浏览器界面；这里没有任何内容进入模型请求。
-+### 用户提示词中的 Workspace 路径引用文本
-+
-+#### 模型看到的内容
-+
-+选中的路径 chip 只会以字面 Workspace 相对路径引用（例如 `@file:src/main.ts` 或 `@folder:packages/client`）进入普通用户消息。本包不会读取或注入所引用文件的内容；现有 `user/message` 事件会记录实际发送给模型的完整文本。Workspace 选择与路径搜索不会添加提示词分区。
-+
-+#### Token 影响
-+
-+仅在选择引用时追加：只有选中的引用文本会增加新用户消息的 token。搜索结果、路径索引与文件内容不会增加模型 token。
- 
- #### KV Cache 影响
- 
--无；该包既不组装也不发送提供方请求。
-+只追加。路径引用只改变新用户消息，绝不改写此前请求中的 token。
- 
- ## 已知限制与暂缓事项
- 
- - **没有模糊内容搜索或事件深链接**：内容后端采用字面 token／短语匹配，选择结果会打开 Session，而不是匹配的事件。
-+- **Workspace 引用搜索仅匹配路径且有数量上限**：它不会搜索文件内容，超过前 20,000 条索引记录的路径不可用，除非缩小 Workspace 或调整该上限。首次搜索可能需要等待递归目录扫描；重新打开前缀会刷新索引以发现新生成的路径。
- - **没有 Session 删除与取消归档控件**：会话可以归档，但已归档会话没有查看或取消归档入口；删除 Workspace 注册记录不会删除 Session。
- - **待处理的用户交互不会聚合到折叠的分组上**：折叠分组内正在等待的行不会点亮分组头指示，只有展开该分组后才可见。
- - **原生文件夹选择依赖本地 Host 载体**：在 `-native` 组合下，进程内部署或远程浏览器部署无法打开本地操作系统对话框；模态框会显示平台故障，并允许重试。可远程的选取是 `-browse` 组合的应用内流程。
-diff --git a/packages/client/ui-workspace/package.json b/packages/client/ui-workspace/package.json
-index 335bd2279728be43802a38d6423c59524109b40c..9a1b970129c5c711502e217edde087d76caa34f0 100644
---- a/packages/client/ui-workspace/package.json
-+++ b/packages/client/ui-workspace/package.json
-@@ -1,6 +1,6 @@
- {
-   "name": "@deepseek-ai/dsh-client-ui-workspace",
--  "description": "Workspace picker plugin: one WorkspacePicker registered into the sidebar and empty-state workspace slots",
-+  "description": "Workspace browser, picker, and @file/@folder path-reference plugin",
-   "version": "0.1.0-rc.5",
-   "publishConfig": {
-     "access": "public"
-@@ -34,6 +34,7 @@
-       "inject": [
-         "@deepseek-ai/dsh-client-locale",
-         "@deepseek-ai/dsh-client-runtime",
-+        "@deepseek-ai/dsh-client-ui-input-trigger",
-         "@deepseek-ai/dsh-client-ui-conversation",
-         "@deepseek-ai/dsh-client-ui-sidebar"
-       ],
-@@ -51,6 +52,7 @@
-   "peerDependencies": {
-     "@deepseek-ai/dsh-client-locale": "workspace:^",
-     "@deepseek-ai/dsh-client-runtime": "workspace:^",
-+    "@deepseek-ai/dsh-client-ui-input-trigger": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-     "@deepseek-ai/dsh-invariants": "workspace:^",
-@@ -62,6 +64,7 @@
-     "@deepseek-ai/dsh-client-runtime": "workspace:^",
-     "@deepseek-ai/dsh-client-test-runtime": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-conversation": "workspace:^",
-+    "@deepseek-ai/dsh-client-ui-input-trigger": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-primitives": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-sidebar": "workspace:^",
-     "@deepseek-ai/dsh-client-ui-slots": "workspace:^",
-diff --git a/packages/client/ui-workspace/src/client/index.ts b/packages/client/ui-workspace/src/client/index.ts
-index 6b14243ecf086e43b43b75164df274993e3fe761..5948525e8371306af37e4f5bd059b7190eccb048 100644
---- a/packages/client/ui-workspace/src/client/index.ts
-+++ b/packages/client/ui-workspace/src/client/index.ts
-@@ -1,21 +1,24 @@
- /**
-- * Workspace plugin, browser half. Two registrations: WorkspaceBrowser fills
-+ * Workspace plugin, browser half. WorkspaceBrowser fills
-  * the sidebar shell's `sidebar.workspaces` hole (the whole browsing region),
-  * and WorkspacePicker fills the conversation hero's picker hole
-  * (`conversation.hero.workspace` — both hero forms). Both read real Host
-  * Workspaces through the global useWorkspaces hook, and each declares its
-  * own `single` directory-flow child hole for the composed picker package's
-- * client half (see the contract module doc). Export discipline:
-+ * client half. The same plugin registers the `@file` and `@folder` path-only
-+ * reference sources over bounded Workspace directory listings. Export discipline:
-  * packages/client/AGENTS.md.
-  */
- import type { HostObservable } from '@deepseek-ai/dsh-client-ui-slots'
- import type { ClientContext } from '@deepseek-ai/dsh-client-runtime/client'
-+import type {} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
- // Type-only: pulls the locale plugin's Context merge (ctx.locale).
- import type {} from '@deepseek-ai/dsh-client-locale/client'
- import type { WorkspaceBrowserInjected, WorkspacePickerInjected } from './contract/slots.ts'
- import { createWorkspaceViewStore } from './stores.ts'
- import { WorkspaceBrowser } from './WorkspaceBrowser.tsx'
- import { WorkspacePicker } from './WorkspacePicker.tsx'
-+import { WorkspaceReferenceCatalog } from './workspace-references.ts'
- import { en, zh, type WorkspaceKey } from './locales.ts'
- 
- export type {
-@@ -42,17 +45,23 @@ const NS = 'workspace'
-  * provides a waitable service. apply therefore depends on each slot
-  * declaration through `slots.inject()` instead of assuming order.
-  */
--export const inject = ['slots', 'sessions', 'workspaces', 'locale']
-+export const inject = ['slots', 'sessions', 'workspaces', 'locale', 'inputTriggers']
- 
- /**
-- * Register the browser and picker once their slot declarations are on the
-- * ledger. Inject factories return plain callbacks; data reads use the
-- * framework's global hooks.
-+ * Register Workspace path references, then mount the browser and picker once
-+ * their slot declarations are on the ledger. Inject factories return plain
-+ * callbacks; data reads use the framework's global hooks.
-  * @param ctx - client root context.
-  */
- export function apply(ctx: ClientContext): void {
-   ctx.effect(() => ctx.locale.register(NS, { zh, en }), 'ui-workspace: dictionaries')
- 
-+  const catalog = new WorkspaceReferenceCatalog(ctx.workspaces)
-+  ctx.effect(() => () => { catalog.dispose() }, 'ui-workspace: path reference catalog')
-+  for (const source of catalog.sources) {
-+    ctx.effect(() => ctx.inputTriggers.registerSource(source), `ui-workspace: ${source.name} source`)
-+  }
-+
-   const searchSessions: WorkspaceBrowserInjected['searchSessions'] = async (query, signal) => {
-     const result = await ctx.sessions.search(query, signal)
-     if (!result.ok) throw new Error(result.error.message)
-diff --git a/packages/client/ui-workspace/src/client/workspace-references.ts b/packages/client/ui-workspace/src/client/workspace-references.ts
-new file mode 100644
-index 0000000000000000000000000000000000000000..3a9db5d537ff6422600b23923e44a2299db171a0
---- /dev/null
-+++ b/packages/client/ui-workspace/src/client/workspace-references.ts
-@@ -0,0 +1,278 @@
-+/** Workspace-relative file and folder references for the conversation input. */
-+
-+import type {
-+  IWorkspaces, WorkspaceDirectoryListing, WorkspaceId,
-+} from '@deepseek-ai/dsh-client-runtime/client'
-+import type {
-+  CandidateRequest, ClientSessionContext, InputTriggerCandidate, InputTriggerSource, PickOutcome,
-+} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-+
-+type WorkspaceReferenceKind = 'file' | 'folder'
-+
-+interface WorkspacePathIndex {
-+  readonly files: readonly string[]
-+  readonly folders: readonly string[]
-+}
-+
-+interface CachedWorkspaceIndex {
-+  readonly abort: AbortController
-+  readonly promise: Promise<WorkspacePathIndex>
-+  readonly state: { settled: boolean }
-+}
-+
-+interface PendingDirectory {
-+  readonly path: string
-+  readonly deferred: boolean
-+}
-+
-+interface ParsedQuery {
-+  readonly mode: 'command' | 'search'
-+  readonly search: string
-+}
-+
-+const COMMAND_HINT = 'workspace-reference-command'
-+const RESULT_HINT = 'workspace-reference-result'
-+const ROOT_PATH = '.'
-+const SCAN_CONCURRENCY = 6
-+const MAX_INDEXED_PATHS = 20_000
-+const MAX_CANDIDATES = 40
-+
-+const EXCLUDED_DIRECTORIES = new Set(['.git', '.svn', '.hg', '.bzr', '.jj', '.sl'])
-+const DEFERRED_DIRECTORIES = new Set([
-+  'node_modules', '.pnpm', '.yarn', '.cache', '.next', '.nuxt', 'coverage', 'dist', 'build', 'vendor',
-+])
-+
-+function abortReason(signal: AbortSignal): Error {
-+  if (signal.reason instanceof Error) return signal.reason
-+  const error = new Error('workspace reference search aborted')
-+  error.name = 'AbortError'
-+  return error
-+}
-+
-+function throwIfAborted(signal: AbortSignal): void {
-+  if (signal.aborted) throw abortReason(signal)
-+}
-+
-+function waitWithSignal<T>(promise: Promise<T>, signal: AbortSignal): Promise<T> {
-+  throwIfAborted(signal)
-+  return new Promise<T>((resolve, reject) => {
-+    const onAbort = (): void => { reject(abortReason(signal)) }
-+    signal.addEventListener('abort', onAbort, { once: true })
-+    void promise.then(
-+      (value) => {
-+        signal.removeEventListener('abort', onAbort)
-+        resolve(value)
-+      },
-+      (error: unknown) => {
-+        signal.removeEventListener('abort', onAbort)
-+        reject(error instanceof Error ? error : new Error(String(error)))
-+      },
-+    )
-+  })
-+}
-+
-+function parseQuery(kind: WorkspaceReferenceKind, query: string): ParsedQuery | null {
-+  const command = kind
-+  const lower = query.toLowerCase()
-+  if (!lower.includes(':')) {
-+    return command.startsWith(lower) ? { mode: 'command', search: '' } : null
-+  }
-+  const prefix = `${command}:`
-+  if (!lower.startsWith(prefix)) return null
-+  return {
-+    mode: 'search',
-+    search: query.slice(prefix.length).replace(/^"/u, '').replace(/"$/u, ''),
-+  }
-+}
-+
-+function formatReference(kind: WorkspaceReferenceKind, path: string): string {
-+  const encoded = /[\s"\\]/u.test(path) ? JSON.stringify(path) : path
-+  return `@${kind}:${encoded}`
-+}
-+
-+function textOrder(a: string, b: string): number {
-+  return a.localeCompare(b, 'en', { sensitivity: 'variant' })
-+}
-+
-+function subsequencePenalty(haystack: string, needle: string): number | null {
-+  let cursor = -1
-+  let first = -1
-+  for (const char of needle) {
-+    cursor = haystack.indexOf(char, cursor + 1)
-+    if (cursor < 0) return null
-+    if (first < 0) first = cursor
-+  }
-+  return first * 100 + (cursor - first - needle.length + 1)
-+}
-+
-+function pathScore(path: string, rawQuery: string): number | null {
-+  const candidate = path.replace(/\\/gu, '/').toLowerCase()
-+  const query = rawQuery.trim().replace(/\\/gu, '/').toLowerCase()
-+  const basename = candidate.slice(candidate.lastIndexOf('/') + 1)
-+  if (query === '') return candidate.split('/').length * 100 + candidate.length
-+  if (basename === query) return basename.length
-+  if (basename.startsWith(query)) return 10_000 + basename.length
-+  if (candidate.startsWith(query)) return 20_000 + candidate.length
-+  const basenameIndex = basename.indexOf(query)
-+  if (basenameIndex >= 0) return 30_000 + basenameIndex * 100 + basename.length
-+  const pathIndex = candidate.indexOf(query)
-+  if (pathIndex >= 0) return 40_000 + pathIndex * 100 + candidate.length
-+  const basenameSubsequence = subsequencePenalty(basename, query)
-+  if (basenameSubsequence !== null) return 50_000 + basenameSubsequence + basename.length
-+  const pathSubsequence = subsequencePenalty(candidate, query)
-+  return pathSubsequence === null ? null : 60_000 + pathSubsequence + candidate.length
-+}
-+
-+function searchPaths(paths: readonly string[], query: string): InputTriggerCandidate[] {
-+  return paths
-+    .map(path => ({ path, score: pathScore(path, query) }))
-+    .filter((item): item is { path: string; score: number } => item.score !== null)
-+    .sort((a, b) => a.score - b.score || a.path.length - b.path.length || textOrder(a.path, b.path))
-+    .slice(0, MAX_CANDIDATES)
-+    .map(({ path }) => ({ name: path, hint: RESULT_HINT }))
-+}
-+
-+async function listDirectory(
-+  workspaces: IWorkspaces,
-+  workspaceId: WorkspaceId,
-+  directory: PendingDirectory,
-+  signal: AbortSignal,
-+): Promise<{ directory: PendingDirectory; listing: WorkspaceDirectoryListing | null }> {
-+  try {
-+    const listing = await workspaces.files.listDirectory(workspaceId, directory.path, signal)
-+    return { directory, listing }
-+  } catch (error: unknown) {
-+    if (signal.aborted || directory.path === ROOT_PATH) throw error
-+    return { directory, listing: null }
-+  }
-+}
-+
-+async function buildIndex(
-+  workspaces: IWorkspaces,
-+  workspaceId: WorkspaceId,
-+  signal: AbortSignal,
-+): Promise<WorkspacePathIndex> {
-+  const files: string[] = []
-+  const folders: string[] = []
-+  const immediate: PendingDirectory[] = [{ path: ROOT_PATH, deferred: false }]
-+  const deferred: PendingDirectory[] = []
-+  let indexed = 0
-+
-+  while ((immediate.length > 0 || deferred.length > 0) && indexed < MAX_INDEXED_PATHS) {
-+    throwIfAborted(signal)
-+    const queue = immediate.length > 0 ? immediate : deferred
-+    const batch = queue.splice(0, SCAN_CONCURRENCY)
-+    const levels = await Promise.all(batch.map(directory => (
-+      listDirectory(workspaces, workspaceId, directory, signal)
-+    )))
-+    for (const { directory, listing } of levels) {
-+      if (listing === null) continue
-+      for (const entry of listing.entries) {
-+        const name = entry.name.toLowerCase()
-+        if (entry.kind === 'directory' && EXCLUDED_DIRECTORIES.has(name)) continue
-+        if (entry.kind === 'directory') folders.push(entry.path)
-+        else files.push(entry.path)
-+        indexed += 1
-+        if (indexed >= MAX_INDEXED_PATHS) break
-+        if (entry.kind === 'directory') {
-+          const child = { path: entry.path, deferred: directory.deferred || DEFERRED_DIRECTORIES.has(name) }
-+          if (child.deferred) deferred.push(child)
-+          else immediate.push(child)
-+        }
-+      }
-+      if (indexed >= MAX_INDEXED_PATHS) break
-+    }
-+  }
-+  return { files, folders }
-+}
-+
-+/**
-+ * Owns the shared Workspace path index and the `@file` / `@folder` trigger sources.
-+ * Candidate cancellation stops only that lookup; the shared scan survives query changes and is aborted on disposal.
-+ */
-+export class WorkspaceReferenceCatalog {
-+  /** Registered `@file` and `@folder` sources, in menu order. */
-+  readonly sources: readonly InputTriggerSource[]
-+  private readonly cache = new Map<WorkspaceId, CachedWorkspaceIndex>()
-+
-+  /**
-+   * @param workspaces - Workspace list and bounded directory-listing service.
-+   */
-+  constructor(private readonly workspaces: IWorkspaces) {
-+    this.sources = [this.createSource('file', 20), this.createSource('folder', 21)]
-+  }
-+
-+  /** Abort in-flight scans and release every cached index. */
-+  dispose(): void {
-+    for (const entry of this.cache.values()) entry.abort.abort()
-+    this.cache.clear()
-+  }
-+
-+  private createSource(kind: WorkspaceReferenceKind, order: number): InputTriggerSource {
-+    const name = `workspace-${kind}`
-+    return {
-+      trigger: '@',
-+      name,
-+      order,
-+      candidates: (session, request) => this.candidates(kind, session, request),
-+      onPick: ({ candidate }): PickOutcome => {
-+        if (candidate.hint === COMMAND_HINT) return { text: `@${kind}:` }
-+        if (candidate.hint !== RESULT_HINT) return undefined
-+        const clipboardText = formatReference(kind, candidate.name)
-+        return {
-+          insert: {
-+            source: name,
-+            ref: candidate.name,
-+            label: clipboardText,
-+            clipboardText,
-+          },
-+        }
-+      },
-+      codec: {
-+        clipboardText: path => formatReference(kind, path),
-+        serialize: (path, signal) => {
-+          if (signal.aborted) return Promise.reject(abortReason(signal))
-+          return Promise.resolve(formatReference(kind, path))
-+        },
-+      },
-+    }
-+  }
-+
-+  private async candidates(
-+    kind: WorkspaceReferenceKind,
-+    session: ClientSessionContext,
-+    request: CandidateRequest,
-+  ): Promise<readonly InputTriggerCandidate[]> {
-+    throwIfAborted(request.signal)
-+    const parsed = parseQuery(kind, request.query)
-+    if (parsed === null) return []
-+    const workspace = this.workspaces.list.getSnapshot().items
-+      .find(item => item.sessionIds.includes(session.sessionId))
-+    if (workspace === undefined) return []
-+    if (parsed.mode === 'command') return [{ name: kind, hint: COMMAND_HINT }]
-+    const promise = this.index(workspace.workspaceId, parsed.search === '')
-+    const index = await waitWithSignal(promise, request.signal)
-+    const paths = kind === 'file' ? index.files : index.folders
-+    return searchPaths(paths, parsed.search)
-+  }
-+
-+  private index(workspaceId: WorkspaceId, refresh: boolean): Promise<WorkspacePathIndex> {
-+    const current = this.cache.get(workspaceId)
-+    if (current !== undefined && (!refresh || !current.state.settled)) return current.promise
-+    const abort = new AbortController()
-+    const state = { settled: false }
-+    const promise = buildIndex(this.workspaces, workspaceId, abort.signal).then(
-+      (value) => {
-+        state.settled = true
-+        return value
-+      },
-+      (error: unknown) => {
-+        if (this.cache.get(workspaceId)?.abort === abort) this.cache.delete(workspaceId)
-+        throw error
-+      },
-+    )
-+    const entry: CachedWorkspaceIndex = { abort, promise, state }
-+    this.cache.set(workspaceId, entry)
-+    return entry.promise
-+  }
-+}
-diff --git a/packages/client/ui-workspace/src/index.ts b/packages/client/ui-workspace/src/index.ts
-index bb551f7b1a3c6697dc48b52eeabb2666671aa253..8a8671181612e156909f3e1ebca67aa8104d61c8 100644
---- a/packages/client/ui-workspace/src/index.ts
-+++ b/packages/client/ui-workspace/src/index.ts
-@@ -1,9 +1,9 @@
- /**
-- * Workspace picker plugin, node half. Pure UI plugin: the empty apply exists
-+ * Workspace UI plugin, node half. Pure Client plugin: the empty apply exists
-  * so the plugin appears in the host cordis.yml / Loader (load and lifecycle
-  * follow the host; the browser half ships via exports["./client"], discovered
-  * through the package.json dsh.client declaration).
-  */
- 
--/** Host plugin body — no host-side behavior for the workspace picker plugin. */
-+/** Host plugin body — no host-side behavior for the Workspace UI plugin. */
- export function apply(): void {}
-diff --git a/packages/client/ui-workspace/src/invariant.ts b/packages/client/ui-workspace/src/invariant.ts
-index 4a15d37998ef86a34f447f36fd82098392da3e07..464107f3d0fc58b90e30333c8f3461aaa518b35d 100644
---- a/packages/client/ui-workspace/src/invariant.ts
-+++ b/packages/client/ui-workspace/src/invariant.ts
-@@ -15,10 +15,10 @@ export const name = 'client-ui-workspace-invariant'
- export const inject = ['invariants']
- 
- /**
-- * No runtime invariant: a pure-consumer plugin registering presentational
-- * components into two host-declared slots plus its locale dictionaries — its
-- * inject face is stateless RPC wrappers plus a create-and-open call; it
-- * emits no cordis events and owns no cross-plugin mutable state.
-+ * No runtime invariant: this Client-only consumer registers reversible slots,
-+ * locale dictionaries, and input-trigger sources. Its path index is ephemeral
-+ * state derived from bounded Workspace listings, and it emits no Cordis event
-+ * or durable fact with a cross-plugin relationship to check.
-  */
- const install: InvariantInstaller = () => {}
- 
-diff --git a/packages/client/ui-workspace/tests/apply.client.spec.ts b/packages/client/ui-workspace/tests/apply.client.spec.ts
-index 016af313f8ef7f967c5b23dd182d4c98be7e52c9..7f207310e998a0129a00169b39117288104f201d 100644
---- a/packages/client/ui-workspace/tests/apply.client.spec.ts
-+++ b/packages/client/ui-workspace/tests/apply.client.spec.ts
-@@ -5,6 +5,7 @@ import { LocaleRuntime } from '@deepseek-ai/dsh-client-locale/client'
- import { usePinnedBrowserLanguages } from '@deepseek-ai/dsh-client-test-runtime'
- import { apply, inject } from '@deepseek-ai/dsh-client-ui-workspace/client'
- import type { WorkspaceBrowserInjected, WorkspacePickerInjected } from '@deepseek-ai/dsh-client-ui-workspace/client'
-+import type { InputTriggerSource } from '@deepseek-ai/dsh-client-ui-input-trigger/client'
- import { WorkspaceBrowser } from '../src/client/WorkspaceBrowser.tsx'
- import { WorkspacePicker } from '../src/client/WorkspacePicker.tsx'
- 
-@@ -32,15 +33,24 @@ async function bench() {
-   const renameSession = vi.fn(async (title: string) => ({ ok: true, value: { title, seq: 1 } }))
-   const binding = vi.fn(() => ({ session: { rename: renameSession } }))
-   const fork = vi.fn(async () => 'forked' as never)
-+  const sources = new Map<string, InputTriggerSource>()
-+  const registerSource = vi.fn((source: InputTriggerSource) => {
-+    sources.set(source.name, source)
-+    return () => { sources.delete(source.name) }
-+  })
-   ctx.provide('workspaces', {
-     create, startSession, rename, insertSessionBefore,
-+    list: { getSnapshot: () => ({ items: [] }), subscribe: () => () => {} },
-+    files: { listDirectory: vi.fn() },
-   } as never)
-+  ctx.provide('inputTriggers', { registerSource })
-   ctx.provide('sessions', { open, clear, search, searchResultLimit: 20, binding, fork } as never)
-   const locale = new LocaleRuntime(ctx)
-   ctx.provide('locale', locale)
-   return {
-     ctx, slots: ctx.get('slots') as SlotRegistry, locale, create, startSession, rename,
-     insertSessionBefore, open, clear, search, renameSession, binding, fork,
-+    sources, registerSource,
-   }
- }
- 
-@@ -54,13 +64,14 @@ function declare(slots: SlotRegistry, ...names: HoleName[]): () => void {
- 
- describe('ui-workspace apply', () => {
-   it('declares the services it drives', () => {
--    expect(inject).toEqual(['slots', 'sessions', 'workspaces', 'locale'])
-+    expect(inject).toEqual(['slots', 'sessions', 'workspaces', 'locale', 'inputTriggers'])
-   })
- 
-   it('registers browser and pickers for declarations arriving before or after apply', async () => {
-     const before = await bench()
-     declare(before.slots, 'sidebar.workspaces')
-     await before.ctx.plugin({ inject: [...inject], apply }).await()
-+    expect([...before.sources.keys()]).toEqual(['workspace-file', 'workspace-folder'])
-     expect(before.slots.entries('sidebar.workspaces')[0]!.component).toBe(WorkspaceBrowser)
-     // Copy rides the standard locale seat: the entry declares the namespace
-     // and apply registered both dictionaries.
-@@ -161,6 +172,7 @@ describe('ui-workspace apply', () => {
-     await fiber.dispose()
-     expect(b.slots.entries('sidebar.workspaces')).toHaveLength(0)
-     expect(b.slots.entries('conversation.hero.workspace')).toHaveLength(0)
-+    expect(b.sources.size).toBe(0)
-     // expect(b.slots.entries('conversation.empty.workspace')).toHaveLength(0)
-   })
- })
-diff --git a/packages/client/ui-workspace/tests/rename-assembly.client.spec.tsx b/packages/client/ui-workspace/tests/rename-assembly.client.spec.tsx
-index e61c997de1e28ffe5682f3a845fb9241c7c48b49..399005115538124058c94b2e86205cb9cb3ecce2 100644
---- a/packages/client/ui-workspace/tests/rename-assembly.client.spec.tsx
-+++ b/packages/client/ui-workspace/tests/rename-assembly.client.spec.tsx
-@@ -33,6 +33,7 @@ async function createRuntime(): Promise<SlotTestRuntime> {
-   const runtime = await SlotTestRuntime.create()
-   const locale = new LocaleRuntime(runtime.ctx)
-   runtime.provide('locale', locale)
-+  runtime.provide('inputTriggers', { registerSource: () => () => {} })
-   runtime.slots.installLocale(locale)
-   return runtime
- }
-diff --git a/packages/client/ui-workspace/tests/workspace-references.client.spec.ts b/packages/client/ui-workspace/tests/workspace-references.client.spec.ts
-new file mode 100644
-index 0000000000000000000000000000000000000000..0ada10b22116e822170e567bde650df7aadf9530
---- /dev/null
-+++ b/packages/client/ui-workspace/tests/workspace-references.client.spec.ts
-@@ -0,0 +1,249 @@
-+import { describe, expect, it, vi } from 'vitest'
-+import type {
-+  IWorkspaces, SessionId, WorkspaceDirectoryEntry, WorkspaceDirectoryListing, WorkspaceId,
-+} from '@deepseek-ai/dsh-client-runtime/client'
-+import type {
-+  CandidateRequest, ClientSessionContext, InputTriggerCandidate, InputTriggerSource,
-+} from '@deepseek-ai/dsh-client-ui-input-trigger/client'
-+import { WorkspaceReferenceCatalog } from '../src/client/workspace-references.ts'
-+
-+const SID = 'session-1' as SessionId
-+const WID = 'workspace-1' as WorkspaceId
-+const session: ClientSessionContext = { sessionId: SID }
-+
-+function request(query: string, signal = new AbortController().signal): CandidateRequest {
-+  return { query, signal, position: 'inline' }
-+}
-+
-+function entry(path: string, kind: WorkspaceDirectoryEntry['kind']): WorkspaceDirectoryEntry {
-+  return { path, name: path.split('/').at(-1)!, kind }
-+}
-+
-+function level(path: string, entries: WorkspaceDirectoryEntry[]): WorkspaceDirectoryListing {
-+  return { path, entries }
-+}
-+
-+const TREE = new Map<string, WorkspaceDirectoryListing>([
-+  ['.', level('.', [
-+    entry('.git', 'directory'),
-+    entry('src', 'directory'),
-+    entry('docs', 'directory'),
-+    entry('node_modules', 'directory'),
-+    entry('README.md', 'file'),
-+  ])],
-+  ['src', level('src', [
-+    entry('src/components', 'directory'),
-+    entry('src/main.ts', 'file'),
-+    entry('src/main.tsx', 'file'),
-+    entry('src/domain.ts', 'file'),
-+  ])],
-+  ['src/components', level('src/components', [entry('src/components/MainPanel.tsx', 'file')])],
-+  ['docs', level('docs', [
-+    entry('docs/guides', 'directory'),
-+    entry('docs/main.ts-guide.txt', 'file'),
-+    entry('docs/my guide.txt', 'file'),
-+  ])],
-+  ['docs/guides', level('docs/guides', [entry('docs/guides/setup.txt', 'file')])],
-+  ['node_modules', level('node_modules', [entry('node_modules/dependency.js', 'file')])],
-+])
-+
-+function bench(options: {
-+  tree?: ReadonlyMap<string, WorkspaceDirectoryListing>
-+  sessionIds?: readonly SessionId[]
-+  listDirectory?: IWorkspaces['files']['listDirectory']
-+} = {}) {
-+  const tree = options.tree ?? TREE
-+  const listDirectory = vi.fn(options.listDirectory ?? (async (_workspaceId, path) => (
-+    tree.get(path) ?? level(path, [])
-+  )))
-+  const readFile = vi.fn()
-+  const workspaces = {
-+    list: {
-+      getSnapshot: () => ({
-+        items: [{ workspaceId: WID, path: '/project', title: 'Project', sessionIds: options.sessionIds ?? [SID] }],
-+      }),
-+      subscribe: () => () => {},
-+    },
-+    files: { listDirectory, readFile },
-+  } as unknown as IWorkspaces
-+  const catalog = new WorkspaceReferenceCatalog(workspaces)
-+  const source = (name: string): InputTriggerSource => catalog.sources.find(item => item.name === name)!
-+  return {
-+    catalog,
-+    file: source('workspace-file'),
-+    folder: source('workspace-folder'),
-+    listDirectory,
-+    readFile,
-+  }
-+}
-+
-+function pick(source: InputTriggerSource, candidate: InputTriggerCandidate) {
-+  return source.onPick({
-+    candidate,
-+    session,
-+    position: 'inline',
-+    via: 'menu',
-+    span: { start: 0, end: 1, draftRev: 1 },
-+  })
-+}
-+
-+describe('WorkspaceReferenceCatalog commands and references', () => {
-+  it('offers file and folder commands from partial @ queries and ignores another command prefix', async () => {
-+    const b = bench()
-+    await expect(b.file.candidates(session, request(''))).resolves.toMatchObject([{ name: 'file' }])
-+    await expect(b.folder.candidates(session, request('f'))).resolves.toMatchObject([{ name: 'folder' }])
-+    await expect(b.file.candidates(session, request('folder'))).resolves.toEqual([])
-+    await expect(b.file.candidates(session, request('folder:src'))).resolves.toEqual([])
-+    expect(pick(b.file, (await b.file.candidates(session, request('fi')))[0]!)).toEqual({ text: '@file:' })
-+  })
-+
-+  it('inserts a real chip and uses the same relative path for copy and model serialization', async () => {
-+    const b = bench()
-+    const candidates = await b.file.candidates(session, request('file:guide'))
-+    expect(candidates.map(item => item.name)).toContain('docs/my guide.txt')
-+    expect(pick(b.file, candidates.find(item => item.name === 'docs/my guide.txt')!)).toEqual({
-+      insert: {
-+        source: 'workspace-file',
-+        ref: 'docs/my guide.txt',
-+        label: '@file:"docs/my guide.txt"',
-+        clipboardText: '@file:"docs/my guide.txt"',
-+      },
-+    })
-+    expect(b.file.codec!.clipboardText('src/main.ts')).toBe('@file:src/main.ts')
-+    await expect(b.file.codec!.serialize('src/main.ts', new AbortController().signal))
-+      .resolves.toBe('@file:src/main.ts')
-+    expect(pick(b.file, { name: 'unowned' })).toBeUndefined()
-+  })
-+
-+  it('honors an aborted submit serialization', async () => {
-+    const b = bench()
-+    const abort = new AbortController()
-+    abort.abort(new Error('cancelled submit'))
-+    await expect(b.folder.codec!.serialize('src', abort.signal)).rejects.toThrow('cancelled submit')
-+  })
-+})
-+
-+describe('WorkspaceReferenceCatalog indexing and fuzzy search', () => {
-+  it('recursively indexes paths, filters by kind, and never reads file content', async () => {
-+    const b = bench()
-+    const files = await b.file.candidates(session, request('FILE:main.ts'))
-+    expect(files.map(item => item.name).slice(0, 3)).toEqual([
-+      'src/main.ts', 'src/main.tsx', 'docs/main.ts-guide.txt',
-+    ])
-+    await expect(b.folder.candidates(session, request('folder:components'))).resolves.toMatchObject([
-+      { name: 'src/components' },
-+    ])
-+    expect(b.readFile).not.toHaveBeenCalled()
-+  })
-+
-+  it('uses basename, path containment, then subsequence ranking', async () => {
-+    const b = bench()
-+    const main = await b.file.candidates(session, request('file:main.ts'))
-+    expect(main.map(item => item.name).slice(0, 3)).toEqual([
-+      'src/main.ts', 'src/main.tsx', 'docs/main.ts-guide.txt',
-+    ])
-+    const subsequence = await b.file.candidates(session, request('file:mnp'))
-+    expect(subsequence[0]?.name).toBe('src/components/MainPanel.tsx')
-+    const pathPrefix = await b.file.candidates(session, request('file:src/ma'))
-+    expect(pathPrefix[0]?.name).toBe('src/main.ts')
-+    const pathSubsequence = await b.file.candidates(session, request('file:s/c/m'))
-+    expect(pathSubsequence[0]?.name).toBe('src/components/MainPanel.tsx')
-+    await expect(b.file.candidates(session, request('file:no-match-anywhere'))).resolves.toEqual([])
-+  })
-+
-+  it('skips VCS metadata and scans ordinary source before deferred dependency trees', async () => {
-+    const b = bench()
-+    await b.file.candidates(session, request('file:dependency'))
-+    const paths = b.listDirectory.mock.calls.map(call => call[1])
-+    expect(paths).not.toContain('.git')
-+    expect(paths.indexOf('node_modules')).toBeGreaterThan(paths.indexOf('src/components'))
-+  })
-+
-+  it('skips an unreadable nested directory but reports an unreadable Workspace root', async () => {
-+    const nested = bench({
-+      listDirectory: async (_workspaceId, path) => {
-+        if (path === 'docs') throw new Error('nested denied')
-+        return TREE.get(path) ?? level(path, [])
-+      },
-+    })
-+    const files = await nested.file.candidates(session, request('file:main.ts'))
-+    expect(files.map(item => item.name).slice(0, 2)).toEqual(['src/main.ts', 'src/main.tsx'])
-+
-+    const root = bench({ listDirectory: async () => { throw new Error('root denied') } })
-+    await expect(root.file.candidates(session, request('file:any'))).rejects.toThrow('root denied')
-+    await expect(root.file.candidates(session, request('file:any'))).rejects.toThrow('root denied')
-+    expect(root.listDirectory).toHaveBeenCalledTimes(2)
-+
-+    const rejectPrimitive = vi.fn<IWorkspaces['files']['listDirectory']>().mockRejectedValue('string failure')
-+    const nonError = bench({ listDirectory: rejectPrimitive })
-+    await expect(nonError.file.candidates(session, request('file:any'))).rejects.toThrow('string failure')
-+  })
-+
-+  it('returns no paths when the Session has no Workspace', async () => {
-+    const b = bench({ sessionIds: [] })
-+    await expect(b.file.candidates(session, request(''))).resolves.toEqual([])
-+    await expect(b.file.candidates(session, request('file:main'))).resolves.toEqual([])
-+    expect(b.listDirectory).not.toHaveBeenCalled()
-+  })
-+
-+  it('shares an in-flight scan across superseded candidate requests', async () => {
-+    let release: ((listing: WorkspaceDirectoryListing) => void) | undefined
-+    const root = new Promise<WorkspaceDirectoryListing>((resolve) => { release = resolve })
-+    const b = bench({
-+      listDirectory: async (_workspaceId, path) => path === '.' ? root : level(path, []),
-+    })
-+    const abort = new AbortController()
-+    const first = b.file.candidates(session, request('file:main', abort.signal))
-+    abort.abort(new Error('superseded'))
-+    await expect(first).rejects.toThrow('superseded')
-+    const second = b.file.candidates(session, request('file:main'))
-+    release!(level('.', [entry('main.ts', 'file')]))
-+    await expect(second).resolves.toMatchObject([{ name: 'main.ts' }])
-+    expect(b.listDirectory).toHaveBeenCalledTimes(1)
-+  })
-+
-+  it('rejects an already-cancelled request without starting a scan', async () => {
-+    const b = bench()
-+    const abort = new AbortController()
-+    abort.abort()
-+    await expect(b.file.candidates(session, request('file:main', abort.signal))).rejects.toMatchObject({
-+      name: 'AbortError',
-+    })
-+    expect(b.listDirectory).not.toHaveBeenCalled()
-+
-+    const primitiveReason = { aborted: true, reason: 'cancelled' } as AbortSignal
-+    await expect(b.file.candidates(session, request('file:main', primitiveReason))).rejects.toMatchObject({
-+      name: 'AbortError',
-+      message: 'workspace reference search aborted',
-+    })
-+  })
-+
-+  it('aborts the shared scan on catalog disposal', async () => {
-+    const b = bench({
-+      listDirectory: (_workspaceId, _path, signal) => new Promise((_resolve, reject) => {
-+        signal?.addEventListener('abort', () => {
-+          reject(signal.reason instanceof Error ? signal.reason : new Error('catalog disposed'))
-+        }, { once: true })
-+      }),
-+    })
-+    const pending = b.file.candidates(session, request('file:any'))
-+    b.catalog.dispose()
-+    await expect(pending).rejects.toMatchObject({ name: 'AbortError' })
-+  })
-+
-+  it('refreshes a settled index when the command prefix is opened again', async () => {
-+    const b = bench()
-+    await b.file.candidates(session, request('file:main'))
-+    const firstScanCalls = b.listDirectory.mock.calls.length
-+    await b.file.candidates(session, request('file:'))
-+    expect(b.listDirectory.mock.calls.length).toBe(firstScanCalls * 2)
-+  })
-+
-+  it('caps a broad candidate menu and the total indexed path count', async () => {
-+    const entries = Array.from({ length: 20_050 }, (_, index) => entry(`file-${index}.ts`, 'file'))
-+    const b = bench({ tree: new Map([['.', level('.', entries)]]) })
-+    const candidates = await b.file.candidates(session, request('file:'))
-+    expect(candidates).toHaveLength(40)
-+    expect(candidates.some(item => item.name === 'file-20049.ts')).toBe(false)
-+  })
-+})
-diff --git a/packages/client/ui-workspace/tsconfig.json b/packages/client/ui-workspace/tsconfig.json
-index 32e8aa89ec6be3ea663225e708800d5b8267d20b..aab15b186e911360cfa0fd06716092842befcb98 100644
---- a/packages/client/ui-workspace/tsconfig.json
-+++ b/packages/client/ui-workspace/tsconfig.json
-@@ -29,6 +29,9 @@
-     {
-       "path": "../ui-conversation"
-     },
-+    {
-+      "path": "../ui-input-trigger"
-+    },
-     {
-       "path": "../../runtime-diagnostics/invariants"
-     }
 diff --git a/packages/client/web/README.i18n.yaml b/packages/client/web/README.i18n.yaml
 index bd27db2525b2bebf3b47d56a8a983b1e1ff27b17..e67ef77b5a0f489fcfc2079469bf43bab64ee0ad 100644
 --- a/packages/client/web/README.i18n.yaml
@@ -9900,18 +8850,9 @@ index 87f69cc7d0c90e8eb94297a6d2f8af690f1e2b0c..86e66ff6cca0d23733b2bf249f61da4a
    it('runs parallel-safe siblings concurrently (all start before any completes)', async () => {
      const adapter = new MockAdapter([
 diff --git a/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts b/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
-index 0cd1f51cd21307cd369c8310dac423381e9377de..2cef6264d413172603f6e981e2c14aec4c27ff75 100644
+index 0cd1f51cd21307cd369c8310dac423381e9377de..f2b8307ad23b674359c397aa07ca159d0ac720c5 100644
 --- a/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
 +++ b/packages/extensions/cordis-client-runner/src/client/slot-catalog.ts
-@@ -87,7 +87,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     doc: 'The whole center column, across both the no-session hero and a live\nconversation. OCCUPIED by ui-conversation\'s ConversationRoot, which\ndeclares the session body, composer, and input seats inside it —\nregistering here replaces the entire conversation surface (and removes\nevery seat it declares) rather than adding to it.\n\nCurrent-session-optional: the occupant owns both states without\nchanging its React identity, so it keeps its own state across a session\nswitch. It receives no owner props; session facts arrive through the\nframework hooks of the `session-maybe` scope.',
-     registerOptions: [],
-     ownerProps: [
--      '/** Conversation owner share: business state and actions belong to the registrant. */\nexport interface ConvOwnerProps {}',
-+      '/** Conversation owner share: frame-owned details visibility and its toggle gesture. */\nexport interface ConvOwnerProps {\n  /** Whether the current Session\'s right details column is open. */\n  detailsOpen: boolean\n  /** Toggle the current details mode between its contract default width and closed. */\n  onToggleDetails: () => void\n}',
-     ],
-     ownerPropsReferences: [],
-     standardProps: [
 @@ -108,7 +108,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
      ],
      replaceRisk: 'shadows-shipped-ui',
@@ -9921,180 +8862,7 @@ index 0cd1f51cd21307cd369c8310dac423381e9377de..2cef6264d413172603f6e981e2c14aec
    },
    {
      key: 'conversation.chat.assistant-actions',
-@@ -160,7 +160,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.chat.assistant-actions\', () => ctx.slots.register(\n      { name: \'conversation.chat.assistant-actions\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:109',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:113',
-   },
-   {
-     key: 'conversation.chat.commandview',
-@@ -199,7 +199,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     occupants: [],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.chat.commandview\', () => ctx.slots.register(\n      { name: \'conversation.chat.commandview\', key: \'<one key the owner dispatches>\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:94',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:98',
-   },
-   {
-     key: 'conversation.chat.node',
-@@ -255,7 +255,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.chat.node\', () => ctx.slots.register(\n      { name: \'conversation.chat.node\', key: \'<one key the owner dispatches>\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:78',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:82',
-   },
-   {
-     key: 'conversation.chat.turnTail',
-@@ -295,7 +295,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.chat.turnTail\', () => ctx.slots.register(\n      { name: \'conversation.chat.turnTail\', select: owner => null },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:101',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:105',
-   },
-   {
-     key: 'conversation.composer',
-@@ -338,7 +338,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.composer\', () => ctx.slots.register(\n      { name: \'conversation.composer\', select: owner => null },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:132',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:136',
-   },
-   {
-     key: 'conversation.composer.bar',
-@@ -371,7 +371,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.composer.bar\', () => ctx.slots.register(\n      { name: \'conversation.composer.bar\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:201',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:205',
-   },
-   {
-     key: 'conversation.composer.dock',
-@@ -424,7 +424,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.composer.dock\', () => ctx.slots.register(\n      { name: \'conversation.composer.dock\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:170',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:174',
-   },
-   {
-     key: 'conversation.details.tool',
-@@ -455,7 +455,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.details.tool\', () => ctx.slots.register(\n      { name: \'conversation.details.tool\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:124',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:128',
-   },
-   {
-     key: 'conversation.hero.agentPreset',
-@@ -481,7 +481,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.hero.agentPreset\', () => ctx.slots.register(\n      { name: \'conversation.hero.agentPreset\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:145',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:149',
-   },
-   {
-     key: 'conversation.hero.workspace',
-@@ -509,7 +509,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.hero.workspace\', () => ctx.slots.register(\n      { name: \'conversation.hero.workspace\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:139',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:143',
-   },
-   {
-     key: 'conversation.hero.workspace.directoryFlow',
-@@ -591,7 +591,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.input.dock\', () => ctx.slots.register(\n      { name: \'conversation.input.dock\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:161',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:165',
-   },
-   {
-     key: 'conversation.input.left',
-@@ -642,7 +642,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     occupants: [],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.input.left\', () => ctx.slots.register(\n      { name: \'conversation.input.left\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:179',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:183',
-   },
-   {
-     key: 'conversation.input.model',
-@@ -673,7 +673,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.input.model\', () => ctx.slots.register(\n      { name: \'conversation.input.model\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:221',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:225',
-   },
-   {
-     key: 'conversation.input.overlay',
-@@ -753,7 +753,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'shadows-shipped-ui',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.input.plan\', () => ctx.slots.register(\n      { name: \'conversation.input.plan\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:211',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:215',
-   },
-   {
-     key: 'conversation.input.right',
-@@ -804,7 +804,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     occupants: [],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.input.right\', () => ctx.slots.register(\n      { name: \'conversation.input.right\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:187',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:191',
-   },
-   {
-     key: 'conversation.session',
-@@ -842,7 +842,9 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     summary: 'The strip above the session\'s scrollport: title, view tabs, and the action row.',
-     doc: 'The strip above the session\'s scrollport: title, view tabs, and the\naction row. Taking this seat means rendering all three yourself, and it\nalso collapses `conversation.session.header.actions` — that additive\nseat is declared by whoever occupies this one, so replacing the header\ntakes every action entry down with it.',
-     registerOptions: [],
--    ownerProps: [],
-+    ownerProps: [
-+      '/** Layout controls forwarded from the frame into the strict Session header. */\nexport interface ConversationSessionHeaderOwnerProps {\n  /** Whether the right details column is currently open. */\n  detailsOpen: boolean\n  /** Show or hide the right details column without changing its active content. */\n  onToggleDetails: () => void\n}',
-+    ],
-     ownerPropsReferences: [],
-     standardProps: [
-       'useSessions: SnapshotSelectorHook<SessionListState>',
-@@ -914,7 +916,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.session.header.actions\', () => ctx.slots.register(\n      { name: \'conversation.session.header.actions\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:63',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:67',
-   },
-   {
-     key: 'conversation.session.header.utilities',
-@@ -964,7 +966,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.session.header.utilities\', () => ctx.slots.register(\n      { name: \'conversation.session.header.utilities\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:68',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:72',
-   },
-   {
-     key: 'conversation.view',
-@@ -1015,7 +1017,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
-     ],
-     replaceRisk: 'none',
-     example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'conversation.view\', () => ctx.slots.register(\n      { name: \'conversation.view\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
--    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:76',
-+    source: 'packages/client/ui-conversation/src/client/contract/slots.ts:80',
-   },
-   {
-     key: 'details',
-@@ -1042,11 +1044,11 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
+@@ -1042,11 +1042,11 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
      slotInject: '',
      declaredBy: 'an entry in \'root\' (client-ui-layout), so it exists while that entry is mounted',
      occupants: [
@@ -10108,7 +8876,7 @@ index 0cd1f51cd21307cd369c8310dac423381e9377de..2cef6264d413172603f6e981e2c14aec
    },
    {
      key: 'root',
-@@ -1472,7 +1474,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
+@@ -1472,7 +1472,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
      occupants: [],
      replaceRisk: 'none',
      example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'shell.overlay\', () => ctx.slots.register(\n      { name: \'shell.overlay\', id: \'my-entry\', order: 100, label: \'My entry\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
@@ -10117,7 +8885,7 @@ index 0cd1f51cd21307cd369c8310dac423381e9377de..2cef6264d413172603f6e981e2c14aec
    },
    {
      key: 'sidebar',
-@@ -1498,7 +1500,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
+@@ -1498,7 +1498,7 @@ export const CLIENT_SLOT_API: readonly ClientSlotEntry[] = [
      ],
      replaceRisk: 'shadows-shipped-ui',
      example: 'return {\n  inject: [\'slots\'],\n  apply(ctx) {\n    ctx.slots.inject(\'sidebar\', () => ctx.slots.register(\n      { name: \'sidebar\' },\n      () => React.createElement(\'div\', null, \'hello\'),\n    ))\n  },\n}',
@@ -10127,7 +8895,7 @@ index 0cd1f51cd21307cd369c8310dac423381e9377de..2cef6264d413172603f6e981e2c14aec
    {
      key: 'sidebar.footer.action',
 diff --git a/packages/extensions/tool-cordis/src/api-catalog.ts b/packages/extensions/tool-cordis/src/api-catalog.ts
-index 5a812806dabf104c07af75d1829a8f4e1c44936f..0f2686f1eb42acfdf9dbcd398c20ad43e80388aa 100644
+index 5a812806dabf104c07af75d1829a8f4e1c44936f..810805c4a978fb1a2f067825246e736efe1397f8 100644
 --- a/packages/extensions/tool-cordis/src/api-catalog.ts
 +++ b/packages/extensions/tool-cordis/src/api-catalog.ts
 @@ -380,8 +380,8 @@ export const SERVICE_API: readonly ServiceApiEntry[] = [
@@ -10164,7 +8932,7 @@ index 5a812806dabf104c07af75d1829a8f4e1c44936f..0f2686f1eb42acfdf9dbcd398c20ad43
    {
      name: 'RpcErrorDetailsMap',
 -    declaration: 'export interface RpcErrorDetailsMap {\n    \'bad-request\': {\n        issues: ZodIssue[];\n    };\n    \'cancelled\': {};\n    \'session-not-found\': {\n        sessionId: SessionId;\n    };\n    \'model-unavailable\': {\n        provider: string;\n        model: string;\n    };\n    \'session-conflict\': {\n        sessionId: SessionId;\n        requestedCwd: string;\n        existingCwd?: string;\n    };\n    \'invalid-time-zone\': {\n        value: string;\n    };\n    \'workspace-attach-failed\': {\n        sessionId: SessionId;\n        workspaceId: string;\n    };\n    \'workspace-not-found\': {\n        workspaceId: string;\n    };\n    \'workspace-invalid-path\': {\n        path: string;\n    };\n    \'workspace-name-conflict\': {\n        name: string;\n    };\n    \'workspace-move-invalid\': {\n        workspaceId: string;\n        sessionId: SessionId;\n        beforeSessionId?: SessionId;\n    };\n    \'directory-unreadable\': {\n        path: string;\n    };\n    \'directory-exists\': {\n        path: string;\n    };\n    \'directory-create-failed\': {\n        path: string;\n    };\n    \'directory-picker-unavailable\': {\n        capability: string;\n    };\n    \'agent-preset-read-only\': {\n        agentPreset: string;\n        reason: string;\n    };\n    \'agent-preset-locked\': {\n        sessionId: SessionId;\n        agentPreset: string;\n    };\n    \'agent-preset-conflict\': {\n        sessionId: SessionId;\n        requestedPreset: string;\n        existingPreset?: string;\n    };\n    \'agent-preset-not-found\': {\n        agentPreset: string;\n      /* …truncated — full shape in source */',
-+    declaration: 'export interface RpcErrorDetailsMap {\n    \'bad-request\': {\n        issues: ZodIssue[];\n    };\n    \'cancelled\': {};\n    \'session-not-found\': {\n        sessionId: SessionId;\n    };\n    \'model-unavailable\': {\n        provider: string;\n        model: string;\n    };\n    \'session-conflict\': {\n        sessionId: SessionId;\n        requestedCwd: string;\n        existingCwd?: string;\n    };\n    \'invalid-time-zone\': {\n        value: string;\n    };\n    \'workspace-attach-failed\': {\n        sessionId: SessionId;\n        workspaceId: string;\n    };\n    \'workspace-not-found\': {\n        workspaceId: string;\n    };\n    \'workspace-invalid-path\': {\n        path: string;\n    };\n    \'workspace-file-outside\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-directory-not-readable\': {\n        workspaceId: string;\n        path: string;\n        reason: \'not-found\' | \'not-directory\' | \'permission\' | \'io\';\n    };\n    \'workspace-file-not-readable\': {\n        workspaceId: string;\n        path: string;\n        reason: \'not-found\' | \'not-text\' | \'not-regular\' | \'too-large\' | \'permission\' | \'io\';\n    };\n    \'workspace-file-conflict\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-file-write-failed\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-name-conflict\': {\n        name: string;\n    };\n    \'workspace-move-invalid\': {\n        workspaceId: string;\n        sessionId: SessionId;\n        beforeSessionId?: SessionId;\n    };\n   /* …truncated — full shape in source */',
++    declaration: 'export interface RpcErrorDetailsMap {\n    \'bad-request\': {\n        issues: ZodIssue[];\n    };\n    \'cancelled\': {};\n    \'session-not-found\': {\n        sessionId: SessionId;\n    };\n    \'model-unavailable\': {\n        provider: string;\n        model: string;\n    };\n    \'session-conflict\': {\n        sessionId: SessionId;\n        requestedCwd: string;\n        existingCwd?: string;\n    };\n    \'invalid-time-zone\': {\n        value: string;\n    };\n    \'workspace-attach-failed\': {\n        sessionId: SessionId;\n        workspaceId: string;\n    };\n    \'workspace-not-found\': {\n        workspaceId: string;\n    };\n    \'workspace-invalid-path\': {\n        path: string;\n    };\n    \'workspace-file-outside\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-file-not-readable\': {\n        workspaceId: string;\n        path: string;\n        reason: \'not-found\' | \'not-text\' | \'not-regular\' | \'too-large\' | \'permission\' | \'io\';\n    };\n    \'workspace-file-conflict\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-file-write-failed\': {\n        workspaceId: string;\n        path: string;\n    };\n    \'workspace-name-conflict\': {\n        name: string;\n    };\n    \'workspace-move-invalid\': {\n        workspaceId: string;\n        sessionId: SessionId;\n        beforeSessionId?: SessionId;\n    };\n    \'directory-unreadable\': {\n        path: string;\n    };\n    \'directory-exists\': {\n        path: string;\n    };\n    \'directory-create-failed\': {\n        path: string;\n   /* …truncated — full shape in source */',
    },
    {
      name: 'RpcId',
@@ -12709,7 +11477,7 @@ index 4f6b2122cb45360350b606e626ed7ba04bcc6a28..8ce5f53ea5d4b596c3e7929837d5fe22
  
    /**
 diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
-index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015c9c5aa99 100644
+index 1490a0f9f76e7a9df847a9946782c1097483792d..84f1bc08c828927bae4e0a336597c904c857987e 100644
 --- a/pnpm-lock.yaml
 +++ b/pnpm-lock.yaml
 @@ -83,7 +83,7 @@ importers:
@@ -13083,17 +11851,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    packages/bundle/headless:
      dependencies:
        '@deepseek-ai/dsh-cmdline':
-@@ -1675,6 +1998,9 @@ importers:
-       '@deepseek-ai/dsh-client-ui-conversation':
-         specifier: workspace:^
-         version: link:../ui-conversation
-+      '@deepseek-ai/dsh-client-ui-input-trigger':
-+        specifier: workspace:^
-+        version: link:../ui-input-trigger
-       '@deepseek-ai/dsh-client-ui-primitives':
-         specifier: workspace:^
-         version: link:../ui-primitives
-@@ -1779,6 +2105,42 @@ importers:
+@@ -1779,6 +2102,42 @@ importers:
  
    packages/client/ui-conversation:
      dependencies:
@@ -13136,7 +11894,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@deepseek-ai/dsh-settings':
          specifier: workspace:^
          version: link:../../settings/settings
-@@ -1788,6 +2150,12 @@ importers:
+@@ -1788,6 +2147,12 @@ importers:
        clsx:
          specifier: ^2.0.0
          version: 2.1.1
@@ -13149,7 +11907,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      devDependencies:
        '@deepseek-ai/cordis':
          specifier: workspace:^
-@@ -2344,7 +2712,7 @@ importers:
+@@ -2344,7 +2709,7 @@ importers:
          version: 0.16.47
        mdast-util-from-markdown:
          specifier: ^2.0.3
@@ -13158,7 +11916,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-gfm:
          specifier: ^3.1.0
          version: 3.1.0
-@@ -3083,6 +3451,9 @@ importers:
+@@ -3083,6 +3448,9 @@ importers:
        '@deepseek-ai/dsh-client-web-react':
          specifier: workspace:^
          version: link:../web-react
@@ -13168,7 +11926,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        react:
          specifier: ^18.2.0
          version: 18.3.1
-@@ -4719,6 +5090,9 @@ importers:
+@@ -4719,6 +5087,9 @@ importers:
        '@deepseek-ai/dsh-credentials':
          specifier: workspace:^
          version: link:../../credentials/credentials
@@ -13178,7 +11936,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@deepseek-ai/dsh-goal':
          specifier: workspace:^
          version: link:../../goal/goal
-@@ -4792,6 +5166,9 @@ importers:
+@@ -4792,6 +5163,9 @@ importers:
        '@deepseek-ai/dsh-cordis-host-runner':
          specifier: workspace:^
          version: link:../../extensions/cordis-host-runner
@@ -13188,7 +11946,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@deepseek-ai/dsh-invariants':
          specifier: workspace:^
          version: link:../../runtime-diagnostics/invariants
-@@ -5250,7 +5627,7 @@ importers:
+@@ -5250,7 +5624,7 @@ importers:
          version: link:../../../vendor/schemastery
        '@earendil-works/pi-ai':
          specifier: ^0.82.1
@@ -13197,7 +11955,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      devDependencies:
        '@deepseek-ai/cordis':
          specifier: workspace:^
-@@ -5853,6 +6230,9 @@ importers:
+@@ -5853,6 +6227,9 @@ importers:
        '@deepseek-ai/dsh-agent':
          specifier: workspace:^
          version: link:../../core/agent
@@ -13207,7 +11965,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@deepseek-ai/dsh-client-locale':
          specifier: workspace:^
          version: link:../../client/locale
-@@ -8768,7 +9148,7 @@ importers:
+@@ -8768,7 +9145,7 @@ importers:
          version: 1.11.21
        debug:
          specifier: 4.4.3
@@ -13216,7 +11974,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mermaid:
          specifier: 11.16.0
          version: 11.16.0
-@@ -9182,6 +9562,54 @@ packages:
+@@ -9182,6 +9559,54 @@ packages:
    '@chevrotain/types@11.1.2':
      resolution: {integrity: sha512-U+HFai5+zmJCkK86QsaJtoITlboZHBqrVketcO2ROv865xfCMSFpELQoz1GkX5GzME8pTa+3kbKrZHQtI0gdbw==}
  
@@ -13271,7 +12029,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@connectrpc/connect-web@2.0.0-rc.3':
      resolution: {integrity: sha512-w88P8Lsn5CCsA7MFRl2e6oLY4J/5toiNtJns/YJrlyQaWOy3RO8pDgkz+iIkG98RPMhj2thuBvsd3Cn4DKKCkw==}
      peerDependencies:
-@@ -9257,6 +9685,14 @@ packages:
+@@ -9257,6 +9682,14 @@ packages:
      engines: {node: '>=22.19.0'}
      hasBin: true
  
@@ -13286,7 +12044,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@emnapi/core@1.10.0':
      resolution: {integrity: sha512-yq6OkJ4p82CAfPl0u9mQebQHKPJkY7WrIuk205cTYnYe+k2Z8YBh11FrbRG/H6ihirqcacOgl2BIO8oyMQLeXw==}
  
-@@ -10079,6 +10515,45 @@ packages:
+@@ -10079,6 +10512,45 @@ packages:
      cpu: [x64]
      os: [win32]
  
@@ -13332,7 +12090,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@mermaid-js/mermaid-mindmap@9.3.0':
      resolution: {integrity: sha512-IhtYSVBBRYviH1Ehu8gk69pMDF8DSRqXBRDMWrEfHoaMruHeaP2DXA3PBnuwsMaCdPQhlUUcy/7DBLAEIXvCAw==}
  
-@@ -11304,6 +11779,9 @@ packages:
+@@ -11304,6 +11776,9 @@ packages:
    '@types/node@22.20.0':
      resolution: {integrity: sha512-QWlFW2wf3nTjC13/DqRnBpR4ZO36VJH/JVBkA/vcnmbTBNQIlnObqyqZE1tUR7+Ni23Lda8R1BxMfbXRpCUx5g==}
  
@@ -13342,7 +12100,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@types/node@25.9.3':
      resolution: {integrity: sha512-603BddQMv3pUcr4U2dhujk83N2tTDVr/34wII2B6bJy6g+8WD6yUb11jszNs0gdi4PesVWl7ABt8nYMVpnLUcg==}
  
-@@ -11756,6 +12234,9 @@ packages:
+@@ -11756,6 +12231,9 @@ packages:
      resolution: {integrity: sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA==}
      engines: {node: '>=6'}
  
@@ -13352,7 +12110,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    color-convert@2.0.1:
      resolution: {integrity: sha512-RRECPsj7iu/xb5oKYcsFHSppFNnsj/52OVTRKb4zP5onXwVF3zVmmToNcOfGC+CRDpfK/U584fMg38ZHCaElKQ==}
      engines: {node: '>=7.0.0'}
-@@ -11821,6 +12302,9 @@ packages:
+@@ -11821,6 +12299,9 @@ packages:
    cose-base@2.2.0:
      resolution: {integrity: sha512-AzlgcsCbUMymkADOJtQm3wO9S3ltPfYOFD5033keQn9NJzIbtnZj+UdBJe7DYml/8TdbtHJW3j58SOnKhWY/5g==}
  
@@ -13362,7 +12120,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    cross-spawn@7.0.6:
      resolution: {integrity: sha512-uV2QOWP2nWzsy2aMp8aRibhi9dlzF5Hgh5SHaB9OiTGEyDTiJJyx0uy51QXdyWbtAHNua4XJzUKca3OzKUd3vA==}
      engines: {node: '>= 8'}
-@@ -12084,6 +12568,11 @@ packages:
+@@ -12084,6 +12565,11 @@ packages:
    electron-to-chromium@1.5.393:
      resolution: {integrity: sha512-kiDJdIUawuEIcp9XoICKp1iTYDEbgguIPq526N1Q7jIQDeQ3CqoMx71025PI/7E48Ddtw2HuWsVjY7afEgNxmg==}
  
@@ -13374,7 +12132,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    emoji-regex-xs@1.0.0:
      resolution: {integrity: sha512-LRlerrMYoIDrT6jgpeZ2YYl/L8EulRTt5hQcYjy5AInh7HWXKimpqx68aknBFpGL2+/IcogTcaydJEgaTmOpDg==}
  
-@@ -12109,6 +12598,10 @@ packages:
+@@ -12109,6 +12595,10 @@ packages:
      resolution: {integrity: sha512-zwfzJecQ/Uej6tusMqwAqU/6KL2XaB2VZ2Jg54Je6ahNBGNH6Ek6g3jjNCF0fG9EWQKGZNddNjU5F1ZQn/sBnA==}
      engines: {node: '>=20.19.0'}
  
@@ -13385,7 +12143,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    es-define-property@1.0.1:
      resolution: {integrity: sha512-e3nRfgfUZ4rNGL232gUgX06QNyyez04KdjFrF+LTRoOXmrOgFKDg4BCdsjW8EnT69eqdYGmRpJwiPVYNrCaW3g==}
      engines: {node: '>= 0.4'}
-@@ -12421,6 +12914,9 @@ packages:
+@@ -12421,6 +12911,9 @@ packages:
      resolution: {integrity: sha512-ZUKRh6/kUFoAiTAtTYPZJ3hw9wNxx+BIBOijnlG9PnrJsCcSjs1wyyD6vJpaYtgnzDrKYRSqf3OO6Rfa93xsRg==}
      engines: {node: '>= 0.4'}
  
@@ -13395,7 +12153,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    hachure-fill@0.5.2:
      resolution: {integrity: sha512-3GKBOn+m2LX9iq+JC1064cSFprJY4jL1jCXTcpnfER5HYE2l/4EfWSGzkPa/ZDBmYI0ZOEj5VHV/eKnPGkHuOg==}
  
-@@ -12882,6 +13378,11 @@ packages:
+@@ -12882,6 +13375,11 @@ packages:
    lru-cache@5.1.1:
      resolution: {integrity: sha512-KpNARQA3Iwv+jTA0utUVVbrh+Jlrr1Fv0e56GGzAFOXN7dk/FviaDW8LHmK52DlcH4WP2n6gI8vN1aesBFgo9w==}
  
@@ -13407,7 +12165,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    lz-string@1.5.0:
      resolution: {integrity: sha512-h5bgJWpxJNswbU7qCrV0tIKQCaS3blPDrqKWx+QxzuzL1zGUzij9XCWLrSLsJPu5t+eWA/ycetzYAO5IOMcWAQ==}
      hasBin: true
-@@ -13380,6 +13881,10 @@ packages:
+@@ -13380,6 +13878,10 @@ packages:
    process-nextick-args@2.0.1:
      resolution: {integrity: sha512-3ouUOpQhtgrbOa17J7+uxOTpITYWaGP7/AhoR3+A+/1e9skrzelGi/dXzEYyvbxubEF6Wn2ypscTKiKJFFn1ag==}
  
@@ -13418,7 +12176,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    property-information@7.2.0:
      resolution: {integrity: sha512-IAtzIB6sUiWaJYrX9smp3V46pBGbBeLFRGdh25kg1334VcBlD8HzhPeNIWQH9zhGmo2itIe25EHt9dQP7G5hmg==}
  
-@@ -13696,9 +14201,16 @@ packages:
+@@ -13696,9 +14198,16 @@ packages:
    strnum@2.4.0:
      resolution: {integrity: sha512-sHrVyWWdq28RbhjuJdZsA1SnGRJV6NiXbk6AXBxDOsgAcA+lmpUZCYjOdLBxkXMwis6RRe7dlZt4VlIWFVzkmg==}
  
@@ -13435,7 +12193,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    superjson@2.2.6:
      resolution: {integrity: sha512-H+ue8Zo4vJmV2nRjpx86P35lzwDT3nItnIsocgumgr0hHMQ+ZGq5vrERg9kJBo5AWGmxZDhzDo+WVIJqkB0cGA==}
      engines: {node: '>=16'}
-@@ -13863,6 +14375,9 @@ packages:
+@@ -13863,6 +14372,9 @@ packages:
    undici-types@6.21.0:
      resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
  
@@ -13445,7 +12203,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    undici-types@7.24.6:
      resolution: {integrity: sha512-WRNW+sJgj5OBN4/0JpHFqtqzhpbnV0GuB+OozA9gCL7a993SmU+1JBZCzLNxYsbMfIeDL+lTsphD5jN5N+n0zg==}
  
-@@ -14133,6 +14648,9 @@ packages:
+@@ -14133,6 +14645,9 @@ packages:
        typescript:
          optional: true
  
@@ -13455,7 +12213,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    w3c-xmlserializer@5.0.0:
      resolution: {integrity: sha512-o8qghlI8NZHU1lLPrpi2+Uq7abh4GGPpYANlalzWxyWteJOCsr/P+oPBA49TOLu5FTZO4d3F9MnWJfiMo4BkmA==}
      engines: {node: '>=18'}
-@@ -14681,20 +15199,20 @@ snapshots:
+@@ -14681,20 +15196,20 @@ snapshots:
  
    '@babel/compat-data@7.29.7': {}
  
@@ -13480,7 +12238,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        gensync: 1.0.0-beta.2
        json5: 2.2.3
        semver: 6.3.1
-@@ -14730,17 +15248,17 @@ snapshots:
+@@ -14730,17 +15245,17 @@ snapshots:
  
    '@babel/helper-module-imports@7.29.7':
      dependencies:
@@ -13502,7 +12260,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      transitivePeerDependencies:
        - supports-color
  
-@@ -14769,14 +15287,14 @@ snapshots:
+@@ -14769,14 +15284,14 @@ snapshots:
      dependencies:
        '@babel/types': 8.0.0-rc.6
  
@@ -13521,7 +12279,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@babel/helper-plugin-utils': 7.29.7
  
    '@babel/runtime@7.29.7': {}
-@@ -14787,7 +15305,7 @@ snapshots:
+@@ -14787,7 +15302,7 @@ snapshots:
        '@babel/parser': 7.29.7
        '@babel/types': 7.29.7
  
@@ -13530,7 +12288,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      dependencies:
        '@babel/code-frame': 7.29.7
        '@babel/generator': 7.29.7
-@@ -14795,7 +15313,7 @@ snapshots:
+@@ -14795,7 +15310,7 @@ snapshots:
        '@babel/parser': 7.29.7
        '@babel/template': 7.29.7
        '@babel/types': 7.29.7
@@ -13539,7 +12297,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      transitivePeerDependencies:
        - supports-color
  
-@@ -14824,6 +15342,129 @@ snapshots:
+@@ -14824,6 +15339,129 @@ snapshots:
  
    '@chevrotain/types@11.1.2': {}
  
@@ -13669,7 +12427,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@connectrpc/connect-web@2.0.0-rc.3(@bufbuild/protobuf@2.13.0)(@connectrpc/connect@2.0.0-rc.3(@bufbuild/protobuf@2.13.0))':
      dependencies:
        '@bufbuild/protobuf': 2.13.0
-@@ -14885,7 +15526,7 @@ snapshots:
+@@ -14885,7 +15523,7 @@ snapshots:
      transitivePeerDependencies:
        - '@algolia/client-search'
  
@@ -13678,7 +12436,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      dependencies:
        '@anthropic-ai/sdk': 0.91.1(zod@4.4.3)
        '@aws-sdk/client-bedrock-runtime': 3.1048.0
-@@ -14893,7 +15534,7 @@ snapshots:
+@@ -14893,7 +15531,7 @@ snapshots:
        '@mistralai/mistralai': 2.2.6(@opentelemetry/api@1.9.0)
        '@opentelemetry/api': 1.9.0
        '@smithy/node-http-handler': 4.7.3
@@ -13687,7 +12445,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        https-proxy-agent: 7.0.6
        openai: 6.26.0(ws@8.21.0)(zod@4.4.3)
        partial-json: 0.1.7
-@@ -14906,6 +15547,21 @@ snapshots:
+@@ -14906,6 +15544,21 @@ snapshots:
        - ws
        - zod
  
@@ -13709,7 +12467,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@emnapi/core@1.10.0':
      dependencies:
        '@emnapi/wasi-threads': 1.2.1
-@@ -15178,7 +15834,7 @@ snapshots:
+@@ -15178,7 +15831,7 @@ snapshots:
    '@eslint/config-array@0.23.5':
      dependencies:
        '@eslint/object-schema': 3.0.5
@@ -13718,7 +12476,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        minimatch: 10.2.5
      transitivePeerDependencies:
        - supports-color
-@@ -15432,6 +16088,71 @@ snapshots:
+@@ -15432,6 +16085,71 @@ snapshots:
    '@koromix/koffi-win32-x64@3.1.1':
      optional: true
  
@@ -13790,7 +12548,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@mermaid-js/mermaid-mindmap@9.3.0':
      dependencies:
        '@braintree/sanitize-url': 6.0.4
-@@ -16415,6 +17136,10 @@ snapshots:
+@@ -16415,6 +17133,10 @@ snapshots:
      dependencies:
        undici-types: 6.21.0
  
@@ -13801,7 +12559,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    '@types/node@25.9.3':
      dependencies:
        undici-types: 7.24.6
-@@ -16464,11 +17189,11 @@ snapshots:
+@@ -16464,11 +17186,11 @@ snapshots:
        d3-selection: 3.0.0
        d3-transition: 3.0.1(d3-selection@3.0.0)
  
@@ -13817,7 +12575,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        '@rolldown/pluginutils': 1.0.0-beta.27
        '@types/babel__core': 7.20.5
        react-refresh: 0.17.0
-@@ -16812,7 +17537,7 @@ snapshots:
+@@ -16812,7 +17534,7 @@ snapshots:
      dependencies:
        bytes: 3.1.2
        content-type: 2.0.0
@@ -13826,7 +12584,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        http-errors: 2.0.1
        iconv-lite: 0.7.3
        on-finished: 2.4.1
-@@ -16884,6 +17609,16 @@ snapshots:
+@@ -16884,6 +17606,16 @@ snapshots:
  
    clsx@2.1.1: {}
  
@@ -13843,7 +12601,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    color-convert@2.0.1:
      dependencies:
        color-name: 1.1.4
-@@ -16931,6 +17666,8 @@ snapshots:
+@@ -16931,6 +17663,8 @@ snapshots:
      dependencies:
        layout-base: 2.0.1
  
@@ -13852,7 +12610,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    cross-spawn@7.0.6:
      dependencies:
        path-key: 3.1.1
-@@ -17139,9 +17876,11 @@ snapshots:
+@@ -17139,9 +17873,11 @@ snapshots:
  
    dayjs@1.11.21: {}
  
@@ -13865,7 +12623,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
  
    decimal.js@10.6.0: {}
  
-@@ -17216,6 +17955,14 @@ snapshots:
+@@ -17216,6 +17952,14 @@ snapshots:
  
    electron-to-chromium@1.5.393: {}
  
@@ -13880,7 +12638,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    emoji-regex-xs@1.0.0: {}
  
    emoji-regex@8.0.0: {}
-@@ -17230,6 +17977,8 @@ snapshots:
+@@ -17230,6 +17974,8 @@ snapshots:
  
    entities@8.0.0: {}
  
@@ -13889,7 +12647,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    es-define-property@1.0.1: {}
  
    es-errors@1.3.0: {}
-@@ -17378,7 +18127,7 @@ snapshots:
+@@ -17378,7 +18124,7 @@ snapshots:
        '@types/estree': 1.0.9
        ajv: 6.15.0
        cross-spawn: 7.0.6
@@ -13898,7 +12656,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        escape-string-regexp: 4.0.0
        eslint-scope: 9.1.2
        eslint-visitor-keys: 5.0.1
-@@ -17470,7 +18219,7 @@ snapshots:
+@@ -17470,7 +18216,7 @@ snapshots:
        content-type: 1.0.5
        cookie: 0.7.2
        cookie-signature: 1.2.2
@@ -13907,7 +12665,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        depd: 2.0.0
        encodeurl: 2.0.0
        escape-html: 1.0.3
-@@ -17546,7 +18295,7 @@ snapshots:
+@@ -17546,7 +18292,7 @@ snapshots:
  
    finalhandler@2.1.1:
      dependencies:
@@ -13916,7 +12674,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        encodeurl: 2.0.0
        escape-html: 1.0.3
        on-finished: 2.4.1
-@@ -17688,6 +18437,8 @@ snapshots:
+@@ -17688,6 +18434,8 @@ snapshots:
  
    gopd@1.2.0: {}
  
@@ -13925,7 +12683,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    hachure-fill@0.5.2: {}
  
    has-flag@4.0.0: {}
-@@ -17740,17 +18491,17 @@ snapshots:
+@@ -17740,17 +18488,17 @@ snapshots:
        statuses: 2.0.2
        toidentifier: 1.0.1
  
@@ -13946,7 +12704,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
      transitivePeerDependencies:
        - supports-color
  
-@@ -18114,6 +18865,10 @@ snapshots:
+@@ -18114,6 +18862,10 @@ snapshots:
      dependencies:
        yallist: 3.1.1
  
@@ -13957,7 +12715,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    lz-string@1.5.0: {}
  
    magic-string@0.30.21:
-@@ -18145,14 +18900,14 @@ snapshots:
+@@ -18145,14 +18897,14 @@ snapshots:
        unist-util-is: 6.0.1
        unist-util-visit-parents: 6.0.2
  
@@ -13974,7 +12732,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        micromark-util-decode-numeric-character-reference: 2.0.2
        micromark-util-decode-string: 2.0.1
        micromark-util-normalize-identifier: 2.0.1
-@@ -18174,7 +18929,7 @@ snapshots:
+@@ -18174,7 +18926,7 @@ snapshots:
      dependencies:
        '@types/mdast': 4.0.4
        devlop: 1.1.0
@@ -13983,7 +12741,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-to-markdown: 2.1.2
        micromark-util-normalize-identifier: 2.0.1
      transitivePeerDependencies:
-@@ -18183,7 +18938,7 @@ snapshots:
+@@ -18183,7 +18935,7 @@ snapshots:
    mdast-util-gfm-strikethrough@2.0.0:
      dependencies:
        '@types/mdast': 4.0.4
@@ -13992,7 +12750,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-to-markdown: 2.1.2
      transitivePeerDependencies:
        - supports-color
-@@ -18193,7 +18948,7 @@ snapshots:
+@@ -18193,7 +18945,7 @@ snapshots:
        '@types/mdast': 4.0.4
        devlop: 1.1.0
        markdown-table: 3.0.4
@@ -14001,7 +12759,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-to-markdown: 2.1.2
      transitivePeerDependencies:
        - supports-color
-@@ -18202,14 +18957,14 @@ snapshots:
+@@ -18202,14 +18954,14 @@ snapshots:
      dependencies:
        '@types/mdast': 4.0.4
        devlop: 1.1.0
@@ -14018,7 +12776,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-gfm-autolink-literal: 2.0.1
        mdast-util-gfm-footnote: 2.1.0
        mdast-util-gfm-strikethrough: 2.0.0
-@@ -18225,7 +18980,7 @@ snapshots:
+@@ -18225,7 +18977,7 @@ snapshots:
        '@types/mdast': 4.0.4
        devlop: 1.1.0
        longest-streak: 3.1.0
@@ -14027,7 +12785,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        mdast-util-to-markdown: 2.1.2
        unist-util-remove-position: 5.0.0
      transitivePeerDependencies:
-@@ -18473,10 +19228,10 @@ snapshots:
+@@ -18473,10 +19225,10 @@ snapshots:
  
    micromark-util-types@2.0.2: {}
  
@@ -14040,7 +12798,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        decode-named-character-reference: 1.3.0
        devlop: 1.1.0
        micromark-core-commonmark: 2.0.3
-@@ -18829,6 +19584,8 @@ snapshots:
+@@ -18829,6 +19581,8 @@ snapshots:
  
    process-nextick-args@2.0.1: {}
  
@@ -14049,7 +12807,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    property-information@7.2.0: {}
  
    protobufjs@7.6.4:
-@@ -19032,7 +19789,7 @@ snapshots:
+@@ -19032,7 +19786,7 @@ snapshots:
  
    router@2.2.0:
      dependencies:
@@ -14058,7 +12816,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        depd: 2.0.0
        is-promise: 4.0.0
        parseurl: 1.3.3
-@@ -19076,7 +19833,7 @@ snapshots:
+@@ -19076,7 +19830,7 @@ snapshots:
  
    send@1.2.1:
      dependencies:
@@ -14067,7 +12825,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        encodeurl: 2.0.0
        escape-html: 1.0.3
        etag: 1.8.1
-@@ -19258,8 +20015,16 @@ snapshots:
+@@ -19258,8 +20012,16 @@ snapshots:
      dependencies:
        anynum: 1.0.0
  
@@ -14084,7 +12842,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    superjson@2.2.6:
      dependencies:
        copy-anything: 4.0.5
-@@ -19392,6 +20157,8 @@ snapshots:
+@@ -19392,6 +20154,8 @@ snapshots:
  
    undici-types@6.21.0: {}
  
@@ -14093,7 +12851,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
    undici-types@7.24.6: {}
  
    undici-types@8.3.0: {}
-@@ -19460,9 +20227,9 @@ snapshots:
+@@ -19460,9 +20224,9 @@ snapshots:
        '@types/unist': 3.0.3
        vfile-message: 4.0.3
  
@@ -14105,7 +12863,7 @@ index 1490a0f9f76e7a9df847a9946782c1097483792d..e34c65336574a11cb2988c6ec275f015
        globrex: 0.1.2
        tsconfck: 3.1.6(typescript@6.0.3)
        vite: 8.0.16(@types/node@22.20.0)(esbuild@0.28.1)(jiti@2.7.0)(tsx@4.22.4)(yaml@2.9.0)
-@@ -19726,6 +20493,8 @@ snapshots:
+@@ -19726,6 +20490,8 @@ snapshots:
      optionalDependencies:
        typescript: 6.0.3
  
@@ -14629,18 +13387,10 @@ index 29742995ee66101e3616f61ac3fee0507660eb1f..3f30ae46290e3644af2cbe5ab38f3386
    '@deepseek-ai/dsh-client-ui-theme': ['lib/styles'],
    // The Python runtime uses a distinct closed-resolution bin; the public CLI
 diff --git a/scripts/verify-package-readme-model-experience.ts b/scripts/verify-package-readme-model-experience.ts
-index d38b4743c52c6562831d6f79ceab942dab9e8e45..11524811905396ffec4168f3d519e96d2e7f1c52 100644
+index d38b4743c52c6562831d6f79ceab942dab9e8e45..ad1325044df2d90f1cef334f0b63a5ddb0f99426 100644
 --- a/scripts/verify-package-readme-model-experience.ts
 +++ b/scripts/verify-package-readme-model-experience.ts
-@@ -85,7 +85,6 @@ const SENTENCE_MODEL_EXPERIENCE: Readonly<Record<string, SentenceContract>> = {
-   'packages/client/ui-plan': { kind: 'indirect', reason: 'The chip dispatches /plan off; dsh-plan-mode owns the model-visible policy, exit tool, and logged state.' },
-   'packages/client/ui-user-questions': { kind: 'indirect', reason: 'The package mounts dsh-tool-ask-user; that tool owns the model-visible schema and answer rendering.' },
-   'packages/client/ui-trajectory': { kind: 'none', reason: 'Browser-side UI plugin layer; registers nothing model-facing.' },
--  'packages/client/ui-workspace': { kind: 'none', reason: 'Browser-side UI plugin layer; registers nothing model-facing.' },
-   'packages/client/ui-directory-picker-browse': { kind: 'none', reason: 'Browser-side directory-browsing surface; registers nothing model-facing.' },
-   'packages/client/ui-directory-picker-native': { kind: 'none', reason: 'Browser-side surface driving the host OS chooser; registers nothing model-facing.' },
-   'packages/client/ui-theme': { kind: 'none', reason: 'Browser-side UI plugin layer; registers nothing model-facing.' },
-@@ -109,6 +108,7 @@ const SENTENCE_MODEL_EXPERIENCE: Readonly<Record<string, SentenceContract>> = {
+@@ -109,6 +109,7 @@ const SENTENCE_MODEL_EXPERIENCE: Readonly<Record<string, SentenceContract>> = {
    'packages/host/frontend-static': { kind: 'none', reason: 'The SPA dist server answers browser asset requests and registers nothing model-facing.' },
    'packages/host/plugin-inventory': { kind: 'none', reason: 'Host-side read-only Loader projection; registers nothing model-facing.' },
    'packages/bundle/base': { kind: 'indirect', reason: 'The bundle is a patch-list carrier; each inserted row\'s package owns its model-facing behavior.' },
@@ -14672,10 +13422,10 @@ index c87d562f59ca650e6a6d3558455565972ee0aa40..d2842f8dbed5505f9abe918721aabec3
    const result = new Map<string, WorkspacePackage>()
 diff --git a/start-deepseek-harness.cmd b/start-deepseek-harness.cmd
 new file mode 100644
-index 0000000000000000000000000000000000000000..65a78fff90de008377a9e9573b16dd6b0a69db90
+index 0000000000000000000000000000000000000000..aa69c4bffed484d785f06998eda63f2edaf49829
 --- /dev/null
 +++ b/start-deepseek-harness.cmd
-@@ -0,0 +1,23 @@
+@@ -0,0 +1,24 @@
 +@echo off
 +setlocal
 +
@@ -14699,6 +13449,7 @@ index 0000000000000000000000000000000000000000..65a78fff90de008377a9e9573b16dd6b
 +pushd "%ROOT%"
 +start "DeepSeek Harness" "%ELECTRON%" "%MAIN%"
 +popd
++
 diff --git a/tsconfig.base.json b/tsconfig.base.json
 index 16d69db6dbb89c5c38e301a9319f95967457eb23..120099a14ddaed51336cb12c6baff7167d87b6f9 100644
 --- a/tsconfig.base.json
